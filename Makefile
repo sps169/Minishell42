@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: migonzal <migonzal@student.42.fr>          +#+  +:+       +#+         #
+#    By: sperez-s <sperez-s@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/28 10:00:25 by migonzal          #+#    #+#              #
-#    Updated: 2023/03/13 13:22:56 by migonzal         ###   ########.fr        #
+#    Updated: 2023/03/13 13:37:26 by sperez-s         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,15 +24,13 @@ NONE	=	'\033[0m'
 
 NAME	=	minishell
 
-HEADER	=	minishell.h
-
 LIBFT	=	Libft/libft.a
 
-SRC_DIR	=	src/ 
+SRC_DIR	=	./src/
 
 INCLUDE	=	-Iinclude
 
-cc	=	gcc
+CC	=	gcc
 
 CFLAGS	=	-g -Wall -Wextra -Werror
 
@@ -40,10 +38,13 @@ SRCS	=	$(SRC_DIR)main.c
 
 OBJS		=	$(SRCS:.c=.o)
 
+.c.o:
+	$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
+
 all			:	$(NAME)
 
-$(NAME)		:	$(OBJS) $(LIBFT) $(HEADER)
-			$(CC) $(CFLAGS) $(INCLUDE) $(OBJS) -o $(NAME) $(LIBFT)
+$(NAME)		:	$(LIBFT) $(OBJS)
+			$(CC) $(CFLAGS) $(INCLUDE) -L./libft/ -lft $(OBJS) -o $(NAME)
 
 $(LIBFT)	:
 				make -C ./libft

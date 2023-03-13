@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: migonzal <migonzal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sperez-s <sperez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 09:44:37 by migonzal          #+#    #+#             */
-/*   Updated: 2023/03/02 10:00:15 by migonzal         ###   ########.fr       */
+/*   Updated: 2023/03/13 13:37:49 by sperez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "./Libft/libft.h"
+# include "libft.h"
 # include <stdio.h>
 # include <unistd.h>
 # include <stdlib.h>
