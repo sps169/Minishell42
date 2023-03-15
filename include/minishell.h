@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperez-s <sperez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: migonzal <migonzal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 09:44:37 by migonzal          #+#    #+#             */
-/*   Updated: 2023/03/13 13:37:49 by sperez-s         ###   ########.fr       */
+/*   Updated: 2023/03/15 12:46:19 by migonzal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,4 +209,35 @@ int			env(t_copy *copy, int arg, int i, int space);
 void		env_redir_ambig(t_copy *copy, int space);
 int			env_redir(t_copy *copy, int std, int spce);
 
+/*
+ * Env
+ */
+
+char		**get_path(void);
+size_t		get_envs_count(void);
+char		**realloc_envs(size_t	size);
+void		print_envs(void);
+size_t		find_env(char *env);
+char		*get_env(char *env);
+static int	modify(char *new_env, size_t len, size_t i);
+int			set_env(char *env, char *new_env);
+
+
+
+/*
+ * Utils
+ */
+ 
+ void		ft_free_array(char **array);
+size_t		ft_get_char_by_index(char *str, char c);
+int			ft_strnequ(const char *s1, const char *s2, size_t n);
+int			ft_isspace(char c);
+int			ft_only_spaces(char *str);
+char		*ft_strip_extra_spaces(char *str, char *whole_cmd, int i);
+int			follow_env(int v, char *whole_cmd);
+int			add_space_before(char *tmp, char *whole_cmd, int v, char **new);
+int			ft_only_spaces(char *str);
+int			ft_space_in_middle(char *str); 
+
 #endif // !MINISHELL_H
+
