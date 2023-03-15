@@ -6,11 +6,11 @@
 /*   By: migonzal <migonzal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 08:56:16 by migonzal          #+#    #+#             */
-/*   Updated: 2023/02/28 10:46:46 by migonzal         ###   ########.fr       */
+/*   Updated: 2023/03/15 12:06:23 by migonzal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
 static size_t	len_without_extra_spaces(char *str)
 {

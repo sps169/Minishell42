@@ -6,12 +6,12 @@
 /*   By: migonzal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 10:29:52 by migonzal          #+#    #+#             */
-/*   Updated: 2021/10/01 11:23:59 by migonzal         ###   ########.fr       */
+/*   Updated: 2021/10/04 09:16:37 by migonzal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
 
-int	ft_is_space(int i)
+static	int	ft_is_space(int i)
 {
 	if ((i == 32) || (i == ' ') || (i == '\f')
 		|| (i == '\n') || (i == '\r')

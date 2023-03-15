@@ -1,25 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_only_spaces.c                                   :+:      :+:    :+:   */
+/*   ft_lstdelone.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: migonzal <migonzal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: migonzal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/28 10:49:05 by migonzal          #+#    #+#             */
-/*   Updated: 2022/12/02 11:33:49 by migonzal         ###   ########.fr       */
+/*   Created: 2021/09/27 10:33:15 by migonzal          #+#    #+#             */
+/*   Updated: 2021/10/02 11:40:50 by migonzal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "libft.h"
 
-int	ft_only_spaces(char *str)
+void	ft_lstdelone(t_list *lst, void (*del) (void *))
 {
-	int	i;
-
-	i = 0;
-	while (str[i] == ' ')
-		i++;
-	if (i == (int)ft_strlen(str))
-		return (1);
-	return (0);
+	if (!lst || !del)
+		return ;
+	(del)(lst -> content);
+	free (lst);
 }

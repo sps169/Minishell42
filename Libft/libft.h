@@ -3,20 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: migonzal <migonzal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: migonzal <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 10:41:16 by migonzal          #+#    #+#             */
-/*   Updated: 2023/03/02 10:13:06 by migonzal         ###   ########.fr       */
+/*   Updated: 2021/09/30 14:42:21 by migonzal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #ifndef LIBFT_H
 # define LIBFT_H
 
-#include <string.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <stdio.h>
+# include <string.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <stdio.h>
 
 typedef struct s_list
 {
@@ -30,7 +29,6 @@ int		ft_isdigit(int c);
 int		ft_isalnum(int c);
 int		ft_isascii(int c);
 int		ft_isprint(int c);
-int		ft_isspace(char c);
 size_t	ft_strlen(const char *s);
 void	*ft_memset(void *s, int c, size_t n);
 void	ft_bzero(void *s, size_t size);
@@ -71,13 +69,4 @@ void	ft_lstdelone(t_list *lst, void (*del) (void *));
 void	ft_lstclear(t_list **lst, void (*del) (void *));
 void	ft_lstiter(t_list *lst, void (*f) (void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f) (void *), void (*del) (void *));
-
-// Funciones auxiliares para la minishell
-char	*ft_strip_extra_spaces(char *str, char *whole_cmd, int i);
-int		follow_env(int v, char *whole_cmd);
-int		add_space_before(char *tmp, char *whole_cmd, int v, char **new);
-int		ft_only_spaces(char *str);
-int		ft_space_in_middle(char *str);
-
-
 #endif

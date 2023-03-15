@@ -6,11 +6,11 @@
 /*   By: migonzal <migonzal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 10:51:13 by migonzal          #+#    #+#             */
-/*   Updated: 2023/03/02 10:04:40 by migonzal         ###   ########.fr       */
+/*   Updated: 2023/03/15 12:06:26 by migonzal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
 int	follow_env(int v, char *whole_cmd)
 {

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sperez-s <sperez-s@student.42.fr>          +#+  +:+       +#+         #
+#    By: migonzal <migonzal@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/28 10:00:25 by migonzal          #+#    #+#              #
-#    Updated: 2023/03/13 13:37:26 by sperez-s         ###   ########.fr        #
+#    Updated: 2023/03/15 12:41:01 by migonzal         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,4 +61,3 @@ re		:	fclean all
 
 
 .PHONY: all clean fclean re
-				
