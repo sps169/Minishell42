@@ -6,7 +6,7 @@
 #    By: sperez-s <sperez-s@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/28 10:00:25 by migonzal          #+#    #+#              #
-#    Updated: 2023/03/13 13:37:26 by sperez-s         ###   ########.fr        #
+#    Updated: 2023/04/21 13:19:35 by sperez-s         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,8 @@ CC	=	gcc
 
 CFLAGS	=	-g -Wall -Wextra -Werror
 
-SRCS	=	$(SRC_DIR)main.c
+SRCS	=	$(SRC_DIR)main.c			\
+			$(SRC_DIR)builtins/echo.c	\
 
 OBJS		=	$(SRCS:.c=.o)
 
