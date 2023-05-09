@@ -5,8 +5,8 @@
 #                                                     +:+ +:+         +:+      #
 #    By: migonzal <migonzal@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/02/28 10:00:25 by migonzal          #+#    #+#              #
-#    Updated: 2023/03/15 12:41:01 by migonzal         ###   ########.fr        #
+#    Created: 2023/04/13 09:43:48 by migonzal          #+#    #+#              #
+#    Updated: 2023/05/08 12:00:46 by migonzal         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,30 +32,32 @@ INCLUDE	=	-Iinclude
 
 CC	=	gcc
 
-CFLAGS	=	-g -Wall -Wextra -Werror
+CFLAGS	=	-g -Wall -Wextra -Werror -fsanitize=address -g3
 
-SRCS	=	$(SRC_DIR)main.c
+SRCS	=	$(SRC_DIR)main.c $(SRC_DIR)parser.c $(SRC_DIR)parser_cells.c $(SRC_DIR)cmd.c $(SRC_DIR)split_minishell.c $(SRC_DIR)parse_utils.c ./gnl/get_next_line.c ./gnl/get_next_line_utils.c
 
 OBJS		=	$(SRCS:.c=.o)
 
 .c.o:
-	$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
+	@$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
 
 all			:	$(NAME)
 
 $(NAME)		:	$(LIBFT) $(OBJS)
-			$(CC) $(CFLAGS) $(INCLUDE) -L./libft/ -lft $(OBJS) -o $(NAME)
+			@$(CC) $(CFLAGS) $(INCLUDE) -L./libft/ -lft $(OBJS) -o $(NAME)
+			@echo $(GREEN) ": All ready to work my pana"
 
 $(LIBFT)	:
 				make -C ./libft
 
 clean		:
-				rm -rf $(OBJS)
-				make clean -C ./Libft
+				@rm -f $(OBJS)
+				@make clean -C ./Libft
 
 fclean		:	clean
-				rm $(NAME)
-				make fclean -C ./libft
+				@rm $(NAME)
+				@make fclean -C ./libft
+				@echo $(RED) "Files deleted my pana"
 
 re		:	fclean all
 

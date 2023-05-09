@@ -5,19 +5,75 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: migonzal <migonzal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/15 12:05:24 by migonzal          #+#    #+#             */
-/*   Updated: 2023/03/15 12:42:26 by migonzal         ###   ########.fr       */
+/*   Created: 2023/03/27 10:42:59 by migonzal          #+#    #+#             */
+/*   Updated: 2023/05/09 10:21:25 by migonzal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	main(void)
+/*
+int	ft_isspace(char c)
 {
-	t_copy	*a = NULL;
-	char	*prueba ="ls -lm";
+	if (c == '\f' || c == '\t' || c == '\n' || c == '\r'
+		|| c == '\v' || c == ' ')
+		return (1);
+	return (0);
+}
 
-	parsing(prueba, a);
-	printf("Hola minishell\n");
+static size_t	len_without_extra_spaces(char *str)
+{
+	size_t		i;
+	size_t		len;
+	char		found_space;
+
+	len = ft_strlen(str);
+	if (str && (len) > 0)
+		while ((len - 1) > 0 && str[len - 1] && ft_isspace(str[len - 1]))
+			len--;
+	str[len] = '\0';
+	i = 0;
+	while (str[i] && ft_isspace(str[i]))
+		i++;
+	len -= i;
+	i--;
+	found_space = 0;
+	while (str[++i])
+	{
+		if (ft_isspace(str[i]) && !found_space)
+			found_space = 1;
+		else if (ft_isspace(str[i]))
+			len--;
+		else
+			found_space = 0;
+	}
+	return (len);
+}
+*/
+int	main()
+{
+	int fd = open("shell.txt", O_RDWR);
+	char *res = get_next_line(fd);
+	//t_sep *list = parser(res);
+	
+	//char **list = list_dup_after(aux[0], '>');
+	char **aux = split_minishell(res, '|');
+	t_sep *sep;
+	int i = 0;
+
+	while (aux[i])
+	{
+		sep = add_cell(sep, aux[i], i);
+		i++;
+	}
+
+	//t_sep *sep = parser(res);
+
+
+	print_list(sep);
+
+	
+	
+
+	
 	return (0);
 }
