@@ -6,7 +6,7 @@
 /*   By: migonzal <migonzal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 10:42:59 by migonzal          #+#    #+#             */
-/*   Updated: 2023/05/09 10:21:25 by migonzal         ###   ########.fr       */
+/*   Updated: 2023/05/11 12:59:45 by migonzal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,27 +53,8 @@ int	main()
 {
 	int fd = open("shell.txt", O_RDWR);
 	char *res = get_next_line(fd);
-	//t_sep *list = parser(res);
-	
-	//char **list = list_dup_after(aux[0], '>');
-	char **aux = split_minishell(res, '|');
-	t_sep *sep;
-	int i = 0;
 
-	while (aux[i])
-	{
-		sep = add_cell(sep, aux[i], i);
-		i++;
-	}
-
-	//t_sep *sep = parser(res);
-
-
+	t_sep *sep = parser(res);
 	print_list(sep);
-
-	
-	
-
-	
 	return (0);
 }

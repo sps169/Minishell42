@@ -6,7 +6,7 @@
 /*   By: migonzal <migonzal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/13 10:25:18 by migonzal          #+#    #+#             */
-/*   Updated: 2023/05/08 14:03:41 by migonzal         ###   ########.fr       */
+/*   Updated: 2023/05/11 12:56:33 by migonzal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ t_sep	*add_cell(t_sep *list, char *cmd_sep, int pos)
 	}
 	prec->next = cell;
 	cell->next = cur;
+	cell->prev = prec;
 	return (list);
 }
 

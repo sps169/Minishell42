@@ -6,7 +6,7 @@
 #    By: migonzal <migonzal@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/13 09:43:48 by migonzal          #+#    #+#              #
-#    Updated: 2023/05/08 12:00:46 by migonzal         ###   ########.fr        #
+#    Updated: 2023/05/11 12:13:53 by migonzal         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ CC	=	gcc
 
 CFLAGS	=	-g -Wall -Wextra -Werror -fsanitize=address -g3
 
-SRCS	=	$(SRC_DIR)main.c $(SRC_DIR)parser.c $(SRC_DIR)parser_cells.c $(SRC_DIR)cmd.c $(SRC_DIR)split_minishell.c $(SRC_DIR)parse_utils.c ./gnl/get_next_line.c ./gnl/get_next_line_utils.c
+SRCS	=	$(SRC_DIR)main.c $(SRC_DIR)parser.c $(SRC_DIR)parser_cells.c $(SRC_DIR)cmd.c $(SRC_DIR)split_minishell.c $(SRC_DIR)parse_utils.c ./Gnl/get_next_line.c ./Gnl/get_next_line_utils.c
 
 OBJS		=	$(SRCS:.c=.o)
 
