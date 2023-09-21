@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: migonzal <migonzal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sperez-s <sperez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 11:39:33 by migonzal          #+#    #+#             */
-/*   Updated: 2023/05/11 12:57:55 by migonzal         ###   ########.fr       */
+/*   Updated: 2023/09/21 13:19:49 by sperez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,7 @@ char **list_dup_after(char* s, char c)
 	size_t j;
 	size_t aux;
 
+	j = 0;
 	if (!s)
 		return (NULL);
 	len = count_tokens(s, c);

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: migonzal <migonzal@student.42.fr>          +#+  +:+       +#+         #
+#    By: sperez-s <sperez-s@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/13 09:43:48 by migonzal          #+#    #+#              #
-#    Updated: 2023/05/11 12:13:53 by migonzal         ###   ########.fr        #
+#    Updated: 2023/09/21 13:27:39 by sperez-s         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,19 +24,28 @@ NONE	=	'\033[0m'
 
 NAME	=	minishell
 
-LIBFT	=	Libft/libft.a
+LIBFT	=	libft/libft.a
 
 SRC_DIR	=	./src/
 
 SRC_DIR_PAR	=	./src/parsing/
 
+SRC_DIR_EXEC = ./src/executor/
+
 INCLUDE	=	-Iinclude
 
 CC	=	gcc
 
-CFLAGS	=	-g -Wall -Wextra -Werror -lreadline -fsanitize=address -g3
+CFLAGS	=	-g -Wall -Wextra -Werror -fsanitize=address -g3
 
-SRCS	=	$(SRC_DIR)main.c $(SRC_DIR_PAR)parser.c $(SRC_DIR_PAR)parser_cells.c $(SRC_DIR_PAR)cmd.c $(SRC_DIR_PAR)split_minishell.c $(SRC_DIR_PAR)parse_utils.c ./Gnl/get_next_line.c ./Gnl/get_next_line_utils.c
+SRCS	=	$(SRC_DIR)main.c				\
+			$(SRC_DIR_PAR)parser.c			\
+			$(SRC_DIR_PAR)parser_cells.c	\
+			$(SRC_DIR_PAR)cmd.c				\
+			$(SRC_DIR_PAR)split_minishell.c	\
+			$(SRC_DIR_PAR)parse_utils.c		\
+			$(SRC_DIR_EXEC)executor.c		\
+
 
 OBJS		=	$(SRCS:.c=.o)
 
@@ -46,7 +55,7 @@ OBJS		=	$(SRCS:.c=.o)
 all			:	$(NAME)
 
 $(NAME)		:	libft.a $(OBJS)
-			@$(CC) $(CFLAGS) $(INCLUDE) $(OBJS) -L. -lft -o $(NAME)
+			@$(CC) $(CFLAGS) $(INCLUDE) $(OBJS) -L. -lreadline -lft -o $(NAME)
 			@echo $(GREEN) ": All ready to work my pana"
 
 libft.a	:

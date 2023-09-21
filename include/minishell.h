@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: migonzal <migonzal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sperez-s <sperez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 09:45:35 by migonzal          #+#    #+#             */
-/*   Updated: 2023/05/09 09:58:47 by migonzal         ###   ########.fr       */
+/*   Updated: 2023/09/21 13:13:12 by sperez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define MINISHELL_H
 
 # include "libft.h"
-# include "get_next_line.h"
+# include "ui.h"
 # include <stdio.h>
 # include <unistd.h>
 # include <stdlib.h>
@@ -25,8 +25,6 @@
 # include <sys/types.h>
 # include <errno.h>
 # include <fcntl.h>
-# include <readline/readline.h>
-# include <readline/history.h>
 
 typedef struct s_redir
 {
