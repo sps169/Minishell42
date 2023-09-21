@@ -51,10 +51,15 @@ static size_t	len_without_extra_spaces(char *str)
 */
 int	main()
 {
-	int fd = open("shell.txt", O_RDWR);
-	char *res = get_next_line(fd);
+	//int fd = open("shell.txt", O_RDWR);
+	//char *res = get_next_line(fd);
+
+	char *res = readline("MINISHELL$ ");
+
+	
 
 	t_sep *sep = parser(res);
 	print_list(sep);
+	free(sep);
 	return (0);
 }

@@ -25,6 +25,8 @@
 # include <sys/types.h>
 # include <errno.h>
 # include <fcntl.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 
 typedef struct s_redir
 {

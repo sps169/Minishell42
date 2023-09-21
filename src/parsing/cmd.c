@@ -35,12 +35,9 @@ char *first_command(char *str)
 	int i;
 	int j;
 	char *res;
-	int cont;
-
 
 	i = 0;
 	j = 0;
-	cont = 0; 
 	res = malloc(sizeof(char) * (ft_strlen_first_word(str) + 1));
 
 	if (!str)

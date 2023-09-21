@@ -28,13 +28,15 @@ LIBFT	=	Libft/libft.a
 
 SRC_DIR	=	./src/
 
+SRC_DIR_PAR	=	./src/parsing/
+
 INCLUDE	=	-Iinclude
 
 CC	=	gcc
 
-CFLAGS	=	-g -Wall -Wextra -Werror -fsanitize=address -g3
+CFLAGS	=	-g -Wall -Wextra -Werror -lreadline -fsanitize=address -g3
 
-SRCS	=	$(SRC_DIR)main.c $(SRC_DIR)parser.c $(SRC_DIR)parser_cells.c $(SRC_DIR)cmd.c $(SRC_DIR)split_minishell.c $(SRC_DIR)parse_utils.c ./Gnl/get_next_line.c ./Gnl/get_next_line_utils.c
+SRCS	=	$(SRC_DIR)main.c $(SRC_DIR_PAR)parser.c $(SRC_DIR_PAR)parser_cells.c $(SRC_DIR_PAR)cmd.c $(SRC_DIR_PAR)split_minishell.c $(SRC_DIR_PAR)parse_utils.c ./Gnl/get_next_line.c ./Gnl/get_next_line_utils.c
 
 OBJS		=	$(SRCS:.c=.o)
 
@@ -43,20 +45,22 @@ OBJS		=	$(SRCS:.c=.o)
 
 all			:	$(NAME)
 
-$(NAME)		:	$(LIBFT) $(OBJS)
-			@$(CC) $(CFLAGS) $(INCLUDE) -L./libft/ -lft $(OBJS) -o $(NAME)
+$(NAME)		:	libft.a $(OBJS)
+			@$(CC) $(CFLAGS) $(INCLUDE) $(OBJS) -L. -lft -o $(NAME)
 			@echo $(GREEN) ": All ready to work my pana"
 
-$(LIBFT)	:
-				make -C ./libft
+libft.a	:
+				make -C ./Libft
+				mv $(LIBFT) .
 
 clean		:
 				@rm -f $(OBJS)
+				@rm -f libft.a
 				@make clean -C ./Libft
 
 fclean		:	clean
 				@rm $(NAME)
-				@make fclean -C ./libft
+				@make fclean -C ./Libft
 				@echo $(RED) "Files deleted my pana"
 
 re		:	fclean all
