@@ -136,7 +136,6 @@ char **list_dup_after(char* s, char c)
 {
 	char **pp;
 	size_t len;
-	size_t i;
 	size_t j;
 	size_t aux;
 
@@ -148,8 +147,6 @@ char **list_dup_after(char* s, char c)
 	pp = ft_calloc(len +1, sizeof(s));
 	if (!pp)
 		return (NULL);
-	i = 0;
-	j = 0;
 	aux = 0;
 	while (j < len)
 	{
