@@ -6,7 +6,7 @@
 /*   By: sperez-s <sperez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 09:45:35 by migonzal          #+#    #+#             */
-/*   Updated: 2023/09/21 13:13:12 by sperez-s         ###   ########.fr       */
+/*   Updated: 2023/11/01 19:34:00 by sperez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "libft.h"
 # include "ui.h"
+# include "executor.h"
 # include <stdio.h>
 # include <unistd.h>
 # include <stdlib.h>
