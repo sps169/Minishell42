@@ -6,7 +6,7 @@
 /*   By: sperez-s <sperez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 13:33:51 by sperez-s          #+#    #+#             */
-/*   Updated: 2023/05/11 13:54:11 by sperez-s         ###   ########.fr       */
+/*   Updated: 2023/11/18 13:47:04 by sperez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
-#include <readline/readline.h>
-#include <readline/history.h>
 
 //gccw -lreadline readline.c
 
@@ -23,7 +21,7 @@ int main(void)
 {
 	char	*buf;
 	int		i;
-	
+
 	buf = NULL;
 	i = 0;
 	buf = readline(">_");

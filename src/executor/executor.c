@@ -6,7 +6,7 @@
 /*   By: sperez-s <sperez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 13:25:07 by sperez-s          #+#    #+#             */
-/*   Updated: 2023/11/01 22:27:06 by sperez-s         ###   ########.fr       */
+/*   Updated: 2023/11/18 17:16:51 by sperez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,39 +48,54 @@ void	executor_basic(unsigned int size, char ***commands)
 	}
 }
 
-void	executor(unsigned int size, t_command *command)
+void	executor(unsigned int size, t_command *command, char *env[])
 {
 	unsigned int	i;
-	int	ret;
 	int	status;
 	int	pid;
-	int	pipe[2];
-	char	*env = getenv("PATH");
+	int save;
+	int	p[2];
 
 	i = 0;
-	ret = 0;
 	status = 0;
-	printf("Environment:\n%s\n", env);
-	printf("Parent process started\n");
+	save = -1;
 	while (i < size)
 	{
+		if (i != size - 1)
+			pipe(p);
 		pid = fork();
 		if (pid == 0)
 		{
-			printf("Child[%i] process started\n", i);
-			execve(command->command[0], command->command, &env);
-			printf("????\n");
+			// printf("Access to file: %i\n", access(ft_strjoin("/bin/", ft_split(command->command, ' ')[0]), F_OK | X_OK));
+			if (i != size -1)
+			{
+				close(STDOUT_FILENO);
+				dup(p[1]);//,STDOUT_FILENO);
+				close(p[0]);
+				close(p[1]);
+			}
+			if (i != 0)
+			{
+				close(STDIN_FILENO);
+				dup(save);
+				close(save);
+			}
+			execve(ft_strjoin("/bin/", ft_split(command->command, ' ')[0]), ft_split(command->command, ' '), env);
+			printf("???? errno = %i\n", errno);
 			return;
+		} else {
+			if (i != size - 1) {
+				close(p[1]);
+				save = p[0];
+			} else
+				close(p[0]);
 		}
-		printf("Parent process waiting\n");
-		ret = waitpid(pid, &status, 0);
-		if (ret == -1)
-			printf("[Parent] Error\n");
-		if (ret == pid)
-			printf("Child[%i] process finished\n", i);
 		i++;
-		ret = 0;
+		if (command) {
+			command = command->next;
+		}
 	}
+	while (pid != wait(&status));
 }
 
 t_command *create_command_list()
@@ -96,48 +111,27 @@ t_command *create_command_list()
 	first = malloc(sizeof(t_command));
 	first->command = NULL;
 	first->next = NULL;
-	first->next = second;
-	first->command = malloc(3 * sizeof(char *));
-	first->command[0] = malloc(ft_strlen("grep") * sizeof(char) + 1);
-	first->command[0] = "grep";
-	first->command[1] = malloc(ft_strlen("'hola'") * sizeof(char) + 1);
-	first->command[1] = "'hola'";
-	first->command[2] = malloc(sizeof(char));
-	first->command[2] = NULL;
+	first->command = malloc(ft_strlen("cat myfile.txt"));
+	first->command = "cat myfile.txt";
 	second = malloc(sizeof(t_command));
 	second->command = NULL;
 	second->next= NULL;
-	second->next= third;
-	second->command = malloc(3 * sizeof(char *));
-	second->command[0] = malloc(ft_strlen("cat") * sizeof(char) + 1);
-	second->command[0] = "cat";
-	second->command[1] = malloc(ft_strlen("myfile.txt") * sizeof(char) + 1);
-	second->command[1] = "myfile.txt";
-	second->command[2] = malloc(sizeof(char));
-	second->command[2] = NULL;
+	second->command = malloc(ft_strlen("sort"));
+	second->command = "sort";
 	third = malloc(sizeof(t_command));
 	third->command = NULL;
 	third->next= NULL;
-	third->command = malloc(3 * sizeof(char *));
-	third->command[0] = malloc(ft_strlen("wc") * sizeof(char) + 1);
-	third->command[0] = "wc";
-	third->command[1] = malloc(ft_strlen("-l") * sizeof(char) + 1);
-	third->command[1] = "-l";
-	third->command[2] = malloc(sizeof(char));
-	third->command[2] = NULL;
+	third->command = malloc(ft_strlen("wc -l"));
+	third->command = "wc -l";
+	first->next = second;
+	second->next = third;
 	return (first);
 }
 
-int	main(void)
+int	main(int argc, char *argv[], char *envp[])
 {
-	char *args[][3] = 
-	{
-		{"/bin/ls", "-l", NULL},
-		{"/bin/ls", "-a", NULL},
-	};
-
-
-	//cat myfile.txt | grep 'my_pattern' | wc -l
-	executor(2, (char ***)args);
+	//compilation: gcc -I../../include executor.c ../../Libft/*.c
+	//cat myfile.txt | sort | wc -l
+	executor(3, create_command_list(), envp);
 	return  (0);
 }
