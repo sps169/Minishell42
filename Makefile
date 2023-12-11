@@ -34,9 +34,9 @@ INCLUDE	=	-Iinclude
 
 CC	=	gcc
 
-CFLAGS	=	-g -Wall -Wextra -Werror -lreadline -fsanitize=address -g3
+CFLAGS	=	-g -Wall -Wextra -Werror -lreadline 
 
-SRCS	=	$(SRC_DIR)main.c $(SRC_DIR_PAR)parser.c $(SRC_DIR_PAR)parser_cells.c $(SRC_DIR_PAR)cmd.c $(SRC_DIR_PAR)split_minishell.c $(SRC_DIR_PAR)parse_utils.c ./Gnl/get_next_line.c ./Gnl/get_next_line_utils.c
+SRCS	=	$(SRC_DIR)main.c $(SRC_DIR_PAR)parser.c $(SRC_DIR_PAR)parse_env.c $(SRC_DIR_PAR)parser_cells.c $(SRC_DIR_PAR)parser_var.c $(SRC_DIR_PAR)cmd.c $(SRC_DIR_PAR)split_minishell.c $(SRC_DIR_PAR)parse_utils.c ./Gnl/get_next_line.c ./Gnl/get_next_line_utils.c
 
 OBJS		=	$(SRCS:.c=.o)
 

@@ -13,13 +13,18 @@
 
 void	*ft_calloc(size_t count, size_t size)
 {
-	size_t	tot_size;
-	void	*dst;
+	char	*pmemory;
+	size_t	i;
 
-	tot_size = size * count;
-	dst = malloc(tot_size);
-	if (!dst)
-		return (0);
-	ft_memset(dst, 0, tot_size);
-	return (dst);
+	pmemory = malloc(count * size);
+	if (pmemory != NULL)
+	{
+		i = 0;
+		while (i < count * size)
+		{
+			pmemory[i] = 0;
+			i++;
+		}
+	}
+	return (pmemory);
 }

@@ -207,12 +207,46 @@ char **parse_args(char *s)
 		}
 		i++;
 	}
-
-
-
-
-
-
 	return (res);
+
+}
+
+void ft_free_arr(char **arr)
+{
+	int i;
+
+	i = 0;
+	while(arr[i])
+	{
+		free(arr[i]);
+		i++;
+	}
+	free(arr);
+}
+
+char **arrdup(char **arr)
+{
+	char **aux;
+	size_t i;
+
+	i = 0;
+	while(arr[i] != NULL)
+		i++;
+	aux = ft_calloc(sizeof(char*), i +1);
+	if(!aux)
+		return (NULL);
+	i = 0;
+	while(arr[i] != NULL)
+	{
+		aux[i] = ft_strdup(arr[i]);
+		if(aux[i] == NULL)
+		{
+			ft_free_arr(aux);
+			return(aux);
+		}
+		i++;
+	}
+	return (aux);
+
 
 }

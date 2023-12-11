@@ -49,17 +49,45 @@ static size_t	len_without_extra_spaces(char *str)
 	return (len);
 }
 */
-int	main()
+int	main(int argc, char **argv)
 {
-	//int fd = open("shell.txt", O_RDWR);
-	//char *res = get_next_line(fd);
 
-	char *res = readline("MINISHELL$ ");
+	if (argc != 1 || argv[1])
+	{
+		printf("Este programa no acepta argumentos inútil\n");
+		exit(0);
+    }
 
-	
+	//t_sep *prueba;
+	char *string = readline("MINISHELL$");
+	// int pos = get_char_pos(string, '=');
+	// char *right;
+	// char *left;
 
-	t_sep *sep = parser(res);
-	print_list(sep);
-	free(sep);
+	// left = get_left_str(string, pos);
+	// right = get_right_str(string, pos +1 );
+
+	char **table = split_minishell(string, ' ');
+	int i = 0;
+
+	while (table[i])
+	{
+		printf("%s\n", table[i]);
+		i++;
+
+	}
+
+	// printf("Pos: %d\n", pos);
+	// printf("Izquirda: %s\n", left);
+	// printf("Derecha: %s\n", right);
+
+
+
+       // printf("%d\n", pos);
+		//printf("%s\n", res);
+
+//	t_sep *sep = parser(res);
+//	print_list(sep);
+//	free(sep);
 	return (0);
 }
