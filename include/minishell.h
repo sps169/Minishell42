@@ -58,6 +58,7 @@ typedef struct s_tools
 {
   char **paths;
   char **envp;
+  char **var;
   char *pwd;
   char *old_pwd;
 }       			t_tools;
@@ -128,10 +129,10 @@ t_sep *parser(char *s);
   *  parser_var
   */
 int     get_char_pos(char *s, char c);
-char *get_left_str(char *str, int pos);
-char *get_right_str(char *str, int pos);
-int if_var(char *str);
-
+char	*get_left_str(char *str);
+char	*get_right_str(char *str);
+int 	if_var(char *str);
+int 	if_ass_str(char **table);
 
 
 #endif

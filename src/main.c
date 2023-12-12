@@ -67,14 +67,17 @@ int	main(int argc, char **argv)
 	// left = get_left_str(string, pos);
 	// right = get_right_str(string, pos +1 );
 
-	char **table = split_minishell(string, ' ');
+	char **prueba;
+
+	prueba = ft_split(string, ' ');
+
 	int i = 0;
 
-	while (table[i])
+	while (prueba[i])
 	{
-		printf("%s\n", table[i]);
+		printf("Parte izq: %s\n", get_left_str(prueba[i]));
+		printf("Parte dcha: %s\n", get_right_str(prueba[i]));
 		i++;
-
 	}
 
 	// printf("Pos: %d\n", pos);
