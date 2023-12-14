@@ -6,7 +6,7 @@
 /*   By: migonzal <migonzal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 09:45:35 by migonzal          #+#    #+#             */
-/*   Updated: 2023/05/09 09:58:47 by migonzal         ###   ########.fr       */
+/*   Updated: 2023/12/14 13:54:28 by migonzal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,23 @@ char	*get_left_str(char *str);
 char	*get_right_str(char *str);
 int 	if_var(char *str);
 int 	if_ass_str(char **table);
+
+
+
+
+/*
+ *	expansor.c
+ */
+char *detect_dollar(t_tools *tools, char *str);
+
+
+/*
+ *	expansor_utils.c
+ */
+size_t dollar_after(char *str);
+char *char_to_str(char c);
+int digit_after_dollar(int j, char *str);
+
 
 
 #endif
