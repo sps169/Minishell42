@@ -6,7 +6,7 @@
 /*   By: sperez-s <sperez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 09:45:35 by migonzal          #+#    #+#             */
-/*   Updated: 2023/12/16 14:54:22 by sperez-s         ###   ########.fr       */
+/*   Updated: 2023/12/16 18:54:51 by sperez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,17 +30,16 @@
 typedef struct s_redir
 {
 	char			*file;
-	int				type; //1 out 0 in 2 err
+	int				type; //0 in 1 out 2 heredoc 3 append
 	struct s_redir	*next;
 }	t_redir;
 
 typedef struct s_command
 {
 	char				*cmd_sep;
-	struct s_sep		*prev;
 	struct s_sep		*next;
 	char				**args;
-	t_redir				**redir;
+	t_redir				*redir;
 	int					return_val;
 
 }					t_command;
