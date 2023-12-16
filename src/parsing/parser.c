@@ -12,6 +12,8 @@
 
 #include "minishell.h"
 
+
+
 t_sep *parser(char *s)
 {
 	char **aux = split_minishell(s, '|');
@@ -25,3 +27,5 @@ t_sep *parser(char *s)
 	}
 	return (sep);
 }
+
+

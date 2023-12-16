@@ -6,7 +6,7 @@
 /*   By: sperez-s <sperez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 09:45:35 by migonzal          #+#    #+#             */
-/*   Updated: 2023/11/01 19:34:00 by sperez-s         ###   ########.fr       */
+/*   Updated: 2023/12/16 14:38:25 by sperez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,14 @@ typedef struct s_pip
 	struct s_pip		*next;
 }					t_pip;
 
-
+typedef struct s_tools
+{
+  char **paths;
+  char **envp;
+  char **var;
+  char *pwd;
+  char *old_pwd;
+}       			t_tools;
 
 /*
  * Parser_cells
@@ -105,7 +112,48 @@ int	count_words(const char *str, char c);
 char **list_dup_after(char* s, char c);
 int dup_after_pos(char *s, char c, int num);
 char **parse_args(char *s);
+void ft_free_arr(char **arr);
+char **arrdup(char **arr);
 
 t_sep *parser(char *s);
+
+/*
+ * parse_envp
+ */
+ int     find_pwd(t_tools *tools);
+ char *find_path(char **envp);
+ int parse_envp(t_tools *t_tools);
+
+ /*
+  *  parser_var
+  */
+int     get_char_pos(char *s, char c);
+char	*get_left_str(char *str);
+char	*get_right_str(char *str);
+int 	if_var(char *str);
+int 	if_ass_str(char **table);
+
+/*
+ * quotes_aux.c
+ */
+
+ size_t quotes_lenght(char *str);
+ char    *delete_quotes(char *str, char c);
+
+
+/*
+ *	expansor.c
+ */
+char *detect_dollar(t_tools *tools, char *str);
+
+
+/*
+ *	expansor_utils.c
+ */
+size_t dollar_after(char *str);
+char *char_to_str(char c);
+int digit_after_dollar(int j, char *str);
+
+
 
 #endif

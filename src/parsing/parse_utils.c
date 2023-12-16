@@ -6,7 +6,7 @@
 /*   By: sperez-s <sperez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 11:39:33 by migonzal          #+#    #+#             */
-/*   Updated: 2023/09/21 13:19:49 by sperez-s         ###   ########.fr       */
+/*   Updated: 2023/12/16 14:42:31 by sperez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,12 +208,46 @@ char **parse_args(char *s)
 		}
 		i++;
 	}
-
-
-
-
-
-
 	return (res);
+
+}
+
+void ft_free_arr(char **arr)
+{
+	int i;
+
+	i = 0;
+	while(arr[i])
+	{
+		free(arr[i]);
+		i++;
+	}
+	free(arr);
+}
+
+char **arrdup(char **arr)
+{
+	char **aux;
+	size_t i;
+
+	i = 0;
+	while(arr[i] != NULL)
+		i++;
+	aux = ft_calloc(sizeof(char*), i +1);
+	if(!aux)
+		return (NULL);
+	i = 0;
+	while(arr[i] != NULL)
+	{
+		aux[i] = ft_strdup(arr[i]);
+		if(aux[i] == NULL)
+		{
+			ft_free_arr(aux);
+			return(aux);
+		}
+		i++;
+	}
+	return (aux);
+
 
 }
