@@ -6,7 +6,7 @@
 /*   By: migonzal <migonzal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 09:45:35 by migonzal          #+#    #+#             */
-/*   Updated: 2023/12/14 13:54:28 by migonzal         ###   ########.fr       */
+/*   Updated: 2023/12/16 18:07:54 by migonzal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ typedef struct s_sep
 	struct s_sep		*prev;
 	struct s_sep		*next;
 	char				**args;
-	char				**flags;
 	t_redir				*redir;
 
 }					t_sep;
@@ -58,7 +57,6 @@ typedef struct s_tools
 {
   char **paths;
   char **envp;
-  char **var;
   char *pwd;
   char *old_pwd;
 }       			t_tools;
@@ -115,6 +113,7 @@ int dup_after_pos(char *s, char c, int num);
 char **parse_args(char *s);
 void ft_free_arr(char **arr);
 char **arrdup(char **arr);
+size_t pos_after_char(char *str, char c);
 
 t_sep *parser(char *s);
 
@@ -145,15 +144,19 @@ int 	if_ass_str(char **table);
 /*
  *	expansor.c
  */
+char *expansor(t_tools *tools, char *str);
 char *detect_dollar(t_tools *tools, char *str);
+int loop_dollar(t_tools *tools, char *str, char **aux, int j);
 
 
 /*
  *	expansor_utils.c
  */
 size_t dollar_after(char *str);
+size_t equal_after(char *str);
 char *char_to_str(char c);
 int digit_after_dollar(int j, char *str);
+int after_dollar_lenght(char *str, int j);
 
 
 

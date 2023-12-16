@@ -6,7 +6,7 @@
 /*   By: migonzal <migonzal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 10:42:59 by migonzal          #+#    #+#             */
-/*   Updated: 2023/05/11 12:59:45 by migonzal         ###   ########.fr       */
+/*   Updated: 2023/12/16 18:23:30 by migonzal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,48 +49,28 @@ static size_t	len_without_extra_spaces(char *str)
 	return (len);
 }
 */
-int	main(int argc, char **argv)
+
+
+
+int	main(int argc, char **argv, char **envp)
 {
+	t_tools *tools = (t_tools *)ft_calloc(1, sizeof(t_tools));
+	t_sep *sep;
+
 
 	if (argc != 1 || argv[1])
 	{
 		printf("Este programa no acepta argumentos inútil\n");
 		exit(0);
     }
-
-	//t_sep *prueba;
+	tools->envp = arrdup(envp);
 	char *string = readline("MINISHELL$");
-	// int pos = get_char_pos(string, '=');
-	// char *right;
-	// char *left;
+	char *str_exp = expansor(tools, string);
+	sep = parser(str_exp);
+	print_list(sep);
 
-	// left = get_left_str(string, pos);
-	// right = get_right_str(string, pos +1 );
-
-	char **prueba;
-
-	prueba = ft_split(string, ' ');
-
-	int i = 0;
-
-	while (prueba[i])
-	{
-		printf("Parte izq: %s\n", get_left_str(prueba[i]));
-		printf("Parte dcha: %s\n", get_right_str(prueba[i]));
-		i++;
-	}
-
-	// printf("Pos: %d\n", pos);
-	// printf("Izquirda: %s\n", left);
-	// printf("Derecha: %s\n", right);
-
-
-
-       // printf("%d\n", pos);
-		//printf("%s\n", res);
-
-//	t_sep *sep = parser(res);
-//	print_list(sep);
-//	free(sep);
+	
+	
 	return (0);
 }
+//char *expansor(t_tools *tools, char *str)

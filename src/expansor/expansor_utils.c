@@ -13,6 +13,20 @@ size_t dollar_after(char *str)
 	return (0);
 }
 
+size_t equal_after(char *str)
+{
+	size_t i;
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '=')
+			return (i +1);
+		i++;
+	}
+	return (0);
+}
+
+
 
 char *char_to_str(char c)
 {
@@ -27,7 +41,7 @@ int digit_after_dollar(int j, char *str)
 	int	i;
 
 	i = j;
-	if (str[j] == "$")
+	if (str[j] == '$')
 	{
 		if(ft_isdigit(str[j + 1]) == 1)
 			j += 2;

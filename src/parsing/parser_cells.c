@@ -6,7 +6,7 @@
 /*   By: migonzal <migonzal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/13 10:25:18 by migonzal          #+#    #+#             */
-/*   Updated: 2023/05/11 12:56:33 by migonzal         ###   ########.fr       */
+/*   Updated: 2023/12/16 17:56:40 by migonzal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ t_sep	*create_cell(char *cmd_sep)
 	cell -> prev = NULL;
 	cell -> next = NULL;
 	cell -> args = parse_args(cmd_sep);
-	cell -> flags = list_dup_after(cmd_sep, '-');
+	//cell -> flags = list_dup_after(cmd_sep, '-');
 	cell -> redir = create_redir(cmd_sep);
 	cell -> cmd_sep = cmd_sep;
 	return (cell);
@@ -83,11 +83,11 @@ void	print_list(t_sep *list)
 			j++;
 		}
 		j = 0;
-		while(list->flags[j])
-		{
-			printf("| list->flags : %s            \n", list->flags[j]);
-			j++;
-		}
+	//	while(list->flags[j])
+	//	{
+	//		printf("| list->flags : %s            \n", list->flags[j]);
+	//		j++;
+	//	}
 		j = 0;
 		while(list->redir->in[j])
 		{

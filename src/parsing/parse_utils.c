@@ -6,7 +6,7 @@
 /*   By: migonzal <migonzal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 11:39:33 by migonzal          #+#    #+#             */
-/*   Updated: 2023/12/14 13:54:45 by migonzal         ###   ########.fr       */
+/*   Updated: 2023/12/16 18:00:28 by migonzal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,14 +173,14 @@ char **parse_args(char *s)
 	j = 0;
 	c = 0;
 
-	if (aux[0][0] != '<' && aux[0][0] != '>'  && aux[0][0] != '-')
+	if (aux[0][0] != '<' && aux[0][0] != '>')
 	{
 		i++;
 		c++;
 	}
 	while (aux[i])
 	{
-		if (aux[i][0] != '<' && aux[i][0] != '>'  && aux[i][0] != '-' && aux[i-1][0] != '<' && aux[i-1][0] != '>' && aux[i-1][0] != '-')
+		if (aux[i][0] != '<' && aux[i][0] != '>'  && aux[i-1][0] != '<' && aux[i-1][0] != '>')
 		{
 			c++;
 		}
@@ -189,7 +189,7 @@ char **parse_args(char *s)
 	i = 0;
 
 	res = ft_calloc(c +1, sizeof(s));
-	if (aux[0][0] != '<' && aux[0][0] != '>'  && aux[0][0] != '-')
+	if (aux[0][0] != '<' && aux[0][0] != '>')
 	{
 		
 		res[0] = aux[0];
@@ -199,7 +199,7 @@ char **parse_args(char *s)
 	}
 	while (aux[i])
 	{
-		if (aux[i][0] != '<' && aux[i][0] != '>'  && aux[i][0] != '-' && aux[i-1][0] != '<' && aux[i-1][0] != '>' && aux[i-1][0] != '-')
+		if (aux[i][0] != '<' && aux[i][0] != '>'  && aux[i-1][0] != '<' && aux[i-1][0] != '>')
 		{
 			res[j] = ft_strdup(aux[i]);
 			//printf("Dentro de res[j] %s\n", res[j]);
@@ -248,6 +248,18 @@ char **arrdup(char **arr)
 		i++;
 	}
 	return (aux);
+}
 
+size_t pos_after_char(char *str, char c)
+{
+	size_t i;
 
+	i = 0;
+	while(str[i])
+	{
+		if (str[i] == c)
+			return (i + 1);
+		i++;
+	}
+	return (0);
 }
