@@ -6,7 +6,7 @@
 /*   By: migonzal <migonzal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 09:45:35 by migonzal          #+#    #+#             */
-/*   Updated: 2023/12/16 18:07:54 by migonzal         ###   ########.fr       */
+/*   Updated: 2023/12/16 18:52:52 by migonzal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 # define MINISHELL_H
 
 # include "libft.h"
-# include "get_next_line.h"
+# include "ui.h"
+# include "executor.h"
 # include <stdio.h>
 # include <unistd.h>
 # include <stdlib.h>
@@ -25,26 +26,24 @@
 # include <sys/types.h>
 # include <errno.h>
 # include <fcntl.h>
-# include <readline/readline.h>
-# include <readline/history.h>
 
 typedef struct s_redir
 {
-	char				*cmd;
-	char				**out;
-	char				**in;
-
+	char			*file;
+	int				type; //1 out 0 in 2 err
+	struct s_redir	*next;
 }	t_redir;
 
-typedef struct s_sep
+typedef struct s_command
 {
 	char				*cmd_sep;
 	struct s_sep		*prev;
 	struct s_sep		*next;
 	char				**args;
-	t_redir				*redir;
+	t_redir				**redir;
+	int					return_val;
 
-}					t_sep;
+}					t_command;
 
 typedef struct s_pip
 {
@@ -55,19 +54,19 @@ typedef struct s_pip
 
 typedef struct s_tools
 {
-  char **paths;
-  char **envp;
-  char *pwd;
-  char *old_pwd;
-}       			t_tools;
+	char	**paths;
+	char	**envp;
+	char	*pwd;
+	char	*old_pwd;
+}					t_tools;
 
 /*
  * Parser_cells
  */
 
-t_sep		*create_cell(char *cmd_sep);
-t_sep		*add_cell(t_sep *t_list, char *cmd_sep, int pos);
-void		print_list(t_sep*list);
+t_command		*create_cell(char *cmd_sep);
+t_command		*add_cell(t_command *t_list, char *cmd_sep, int pos);
+void		print_list(t_command *list);
 
 /*
  * Parser_pip
@@ -77,7 +76,7 @@ t_pip		*create_pip_cell(char *cmd_pip);
 t_pip		*add_pip_cell(t_pip *list, char *cmd_pip, int pos);
 void		print_pip_list(t_pip *piplist);
 int			pipeinstr(char c, char *str);
-void		parse_pip(t_sep *list);
+void		parse_pip(t_command *list);
 
 /*
  * cmd.c
@@ -115,7 +114,7 @@ void ft_free_arr(char **arr);
 char **arrdup(char **arr);
 size_t pos_after_char(char *str, char c);
 
-t_sep *parser(char *s);
+t_command *parser(char *s);
 
 /*
  * parse_envp
