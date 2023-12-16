@@ -34,3 +34,17 @@ int digit_after_dollar(int j, char *str)
 	}
 	return (j - i);
 }
+
+int after_dollar_lenght(char *str, int j)
+{
+  int i;
+
+  i = j + 1;
+  while (str[i] != '\0' && str[i] != '$' && str[i] != ' ' &&
+          str[i] != '\"' && str[i] != '\'' && str[i] != '=' &&
+          str[i] != '-' && str[i] != ':')
+    i++;
+  return (i);
+}
+
+

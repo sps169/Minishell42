@@ -134,7 +134,12 @@ char	*get_right_str(char *str);
 int 	if_var(char *str);
 int 	if_ass_str(char **table);
 
+/*
+ * quotes_aux.c
+ */
 
+ size_t quotes_lenght(char *str);
+ char    *delete_quotes(char *str, char c);
 
 
 /*
