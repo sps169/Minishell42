@@ -6,7 +6,7 @@
 /*   By: migonzal <migonzal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 09:45:35 by migonzal          #+#    #+#             */
-/*   Updated: 2023/12/16 18:07:54 by migonzal         ###   ########.fr       */
+/*   Updated: 2023/12/17 13:43:44 by migonzal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,6 +157,21 @@ size_t equal_after(char *str);
 char *char_to_str(char c);
 int digit_after_dollar(int j, char *str);
 int after_dollar_lenght(char *str, int j);
+
+
+/*
+ * BUILTINS
+ */
+
+char *find_path_ret(char *str, t_tools *tools);
+
+
+/*
+ * BUILTINS_UTILS
+ */
+
+void change_path(t_tools *tools);
+
 
 
 

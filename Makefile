@@ -6,7 +6,7 @@
 #    By: migonzal <migonzal@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/13 09:43:48 by migonzal          #+#    #+#              #
-#    Updated: 2023/12/16 14:04:15 by migonzal         ###   ########.fr        #
+#    Updated: 2023/12/17 15:17:27 by migonzal         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,12 +32,14 @@ SRC_DIR_PAR	=	./src/parsing/
 
 SRC_DIR_EXP =	./src/expansor/
 
+SRC_DIR_BUILT = ./src/builtins/
+
 INCLUDE	=	-Iinclude
 
 CC	=	gcc 
 CFLAGS	=  -g -Wall -Wextra -Werror   -fsanitize=address -g3
 
-SRCS	=	$(SRC_DIR)main.c $(SRC_DIR_PAR)parser.c $(SRC_DIR_PAR)parse_env.c $(SRC_DIR_PAR)parser_cells.c $(SRC_DIR_PAR)parser_var.c $(SRC_DIR_PAR)cmd.c $(SRC_DIR_PAR)split_minishell.c $(SRC_DIR_PAR)parse_utils.c $(SRC_DIR_PAR)quotes_aux.c $(SRC_DIR_EXP)expansor.c $(SRC_DIR_EXP)expansor_utils.c ./Gnl/get_next_line.c ./Gnl/get_next_line_utils.c
+SRCS	=	$(SRC_DIR)main.c $(SRC_DIR_PAR)parser.c $(SRC_DIR_PAR)parse_env.c $(SRC_DIR_PAR)parser_cells.c $(SRC_DIR_PAR)parser_var.c $(SRC_DIR_PAR)cmd.c $(SRC_DIR_PAR)split_minishell.c $(SRC_DIR_PAR)parse_utils.c $(SRC_DIR_PAR)quotes_aux.c $(SRC_DIR_BUILT)builtins_utils.c $(SRC_DIR_BUILT)cd.c $(SRC_DIR_BUILT)env.c $(SRC_DIR_BUILT)pwd.c $(SRC_DIR_EXP)expansor.c $(SRC_DIR_EXP)expansor_utils.c ./Gnl/get_next_line.c ./Gnl/get_next_line_utils.c
 
 OBJS		=	$(SRCS:.c=.o)
 
