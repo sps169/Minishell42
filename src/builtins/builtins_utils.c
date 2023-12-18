@@ -10,3 +10,13 @@ void change_path(t_tools *tools)
 	free(tools->pwd);
 	tools->pwd = getcwd(NULL, sizeof(NULL));
 }
+
+int check_valid_identifier(char c)
+{
+	return (c == '|' || c == '<' || c == '>' || c == '[' || c == ']'
+		|| c == '\'' || c == '\"' || c == ' ' || c == ',' || c == '.'
+		|| c == ':' || c == '/' || c == '{' || c == '}' || c == '+'
+		|| c == '^' || c == '%' || c == '#' || c == '@' || c == '!'
+		|| c == '~' || c == '=' || c == '-' || c == '?' || c == '&'
+		|| c == '*');
+}

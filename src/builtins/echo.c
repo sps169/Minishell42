@@ -14,7 +14,6 @@ void print_lines(int i, char **str, int out)
 int echo (t_tools *tools, t_sep *sep)
  {
  	int i;
- 	int j;
  	int n_flag;
 
  	i = 1;
@@ -23,7 +22,7 @@ int echo (t_tools *tools, t_sep *sep)
 
  	while (sep->args[i])
         {
-          if (sep->args[1] == '-n')
+          if (sep->args[1][0] == '-' && sep->args[1][1] == 'n') //TERRORISMO AQUI, NO OLVIDAR
               n_flag = 1;
           i++;
         }
