@@ -6,7 +6,7 @@
 /*   By: migonzal <migonzal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 10:42:59 by migonzal          #+#    #+#             */
-/*   Updated: 2023/12/18 19:00:06 by migonzal         ###   ########.fr       */
+/*   Updated: 2023/12/18 20:00:21 by migonzal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,36 +39,36 @@
 // 	return (0);
 // }
 
-int init_tools(t_tools *tools)
-{
-	tools->arg_str = NULL;
-	tools->reset = 0;
-	tools->sep = NULL;
-	parse_envp(tools);
+// int init_tools(t_tools *tools)
+// {
+// 	tools->arg_str = NULL;
+// 	tools->reset = 0;
+// 	tools->sep = NULL;
+// 	parse_envp(tools);
 
-}
+// }
 
-int minishell_loop(t_tools *tools)
-{
-	char *aux;
+// int minishell_loop(t_tools *tools)
+// {
+// 	char *aux;
 
-	tools->arg_str = readline("MINISHEL$");
-	aux = ft_strtrim(tools->arg_str, " ");
-	free(tools->arg_str);
-	if (!tools->arg_str)
-	{
-		ft_putendl_fd("exit", STDOUT_FILENO);
-		exit(EXIT_SUCCESS);
-	}
-	if (tools->arg_str[0] == '\0')
-		return (reset_tools(tools)); //HACER FUNCION
-	add_history(tools->arg_str);
-	if (!count_quotes(tools->arg_str))
-		return (ft_error()); // HACER FUNCION
-	tools->sep = parser(tools->arg_str);
-	//ENCHUFAR EXECUTOR
+// 	tools->arg_str = readline("MINISHEL$");
+// 	aux = ft_strtrim(tools->arg_str, " ");
+// 	free(tools->arg_str);
+// 	if (!tools->arg_str)
+// 	{
+// 		ft_putendl_fd("exit", STDOUT_FILENO);
+// 		exit(EXIT_SUCCESS);
+// 	}
+// 	if (tools->arg_str[0] == '\0')
+// 		return (reset_tools(tools)); //HACER FUNCION
+// 	add_history(tools->arg_str);
+// 	if (!count_quotes(tools->arg_str))
+// 		return (ft_error()); // HACER FUNCION
+// 	tools->sep = parser(tools->arg_str);
+// 	//ENCHUFAR EXECUTOR
 
-}
+// }
 
 
 
@@ -77,7 +77,7 @@ int minishell_loop(t_tools *tools)
 int	main(int argc, char **argv, char **envp)
 {
 	t_tools *tools = (t_tools *)ft_calloc(1, sizeof(t_tools));
-	t_sep *sep;
+	t_sep *sep = (t_sep *)ft_calloc(1, sizeof(t_sep));
 
 
 	if (argc != 1 || argv[1])
@@ -86,6 +86,18 @@ int	main(int argc, char **argv, char **envp)
 		exit(0);
     }
 	tools->envp = arrdup(envp);
+	find_pwd(tools);
+	char *str ="echo -n buenas tardes caballero";
+	sep = parser(str);
+	
+	echo(tools, sep);
+	
+
+	// printf("Actual PWD: %s\n", tools->pwd);
+	// printf("Old PWD: %s\n", tools->old_pwd);
+
+	
+
 	 //print_list(sep);
 
 
