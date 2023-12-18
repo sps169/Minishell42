@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: migonzal <migonzal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sperez-s <sperez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 09:45:35 by migonzal          #+#    #+#             */
-/*   Updated: 2023/12/16 18:56:37 by migonzal         ###   ########.fr       */
+/*   Updated: 2023/12/17 14:39:29 by sperez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,8 @@ typedef struct s_tools
 
 t_command		*create_cell(char *cmd_sep);
 t_command		*add_cell(t_command *t_list, char *cmd_sep, int pos);
-void		print_list(t_command *list);
+void			print_list(t_command *list);
+t_redir			*create_redir_list(char *redir);
 
 /*
  * Parser_pip

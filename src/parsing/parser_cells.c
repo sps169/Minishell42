@@ -3,41 +3,104 @@
 /*                                                        :::      ::::::::   */
 /*   parser_cells.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: migonzal <migonzal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sperez-s <sperez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/13 10:25:18 by migonzal          #+#    #+#             */
-/*   Updated: 2023/12/16 17:56:40 by migonzal         ###   ########.fr       */
+/*   Updated: 2023/12/18 02:09:40 by sperez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./minishell.h"
 
+static int	locate_redir(char **redir, int *type) {
+	char	quote;
 
-t_redir *create_redir(char *redir)
-{
-	t_redir *cell;
-
-	cell = malloc(sizeof(t_redir));
-	if (!cell)
-		return (NULL);
-	cell -> in = list_dup_after(redir, '<');
-	cell -> out = list_dup_after(redir, '>');
-	cell -> cmd = redir;
-	return (cell);
+	quote = 0;
+	while (**redir)
+	{
+		if (quote == '"' || quote == '\'')
+		{
+			if (**redir == quote)
+				quote = 0;
+		}
+		else
+		{
+			if (**redir == '"' || **redir == '\'')
+				quote = **redir;
+			else
+			{
+				if (**redir == '>' && **redir + 1 && **redir + 1 == '>')
+				{
+					**redir++;
+					*type = 3;
+					break;
+				}
+				else if (**redir == '>')
+				{
+					*type = 1;
+					break;
+				}
+				if (**redir == '<' && **redir + 1 && **redir + 1 == '<')
+				{
+					**redir++;
+					*type = 2;
+					break;
+				}
+				else if (**redir == '<')
+					*type = 0;
+					break;
+			}
+		}
+		**redir++;
+	}
+	return (quote == 0);
 }
 
-t_sep	*create_cell(char *cmd_sep)
+t_redir *create_redir_list(char *redir)
 {
-	t_sep	*cell;
+	//< > << >> or error
+	//search_icon, analize_icon, search_arg, analize_arg
+	int		type;
+	char	*file;
+	t_redir	*curr;
+	t_redir	*first;
+	t_redir	*aux;
 
-	cell = malloc(sizeof(t_sep));
+	curr = NULL;
+	first = NULL;
+	aux = NULL;
+	while (redir)
+	{
+		if (!locate_redir(&redir, &type))
+			return (NULL);
+		file = !locate_redir_file(&redir);
+		if (!file)
+			return (NULL);
+		aux = create_redir_node(file, type);
+		if (!first)
+		{
+			first = aux;
+			curr = aux;
+		}
+		else
+		{
+			curr->next = aux;
+			curr = curr->next;
+		}
+	}
+	return (first);
+}
+
+t_command	*create_cell(char *cmd_sep)
+{
+	t_command	*cell;
+
+	cell = malloc(sizeof(t_command));
 	if (!cell)
 		return (NULL);
-	cell -> prev = NULL;
 	cell -> next = NULL;
 	cell -> args = parse_args(cmd_sep);
-	//cell -> flags = list_dup_after(cmd_sep, '-');
-	cell -> redir = create_redir(cmd_sep);
+	cell -> redir = create_redir_list(cmd_sep);
 	cell -> cmd_sep = cmd_sep;
 	return (cell);
 }
