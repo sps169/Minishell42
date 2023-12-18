@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: migonzal <migonzal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sperez-s <sperez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 10:42:59 by migonzal          #+#    #+#             */
-/*   Updated: 2023/12/16 18:23:30 by migonzal         ###   ########.fr       */
+/*   Updated: 2023/12/18 20:10:34 by sperez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static size_t	len_without_extra_spaces(char *str)
 int	main(int argc, char **argv, char **envp)
 {
 	t_tools *tools = (t_tools *)ft_calloc(1, sizeof(t_tools));
-	t_sep *sep;
+	t_command *sep;
 
 
 	if (argc != 1 || argv[1])

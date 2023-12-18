@@ -6,7 +6,7 @@
 /*   By: sperez-s <sperez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 09:45:35 by migonzal          #+#    #+#             */
-/*   Updated: 2023/12/17 14:39:29 by sperez-s         ###   ########.fr       */
+/*   Updated: 2023/12/18 20:17:28 by sperez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@
 # include <sys/types.h>
 # include <errno.h>
 # include <fcntl.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 
 typedef struct s_redir
 {
@@ -37,7 +39,7 @@ typedef struct s_redir
 typedef struct s_command
 {
 	char				*cmd_sep;
-	struct s_sep		*next;
+	struct s_command	*next;
 	char				**args;
 	t_redir				*redir;
 	int					return_val;

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: migonzal <migonzal@student.42.fr>          +#+  +:+       +#+         #
+#    By: sperez-s <sperez-s@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/13 09:43:48 by migonzal          #+#    #+#              #
-#    Updated: 2023/12/16 18:52:29 by migonzal         ###   ########.fr        #
+#    Updated: 2023/12/18 20:20:07 by sperez-s         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,6 @@ SRC_DIR_EXEC = ./src/executor/
 INCLUDE	=	-Iinclude
 
 INCLUDE	=	-Iinclude
-SRC_DIR_EXP =	./src/expansor
 
 CC	=	gcc 
 CFLAGS	=  -g -Wall -Wextra -Werror   -fsanitize=address -g3
@@ -54,8 +53,6 @@ SRCS	=	$(SRC_DIR)main.c				\
 			$(SRC_DIR_EXP)expansor.c		\
 			$(SRC_DIR_EXP)expansor_utils.c	\
 			$(SRC_DIR_EXEC)executor.c		\
-			./Gnl/get_next_line.c			\
-			./Gnl/get_next_line_utils.c
 
 OBJS		=	$(SRCS:.c=.o)
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: migonzal <migonzal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sperez-s <sperez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/08 11:04:58 by migonzal          #+#    #+#             */
-/*   Updated: 2023/05/11 12:56:51 by migonzal         ###   ########.fr       */
+/*   Updated: 2023/12/18 20:13:11 by sperez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 
 
-t_sep *parser(char *s)
+t_command *parser(char *s)
 {
 	char **aux = split_minishell(s, '|');
-	t_sep *sep = NULL;
+	t_command *sep = NULL;
 	int i = 0;
 
 	while (aux[i])
