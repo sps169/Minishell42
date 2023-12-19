@@ -6,7 +6,7 @@
 /*   By: sperez-s <sperez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 09:45:35 by migonzal          #+#    #+#             */
-/*   Updated: 2023/12/19 12:38:55 by sperez-s         ###   ########.fr       */
+/*   Updated: 2023/12/19 12:44:46 by sperez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,12 +171,12 @@ int after_dollar_lenght(char *str, int j);
 char *find_path_ret(char *str, t_tools *tools);
 int specific_path(t_tools *tools, char *str);
 void add_path_to_env(t_tools *tools);
-int cd(t_tools *tools, t_sep *sep);
+int cd(t_tools *tools, t_command *sep);
 //echo
 void print_lines(int i, char **str, int out);
-int echo(t_tools *tools, t_sep *sep);
+int echo(t_tools *tools, t_command *sep);
 //env
-int env(t_tools *tools, t_sep *sep);
+int env(t_tools *tools, t_command *sep);
 //pwd
 int pwd(t_tools *tools);
 //export
@@ -185,12 +185,12 @@ int export_error(char *str);
 int check_parameter(char *str);
 char **loop_add_var(char **arr, char **aux, char *str);
 char **add_var(char **arr, char *str);
-int export(t_tools *tools, t_sep *sep);
+int export(t_tools *tools, t_command *sep);
 //unset
 char **loop_delete_var(char **arr, char **aux, char *str);
 char **delete_var(char **arr, char *str);
-int unset_error(t_sep *sep);
-int unset(t_tools *tools, t_sep *sep);
+int unset_error(t_command *sep);
+int unset(t_tools *tools, t_command *sep);
 
 
 
@@ -204,7 +204,7 @@ int unset(t_tools *tools, t_sep *sep);
 void change_path(t_tools *tools);
 int check_valid_identifier(char c);
 
-int builting_arr (t_tools *tools, t_sep *sep);
+int builting_arr (t_tools *tools, t_command *sep);
 
 
 

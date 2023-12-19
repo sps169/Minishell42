@@ -103,7 +103,7 @@ char **add_var(char **arr, char *str)
 }
 
 
-int export(t_tools *tools, t_sep *sep)
+int export(t_tools *tools, t_command *sep)
 {
 	char **aux;
 	int i;
