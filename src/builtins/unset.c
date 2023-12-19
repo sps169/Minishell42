@@ -43,26 +43,26 @@ char **delete_var(char **arr, char *str)
 }
 
 
-int unset_error(t_command *command)
+int unset_error(t_tools *tools)
 {
 	int i;
 
 	i = 0;
-	if (command->args[1])
+	if (tools->command->args[1])
 	{
 		ft_putendl_fd("minishell: unset not enough arguments", STDERR_FILENO);
 		return (EXIT_FAILURE);
 	}
-	while (command->args[1][i])
+	while (tools->command->args[1][i])
 	{
-		if (command->args[1][i++] == '/')
+		if (tools->command->args[1][i++] == '/')
 		{
 			ft_putstr_fd("minishell: unset '", STDERR_FILENO);
-			ft_putstr_fd(command->args[1], STDERR_FILENO);
+			ft_putstr_fd(tools->command->args[1], STDERR_FILENO);
 			ft_putendl_fd("': not a valid identifier", STDERR_FILENO);
 		}
 	}
-	if (equal_after(command->args[1]) != 0)
+	if (equal_after(tools->command->args[1]) != 0)
 	{
 		ft_putendl_fd("minishell: unset: not a valid identifier", STDERR_FILENO);
 		return (EXIT_FAILURE);
@@ -71,15 +71,15 @@ int unset_error(t_command *command)
 }
 
 
-int unset(t_tools *tools, t_command *command)
+int unset(t_tools *tools)
 {
 	char **aux;
 
-	if (unset_error(command) == 1)
+	if (unset_error(tools) == 1)
 		return (EXIT_FAILURE);
 	else
 	{
-		aux =delete_var(tools->envp, command->args[1]);
+		aux =delete_var(tools->envp, tools->command->args[1]);
 		ft_free_arr(tools->envp);
 		tools->envp = aux;
 	}

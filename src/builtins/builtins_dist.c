@@ -3,30 +3,28 @@
 
 
 
-// int builting_arr (t_tools *tools, t_sep *sep)
-// {
-// 	static void	*builtins[6][2] = {
-// 	{"echo", echo},
-// 	{"cd", cd},
-// 	{"pwd", pwd},
-// 	{"export", export},
-// 	{"unset", unset},
-// 	{"env", env},
-// 	};
+int (*builting_arr(char *str))(t_tools *tools)
+{
+	static void *builtins[7][2] =  {
+	{"echo", echo},
+	{"cd", cd},
+	{"pwd", pwd},
+	{"export", export},
+	{"unset", unset},
+	{"env", env},
+	{"exit", ft_exit},
+	};
+	int	i;
 
-// 	int			i;
-
-
-// 	i = 0;
-// 	(void) tools;
-// 	while (i < 6)
-// 	{
-// 		if (sep->args[0])
-// 		{
-// 			if (!ft_strncmp(builtins[i][0], sep->args[0], ft_strlen((builtins[i][0]))))
-// 				return (builtins[i][1]);
-// 		}
-// 		i++;
-// 	}
-// 	return (0);
-// }
+	i = 0;
+	while (i<7)
+	{
+		if (str)
+		{
+			if(!ft_strncmp(builtins[i][0], str, ft_strlen(builtins[i][0])))
+				return (builtins[i][1]);
+		}
+		i++;
+	}
+	return (NULL);
+}

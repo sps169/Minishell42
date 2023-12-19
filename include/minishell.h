@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperez-s <sperez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: migonzal <migonzal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 09:45:35 by migonzal          #+#    #+#             */
-/*   Updated: 2023/12/19 12:44:46 by sperez-s         ###   ########.fr       */
+/*   Updated: 2023/12/19 19:38:03 by migonzal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,13 @@ typedef struct s_pip
 
 typedef struct s_tools
 {
+	char 	*arg_str;
 	char	**paths;
 	char	**envp;
 	char	*pwd;
 	char	*old_pwd;
+	int		reset;
+	struct	s_command *command;
 }					t_tools;
 
 /*
@@ -148,9 +151,9 @@ int 	if_ass_str(char **table);
 /*
  *	expansor.c
  */
-char *expansor(t_tools *tools, char *str);
-char *detect_dollar(t_tools *tools, char *str);
-int loop_dollar(t_tools *tools, char *str, char **aux, int j);
+char *expansor(t_tools *tools);
+char *detect_dollar(t_tools *tools);
+int loop_dollar(t_tools *tools, char **aux, int j);
 
 
 /*
@@ -171,12 +174,12 @@ int after_dollar_lenght(char *str, int j);
 char *find_path_ret(char *str, t_tools *tools);
 int specific_path(t_tools *tools, char *str);
 void add_path_to_env(t_tools *tools);
-int cd(t_tools *tools, t_command *sep);
+int cd(t_tools *tools);
 //echo
 void print_lines(int i, char **str, int out);
-int echo(t_tools *tools, t_command *sep);
+int echo(t_tools *tools);
 //env
-int env(t_tools *tools, t_command *sep);
+int env(t_tools *tools);
 //pwd
 int pwd(t_tools *tools);
 //export
@@ -185,13 +188,27 @@ int export_error(char *str);
 int check_parameter(char *str);
 char **loop_add_var(char **arr, char **aux, char *str);
 char **add_var(char **arr, char *str);
-int export(t_tools *tools, t_command *sep);
+int export(t_tools *tools);
 //unset
 char **loop_delete_var(char **arr, char **aux, char *str);
 char **delete_var(char **arr, char *str);
-int unset_error(t_command *sep);
-int unset(t_tools *tools, t_command *sep);
+int unset_error(t_tools *tools);
+int unset(t_tools *tools);
+//exit
+void	free_tools(t_tools *tools);
+int is_str_digit(char *str);
+void code_exit(char **str);
+int ft_exit(t_tools *tools);
 
+//BUILTING_DISTRIBUTOR
+int (*builting_arr(char *str))(t_tools *tools);
+
+/*
+ * MINISHELL_LOOP
+ */
+int reset_tools(t_tools *tools);
+int init_tools(t_tools *tools);
+int minishell_loop(t_tools *tools);
 
 
 
@@ -204,7 +221,7 @@ int unset(t_tools *tools, t_command *sep);
 void change_path(t_tools *tools);
 int check_valid_identifier(char c);
 
-int builting_arr (t_tools *tools, t_command *sep);
+
 
 
 

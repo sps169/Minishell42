@@ -3,28 +3,28 @@
 
 
 
-char *expansor(t_tools *tools, char *str)
+char *expansor(t_tools *tools)
 {
 	char *aux;
 
 	//aux = NULL;
 	
 
-	//if (str[dollar_after(str) -2] != '\'' && dollar_after(str) != 0
-	//	&& str[dollar_after(str)] != '\0')
+	//if (tools->arg_str[dollar_after(tools->arg_str) -2] != '\'' && dollar_after(tools->arg_str) != 0
+	//	&& tools->arg_str[dollar_after(tools->arg_str)] != '\0')
 		//{
-			aux = detect_dollar(tools, str);
-			free(str);
-			str = aux;
+			aux = detect_dollar(tools);
+			free(tools->arg_str);
+			tools->arg_str = aux;
 		//}
-	//	str = delete_quotes(str, '\"');
-	//	str = delete_quotes(str, '\'');
+	//	tools->arg_str = delete_quotes(tools->arg_str, '\"');
+	//	tools->arg_str = delete_quotes(tools->arg_str, '\'');
 
-		return (str);
+		return (tools->arg_str);
 }
 
 
-char *detect_dollar(t_tools *tools, char *str)
+char *detect_dollar(t_tools *tools)
 {
 	int		i;
 	char	*aux;
@@ -33,20 +33,20 @@ char *detect_dollar(t_tools *tools, char *str)
 
 	i = 0;
 	aux = ft_strdup("\0");
-	while(str[i])
+	while(tools->arg_str[i])
 	{
-		i += digit_after_dollar(i, str);
-                if (str[i] == '$' && str[i + 1] == '?')
+		i += digit_after_dollar(i, tools->arg_str);
+                if (tools->arg_str[i] == '$' && tools->arg_str[i + 1] == '?')
                     return (0);
-                else if (str[i] == '$' && (str[i + 1] != ' ' &&
-                        (str[i + 1] != '"' || str[i + 2] != '\0')) &&
-                        str[i + 1] != '\0')
+                else if (tools->arg_str[i] == '$' && (tools->arg_str[i + 1] != ' ' &&
+                        (tools->arg_str[i + 1] != '"' || tools->arg_str[i + 2] != '\0')) &&
+                        tools->arg_str[i + 1] != '\0')
 						{
-                  			i += loop_dollar(tools, str, &aux, i);
+                  			i += loop_dollar(tools, &aux, i);
 						}
                 else 
                 {
-                  aux2 = char_to_str(str[i++]);
+                  aux2 = char_to_str(tools->arg_str[i++]);
                   aux3 = ft_strjoin(aux, aux2);
                   free(aux);
                   aux = aux3;
@@ -60,7 +60,7 @@ char *detect_dollar(t_tools *tools, char *str)
 }
 
 
-int loop_dollar(t_tools *tools, char *str, char **aux, int j)
+int loop_dollar(t_tools *tools, char **aux, int j)
 {
   int i;
   int res;
@@ -71,9 +71,9 @@ int loop_dollar(t_tools *tools, char *str, char **aux, int j)
   res = 0;
   while (tools-> envp[i])
   {
-    if (ft_strncmp(str + j+ 1, tools->envp[i],
+    if (ft_strncmp(tools->arg_str + j+ 1, tools->envp[i],
 		equal_after(tools->envp[i]) -1) == 0 
-		&& after_dollar_lenght(str, j) - j == (int) equal_after(tools->envp[i]))
+		&& after_dollar_lenght(tools->arg_str, j) - j == (int) equal_after(tools->envp[i]))
 	{
 		aux2 = ft_strdup(tools->envp[i] + equal_after(tools->envp[i]));
 		aux3 = ft_strjoin(*aux, aux2);
@@ -85,7 +85,7 @@ int loop_dollar(t_tools *tools, char *str, char **aux, int j)
 	i++;
   }
   if (res == 0)
-	res = after_dollar_lenght(str, j) -j;
+	res = after_dollar_lenght(tools->arg_str, j) -j;
 return (res);
 }
 

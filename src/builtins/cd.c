@@ -63,20 +63,20 @@ void add_path_to_env(t_tools *tools)
 	}
 }
 
-int cd(t_tools *tools, t_command *command)
+int cd(t_tools *tools)
 {
 	int ret;
-	if (!command->args[1])
+	if (!tools->command->args[1])
 		ret = specific_path(tools, "HOME=");
-	else if (ft_strncmp(command->args[1], "-", 1) == 0)
+	else if (ft_strncmp(tools->command->args[1], "-", 1) == 0)
 		ret =specific_path(tools, "OLDPWD=");
 	else 
 	{
-		ret = chdir(command->args[1]);
+		ret = chdir(tools->command->args[1]);
 		if (ret != 0)
 		{
 			ft_putstr_fd("minishell: ", STDERR_FILENO);
-			ft_putstr_fd(command->args[1], STDERR_FILENO);
+			ft_putstr_fd(tools->command->args[1], STDERR_FILENO);
 			perror(" ");
 		}
 	}

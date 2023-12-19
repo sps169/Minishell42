@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sperez-s <sperez-s@student.42.fr>          +#+  +:+       +#+         #
+#    By: migonzal <migonzal@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/13 09:43:48 by migonzal          #+#    #+#              #
-#    Updated: 2023/12/19 12:42:29 by sperez-s         ###   ########.fr        #
+#    Updated: 2023/12/19 19:38:38 by migonzal         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,6 +61,8 @@ SRCS	=	$(SRC_DIR)main.c				\
 			$(SRC_DIR_BUILT)echo.c				\
 			$(SRC_DIR_BUILT)env.c				\
 			$(SRC_DIR_BUILT)pwd.c				\
+			$(SRC_DIR_BUILT)ft_exit.c			\
+			$(SRC_DIR_BUILT)builtins_dist.c		
 
 OBJS		=	$(SRCS:.c=.o)
 

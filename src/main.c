@@ -6,7 +6,7 @@
 /*   By: migonzal <migonzal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 10:42:59 by migonzal          #+#    #+#             */
-/*   Updated: 2023/12/19 12:55:29 by migonzal         ###   ########.fr       */
+/*   Updated: 2023/12/19 17:43:34 by migonzal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,36 +39,58 @@
 // 	return (0);
 // }
 
-// int init_tools(t_tools *tools)
-// {
-// 	tools->arg_str = NULL;
-// 	tools->reset = 0;
-// 	tools->command = NULL;
-// 	parse_envp(tools);
+int reset_tools(t_tools *tools)
+{
+	//Limpiar t_command
+	free(tools->arg_str);
+	ft_free_arr(tools->paths);
+	init_tools(tools);
+	tools->reset = 1;
+	minishell_loop(tools);
+	return (1);
 
-// }
 
-// int minishell_loop(t_tools *tools)
-// {
-// 	char *aux;
+}
 
-// 	tools->arg_str = readline("MINISHEL$");
-// 	aux = ft_strtrim(tools->arg_str, " ");
-// 	free(tools->arg_str);
-// 	if (!tools->arg_str)
-// 	{
-// 		ft_putendl_fd("exit", STDOUT_FILENO);
-// 		exit(EXIT_SUCCESS);
-// 	}
-// 	if (tools->arg_str[0] == '\0')
-// 		return (reset_tools(tools)); //HACER FUNCION
-// 	add_history(tools->arg_str);
-// 	if (!count_quotes(tools->arg_str))
-// 		return (ft_error()); // HACER FUNCION
-// 	tools->command = parser(tools->arg_str);
-// 	//ENCHUFAR EXECUTOR
+int init_tools(t_tools *tools)
+{
+	tools->arg_str = NULL;
+	tools->reset = 0;
+	//tools->command = NULL;
+	parse_envp(tools);
+	return (1);
 
-// }
+}
+
+int minishell_loop(t_tools *tools)
+{
+	char *aux;
+
+	tools->arg_str = readline("MINISHEL$");
+	aux = ft_strtrim(tools->arg_str, " ");
+	free(tools->arg_str);
+	tools->arg_str = aux;
+	if (!tools->arg_str)
+	{
+		ft_putendl_fd("exit", STDOUT_FILENO);
+		exit(EXIT_SUCCESS);
+	}
+	if (tools->arg_str[0] == '\0')
+	 	return (reset_tools(tools)); //HACER FUNCION
+	add_history(tools->arg_str);
+	// if (!count_quotes(tools->arg_str))
+	//	return (ft_error()); // HACER FUNCION
+	//expansor(tools);
+	tools->command = parser(tools->arg_str);
+	env(tools);
+	print_list(tools->command);
+	reset_tools(tools);
+	//ENCHUFAR EXECUTOR
+	return (1);
+
+}
+
+
 
 
 
@@ -76,8 +98,8 @@
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_tools *tools = (t_tools *)ft_calloc(1, sizeof(t_tools));
-	t_command *command;
+	t_tools tools;
+
 
 
 	if (argc != 1 || argv[1])
@@ -85,7 +107,11 @@ int	main(int argc, char **argv, char **envp)
 		printf("Este programa no acepta argumentos inútil\n");
 		exit(0);
     }
-	tools->envp = arrdup(envp);
+	tools.envp = arrdup(envp);
+	find_pwd(&tools);
+	init_tools(&tools);
+	printf("AQUI EMPIEZA LA MINISHELL\n");
+	minishell_loop(&tools);
 	
 
 	// printf("Actual PWD: %s\n", tools->pwd);

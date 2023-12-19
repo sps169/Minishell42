@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_cells.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperez-s <sperez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: migonzal <migonzal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/13 10:25:18 by migonzal          #+#    #+#             */
-/*   Updated: 2023/12/19 12:36:05 by sperez-s         ###   ########.fr       */
+/*   Updated: 2023/12/19 13:42:00 by migonzal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -239,6 +239,23 @@ t_command	*add_cell(t_command *list, char *cmd_sep, int pos)
 	}
 	cell->next = cur;
 	return (list);
+}
+
+void free_command(t_command **list)
+{
+	t_command *tmp;
+
+	if (!list)
+		return ;
+	while (*list)
+	{
+		tmp = (*list)->next;
+		if ((*list)->args)
+			ft_free_arr((*list)->args);
+		free(*list);
+		*list = tmp;
+		
+	}
 }
 
 void	print_list(t_command *list)
