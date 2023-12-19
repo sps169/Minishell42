@@ -6,7 +6,7 @@
 #    By: migonzal <migonzal@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/13 09:43:48 by migonzal          #+#    #+#              #
-#    Updated: 2023/12/19 19:38:38 by migonzal         ###   ########.fr        #
+#    Updated: 2023/12/19 19:59:31 by migonzal         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,7 +53,6 @@ SRCS	=	$(SRC_DIR)main.c				\
 			$(SRC_DIR_EXP)expansor.c		\
 			$(SRC_DIR_EXP)expansor_utils.c	\
 			$(SRC_DIR_EXEC)executor.c		\
-			$(SRC_DIR_BUILT)builtins_dist.c	\
 			$(SRC_DIR_BUILT)export.c		\
 			$(SRC_DIR_BUILT)builtins_utils.c	\
 			$(SRC_DIR_BUILT)unset.c				\
