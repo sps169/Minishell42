@@ -6,7 +6,7 @@
 /*   By: sperez-s <sperez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 09:45:35 by migonzal          #+#    #+#             */
-/*   Updated: 2023/12/19 12:32:39 by sperez-s         ###   ########.fr       */
+/*   Updated: 2023/12/19 12:38:55 by sperez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,9 @@ char **parse_args(char *s);
 void ft_free_arr(char **arr);
 char **arrdup(char **arr);
 size_t pos_after_char(char *str, char c);
+int find_match_quote(char *line, int i, int *num_del, int del);
+int count_quotes(char *line);
+
 
 t_command *parser(char *s);
 
@@ -158,6 +161,51 @@ size_t equal_after(char *str);
 char *char_to_str(char c);
 int digit_after_dollar(int j, char *str);
 int after_dollar_lenght(char *str, int j);
+
+
+/*
+ * BUILTINS
+ */
+
+//cd
+char *find_path_ret(char *str, t_tools *tools);
+int specific_path(t_tools *tools, char *str);
+void add_path_to_env(t_tools *tools);
+int cd(t_tools *tools, t_sep *sep);
+//echo
+void print_lines(int i, char **str, int out);
+int echo(t_tools *tools, t_sep *sep);
+//env
+int env(t_tools *tools, t_sep *sep);
+//pwd
+int pwd(t_tools *tools);
+//export
+int	variable_exist(t_tools *tools, char *str);
+int export_error(char *str);
+int check_parameter(char *str);
+char **loop_add_var(char **arr, char **aux, char *str);
+char **add_var(char **arr, char *str);
+int export(t_tools *tools, t_sep *sep);
+//unset
+char **loop_delete_var(char **arr, char **aux, char *str);
+char **delete_var(char **arr, char *str);
+int unset_error(t_sep *sep);
+int unset(t_tools *tools, t_sep *sep);
+
+
+
+
+
+
+/*
+ * BUILTINS_UTILS
+ */
+
+void change_path(t_tools *tools);
+int check_valid_identifier(char c);
+
+int builting_arr (t_tools *tools, t_sep *sep);
+
 
 
 

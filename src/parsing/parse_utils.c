@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: migonzal <migonzal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sperez-s <sperez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 11:39:33 by migonzal          #+#    #+#             */
-/*   Updated: 2023/12/16 18:53:11 by migonzal         ###   ########.fr       */
+/*   Updated: 2023/12/19 12:43:10 by sperez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,8 @@ char **list_dup_after(char* s, char c)
 	size_t j;
 	size_t aux;
 
+	
+
 	j = 0;
 	if (!s)
 		return (NULL);
@@ -262,4 +264,40 @@ size_t pos_after_char(char *str, char c)
 		i++;
 	}
 	return (0);
+}
+
+int find_match_quote(char *line, int i, int *num_del, int del)
+{
+	int	j;
+
+	j = i + 1;
+	*num_del += 1;
+	while (line[j] && line[j] != del)
+		j++;
+	if (line[j] == del)
+		*num_del += 1;
+	else
+		return (0);
+	return (j - i);
+}
+
+int	count_quotes(char *line)
+{
+	int	i;
+	int	s;
+	int	d;
+
+	s = 0;
+	d = 0;
+	i = -1;
+	while (line[++i])
+	{
+		if (line[i] == 34)
+			i += find_match_quote(line, i, &d, 34);
+		if (line[i] == 39)
+			i += find_match_quote(line, i, &s, 39);
+	}
+	if ((d > 0 && d % 2 != 0) || (s > 0 && s % 2 != 0))
+		return (0);
+	return (1);
 }

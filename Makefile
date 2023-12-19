@@ -6,7 +6,7 @@
 #    By: sperez-s <sperez-s@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/13 09:43:48 by migonzal          #+#    #+#              #
-#    Updated: 2023/12/18 20:20:07 by sperez-s         ###   ########.fr        #
+#    Updated: 2023/12/19 12:42:29 by sperez-s         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ SRC_DIR_EXP =	./src/expansor/
 
 SRC_DIR_EXEC = ./src/executor/
 
-INCLUDE	=	-Iinclude
+SRC_DIR_BUILT = ./src/builtins/
 
 INCLUDE	=	-Iinclude
 
@@ -53,6 +53,14 @@ SRCS	=	$(SRC_DIR)main.c				\
 			$(SRC_DIR_EXP)expansor.c		\
 			$(SRC_DIR_EXP)expansor_utils.c	\
 			$(SRC_DIR_EXEC)executor.c		\
+			$(SRC_DIR_BUILT)builtins_dist.c	\
+			$(SRC_DIR_BUILT)export.c		\
+			$(SRC_DIR_BUILT)builtins_utils.c	\
+			$(SRC_DIR_BUILT)unset.c				\
+			$(SRC_DIR_BUILT)cd.c				\
+			$(SRC_DIR_BUILT)echo.c				\
+			$(SRC_DIR_BUILT)env.c				\
+			$(SRC_DIR_BUILT)pwd.c				\
 
 OBJS		=	$(SRCS:.c=.o)
 
