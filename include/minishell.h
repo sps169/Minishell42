@@ -6,7 +6,7 @@
 /*   By: sperez-s <sperez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 09:45:35 by migonzal          #+#    #+#             */
-/*   Updated: 2023/12/18 20:17:28 by sperez-s         ###   ########.fr       */
+/*   Updated: 2023/12/19 12:32:39 by sperez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ typedef struct s_tools
 t_command		*create_cell(char *cmd_sep);
 t_command		*add_cell(t_command *t_list, char *cmd_sep, int pos);
 void			print_list(t_command *list);
-t_redir			*create_redir_list(char *redir);
+t_redir			*create_redir_list(char *redir, int *status);
 
 /*
  * Parser_pip

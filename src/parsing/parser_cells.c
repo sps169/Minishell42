@@ -6,7 +6,7 @@
 /*   By: sperez-s <sperez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/13 10:25:18 by migonzal          #+#    #+#             */
-/*   Updated: 2023/12/18 23:14:20 by sperez-s         ###   ########.fr       */
+/*   Updated: 2023/12/19 12:36:05 by sperez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static int	locate_redir(char *redir, int *i)
 	return (type);
 }
 
-static char	*locate_redir_file(char *redir, int *i)
+static char	*locate_redir_file(char *redir, int *i, int *status)
 {
 	char	quote;
 	char	*word_start;
@@ -67,7 +67,10 @@ static char	*locate_redir_file(char *redir, int *i)
 	while(redir[*i] && (redir[*i] == ' ' || redir[*i] == '\t' || redir[*i] == '\n'))
 		*i = *i + 1;
 	if (redir[*i] && (redir[*i] == '\\' || redir[*i] == '<' || redir[*i] == '>'))
+	{
+		*status = -1;
 		return (NULL);
+	}
 	word_start = redir + *i;
 	while (redir[*i] && word_start)
 	{
@@ -92,24 +95,32 @@ static char	*locate_redir_file(char *redir, int *i)
 			{
 				if (redir[*i] == ' ' || redir[*i] == '\t' || redir[*i] == '\n' || redir[*i] == '<' || redir[*i] == '>')
 					break;
-				*i = *i + 1;
 			}
 		}
 		length++;
 		*i = *i + 1;
 	}
+	if (length == 0)
+	{
+		*status = -1;
+		return (NULL);
+	}
 	file = ft_calloc(1, sizeof(char) * length + 1);
 	if (!file)
+	{
+		*status = -1;
 		return (NULL);
-	if (ft_strlcpy(file, word_start, length) < length)
+	}
+	if (ft_strlcpy(file, word_start, length + 1) < length)
 	{
 		free(file);
+		*status = -1;
 		return (NULL);
 	}
 	return (file);
 }
 
-t_redir	*create_redir_node(char *file, int type)
+t_redir	*create_redir_node(char *file, int type, int *status)
 {
 	t_redir	*node;
 
@@ -118,6 +129,7 @@ t_redir	*create_redir_node(char *file, int type)
 	if (!node)
 	{
 		free(file);
+		*status = -1;
 		return (NULL);
 	}
 	node->file = NULL;
@@ -142,7 +154,7 @@ void	cleanse_redir_list(t_redir *redir)
 	}
 }
 
-t_redir *create_redir_list(char *redir)
+t_redir *create_redir_list(char *redir, int *status)
 {
 	int		type;
 	int		i;
@@ -162,13 +174,13 @@ t_redir *create_redir_list(char *redir)
 		type = locate_redir(redir, &i);
 		if (type == -1)
 			return (first);
-		file = locate_redir_file(redir, &i);
+		file = locate_redir_file(redir, &i, status);
 		if (!file)
 		{
 			cleanse_redir_list(first);
 			return (NULL);
 		}
-		aux = create_redir_node(file, type);
+		aux = create_redir_node(file, type, status);
 		if (!aux)
 		{
 			cleanse_redir_list(first);
@@ -191,14 +203,21 @@ t_redir *create_redir_list(char *redir)
 t_command	*create_cell(char *cmd_sep)
 {
 	t_command	*cell;
+	int			status;
 
+	status = 0;
 	cell = malloc(sizeof(t_command));
 	if (!cell)
 		return (NULL);
 	cell -> next = NULL;
 	cell -> args = parse_args(cmd_sep);
-	cell -> redir = create_redir_list(cmd_sep);
+	cell -> redir = create_redir_list(cmd_sep, &status);
 	cell -> cmd_sep = cmd_sep;
+	if (status == -1)
+	{
+		//free things ()
+		return (NULL);
+	}
 	return (cell);
 }
 
@@ -244,7 +263,7 @@ void	print_list(t_command *list)
 		curr = list->redir;
 		while(curr)
 		{
-			printf("| list->redir->file : %s          \n", curr->file);
+			printf("| list->redir->file : \"%s\"          \n", curr->file);
 			printf("| list->redir->type : %i          \n", curr->type);
 			curr = curr->next;
 		}
