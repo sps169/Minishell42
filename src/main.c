@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: migonzal <migonzal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sperez-s <sperez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 10:42:59 by migonzal          #+#    #+#             */
-/*   Updated: 2023/12/19 17:43:34 by migonzal         ###   ########.fr       */
+/*   Updated: 2023/12/19 20:35:56 by sperez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,12 +80,12 @@ int minishell_loop(t_tools *tools)
 	add_history(tools->arg_str);
 	// if (!count_quotes(tools->arg_str))
 	//	return (ft_error()); // HACER FUNCION
-	//expansor(tools);
+	expansor(tools);
 	tools->command = parser(tools->arg_str);
 	env(tools);
 	print_list(tools->command);
+	executor(tools);
 	reset_tools(tools);
-	//ENCHUFAR EXECUTOR
 	return (1);
 
 }
