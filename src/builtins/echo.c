@@ -11,7 +11,7 @@ void print_lines(int i, char **str, int out)
 }
 
 
-int echo (t_tools *tools, t_sep *sep)
+int echo (t_tools *tools, t_command *command)
  {
  	int i;
 	int j;
@@ -22,20 +22,20 @@ int echo (t_tools *tools, t_sep *sep)
  	n_flag = 0;
  	(void) tools;
 
- 	while (sep->args[i] && sep->args[i][0] == '-'
-		&& sep->args[i][1] == 'n')
+ 	while (command->args[i] && command->args[i][0] == '-'
+		&& command->args[i][1] == 'n')
         {
 			j = 1;
-			while (sep->args[i][j] == 'n')
+			while (command->args[i][j] == 'n')
 				j++;
-			if (sep->args[i][j] == '\0')
+			if (command->args[i][j] == '\0')
 				n_flag = 1;
 			else
 				break;
 			i++;
         }
 
-        print_lines(i, sep->args, STDOUT_FILENO);
+        print_lines(i, command->args, STDOUT_FILENO);
         if (n_flag == 0)
           ft_putchar_fd('\n', STDOUT_FILENO);
         return (EXIT_SUCCESS);

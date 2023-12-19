@@ -1,11 +1,11 @@
 #include "minishell.h"
 
 
-int env(t_tools *tools, t_sep *sep)
+int env(t_tools *tools, t_command *command)
 {
     int i;
 
-	(void) sep;
+	(void) command;
     i = 0;
     while (tools->envp[i])
     {

@@ -103,24 +103,24 @@ char **add_var(char **arr, char *str)
 }
 
 
-int export(t_tools *tools, t_command *sep)
+int export(t_tools *tools, t_command *command)
 {
 	char **aux;
 	int i;
 
 	i = 1;
-	if (!sep->args[1] || sep->args[1][0] == '\0')
-		env(tools, sep);
+	if (!command->args[1] || command->args[1][0] == '\0')
+		env(tools, command);
 	else
 	{
-		while (sep->args[i])
+		while (command->args[i])
 		{
-			if (check_parameter(sep->args[i]) == 0
-				&& variable_exist(tools, sep->args[i]) == 0)
+			if (check_parameter(command->args[i]) == 0
+				&& variable_exist(tools, command->args[i]) == 0)
 			{
-				if (sep->args[i])
+				if (command->args[i])
 				{
-					aux = add_var(tools->envp, sep->args[i]);
+					aux = add_var(tools->envp, command->args[i]);
 					ft_free_arr(tools->envp);
 					tools->envp = aux;
 				}

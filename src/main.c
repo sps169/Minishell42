@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperez-s <sperez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: migonzal <migonzal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 10:42:59 by migonzal          #+#    #+#             */
-/*   Updated: 2023/12/19 12:42:47 by sperez-s         ###   ########.fr       */
+/*   Updated: 2023/12/19 12:55:29 by migonzal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// int set_built(t_sep *sep)
+// int set_built(t_command *command)
 // {
 // 	static void *arr_built[6][2] = {
 
@@ -29,9 +29,9 @@
 
 // 	while (i < 6)
 // 	{
-// 		if (sep->args[0])
+// 		if (command->args[0])
 // 		{
-// 			if (!ft_strncmp(arr_built[i][0], sep->args[0], ft_strlen((arr_built[i][0]))))
+// 			if (!ft_strncmp(arr_built[i][0], command->args[0], ft_strlen((arr_built[i][0]))))
 // 				return (int)(arr_built[i][1]);
 // 		}
 // 		i++;
@@ -43,7 +43,7 @@
 // {
 // 	tools->arg_str = NULL;
 // 	tools->reset = 0;
-// 	tools->sep = NULL;
+// 	tools->command = NULL;
 // 	parse_envp(tools);
 
 // }
@@ -65,7 +65,7 @@
 // 	add_history(tools->arg_str);
 // 	if (!count_quotes(tools->arg_str))
 // 		return (ft_error()); // HACER FUNCION
-// 	tools->sep = parser(tools->arg_str);
+// 	tools->command = parser(tools->arg_str);
 // 	//ENCHUFAR EXECUTOR
 
 // }
@@ -77,7 +77,7 @@
 int	main(int argc, char **argv, char **envp)
 {
 	t_tools *tools = (t_tools *)ft_calloc(1, sizeof(t_tools));
-	t_command *sep;
+	t_command *command;
 
 
 	if (argc != 1 || argv[1])
@@ -86,11 +86,6 @@ int	main(int argc, char **argv, char **envp)
 		exit(0);
     }
 	tools->envp = arrdup(envp);
-	find_pwd(tools);
-	char *str ="echo -n buenas tardes caballero";
-	sep = parser(str);
-	
-	echo(tools, sep);
 	
 
 	// printf("Actual PWD: %s\n", tools->pwd);
@@ -98,7 +93,7 @@ int	main(int argc, char **argv, char **envp)
 
 	
 
-	 //print_list(sep);
+	 //print_list(command);
 
 
 	
