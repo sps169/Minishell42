@@ -6,7 +6,7 @@
 /*   By: sps169 <sps169@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 10:42:59 by migonzal          #+#    #+#             */
-/*   Updated: 2024/07/10 21:25:45 by sps169           ###   ########.fr       */
+/*   Updated: 2024/07/11 20:48:03 by sps169           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int minishell_loop(t_tools *tools)
 	tools->command = parser(tools->arg_str);
 		// env(tools);
 	executor(tools);
-	print_list(tools->command);
+	// print_list(tools->command);
 	reset_tools(tools);
 	return (1);
 

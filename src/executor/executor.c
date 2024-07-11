@@ -6,7 +6,7 @@
 /*   By: sps169 <sps169@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 13:25:07 by sperez-s          #+#    #+#             */
-/*   Updated: 2024/07/11 01:23:28 by sps169           ###   ########.fr       */
+/*   Updated: 2024/07/11 20:59:24 by sps169           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ t_pipe *create_pipe_list(int size)
 		first = malloc(sizeof(t_pipe));
 		if (!first)
 			return (NULL);
-		first->pipe[0] = 0;
-		first->pipe[1] = 0;
+		// first->pipe[0] = 0;
+		// first->pipe[1] = 0;
 		first->next = NULL;
 		current = first;
 		while (i < size - 1)
@@ -57,8 +57,8 @@ t_pipe *create_pipe_list(int size)
 				cleanse_pipe_list(&first);
 				return (NULL);
 			}
-			current->pipe[0] = 0;
-			current->pipe[1] = 0;
+			// current->pipe[0] = 0;
+			// current->pipe[1] = 0;
 			current->next = NULL;
 			prev->next = current;
 			prev = current;
@@ -75,7 +75,6 @@ int	get_commands_from_env(t_tools *tools)
 	int			found;
 	int			i;
 	char	*tmp;
-	int		fail;
 
 	current_command = tools->command;
 	while (current_command)
@@ -104,53 +103,53 @@ int	get_commands_from_env(t_tools *tools)
 		}
 		current_command = current_command->next;
 	}
-	return (NULL);
+	return (0);
 }
 
-int open_files(t_tools *tools)
-{
-	t_redir *curr_redir;
-	int iflags;
-	int oflags;
-	int ifd;
-	int ofd;
+// int open_files(t_tools *tools)
+// {
+// 	t_redir *curr_redir;
+// 	int iflags;
+// 	int oflags;
+// 	int ifd;
+// 	int ofd;
 
-	curr_redir = tools->command->redir;
-	iflags = O_RDONLY;
-	oflags = O_RDWR | O_CREAT | S_IRUSR | S_IRGRP | S_IWUSR | S_IWGRP | S_IROTH;
+// 	curr_redir = tools->command->redir;
+// 	iflags = O_RDONLY;
+// 	oflags = O_RDWR | O_CREAT | S_IRUSR | S_IRGRP | S_IWUSR | S_IWGRP | S_IROTH;
 	
-	while (curr_redir)
-	{
-		if (curr_redir->type == 0)
-		{
-			curr_redir->fd = open(curr_redir->file, iflags);
-			if (curr_redir->fd == -1)
-				return (-1);
-		}
+// 	while (curr_redir)
+// 	{
+// 		if (curr_redir->type == 0)
+// 		{
+// 			curr_redir->fd = open(curr_redir->file, iflags);
+// 			if (curr_redir->fd == -1)
+// 				return (-1);
+// 		}
 
-		curr_redir = curr_redir->next;
-	}
-	if (tools->command
-			->redir.)
-		oflags = oflags | O_APPEND;
-	if (input)
-	{
-		ifd = open(input, iflags);
-		if (ifd == -1)
-			return (0);
-		dup2(ifd, STDIN_FILENO);
-		close(ifd);
-	}
-	if (output)
-	{
-		ofd = open(output, oflags);
-		if (ofd == -1)
-			return (0);
-		dup2(ofd, STDOUT_FILENO);
-		close(ofd);
-	}
-	return (1);
-}
+// 		curr_redir = curr_redir->next;
+// 	}
+// 	if (tools->command
+// 			->redir.)
+// 		oflags = oflags | O_APPEND;
+// 	if (input)
+// 	{
+// 		ifd = open(input, iflags);
+// 		if (ifd == -1)
+// 			return (0);
+// 		dup2(ifd, STDIN_FILENO);
+// 		close(ifd);
+// 	}
+// 	if (output)
+// 	{
+// 		ofd = open(output, oflags);
+// 		if (ofd == -1)
+// 			return (0);
+// 		dup2(ofd, STDOUT_FILENO);
+// 		close(ofd);
+// 	}
+// 	return (1);
+// }
 
 static int get_command_list_size(t_command *list)
 {
@@ -167,18 +166,16 @@ static int get_command_list_size(t_command *list)
 
 void executor(t_tools *tools)
 {
-	int size;
+	unsigned int size;
 	t_pipe *ps;
-	char *comm_not_found;
-	// unsigned int i, j;
-	// int status;
-	// int child_status;
-	// int pid;
-	// t_pipe *prev_pipe;
+	unsigned int i;
+	int child_status;
+	int pid;
+	t_pipe *prev_pipe;
+	t_command *curr_command;
 
-	// i = 0;
-	// status = 0;
-	// prev_pipe = NULL;
+	i = 0;
+	prev_pipe = NULL;
 	size = get_command_list_size(tools->command);
 	if (size < 1)
 		return;
@@ -187,56 +184,53 @@ void executor(t_tools *tools)
 		return;
 	if (get_commands_from_env(tools) != 0)
 		return;
-	if (!open_files(tools))
-		return;
-	// while (i < size)
-	// {
-	// 	if (i != size - 1)
-	// 		pipe(ps->pipe);
-	// 	pid = fork();
-	// 	if (pid == 0)
-	// 	{
-	// 		// printf("Access to file: %i\n", access(ft_strjoin("/bin/", ft_split(command->command, ' ')[0]), F_OK | X_OK));
-	// 		if (i != size - 1)
-	// 		{
-	// 			dup2(ps->pipe[1], STDOUT_FILENO);
-	// 			close(ps->pipe[0]);
-	// 			close(ps->pipe[1]);
-	// 		}
-	// 		if (i != 0)
-	// 		{
-	// 			dup2(prev_pipe->pipe[0], STDIN_FILENO);
-	// 			close(prev_pipe->pipe[0]);
-	// 		}
-	// 		execve(ft_strjoin("/bin/", ft_split(command->command, ' ')[0]), ft_split(command->command, ' '), env);
-	// 		printf("???? errno = %i\n", errno);
-	// 		return;
-	// 	}
-	// 	else
-	// 	{
-	// 		if (i != size - 1)
-	// 		{
-	// 			close(ps->pipe[1]);
-	// 			if (prev_pipe)
-	// 				close(prev_pipe->pipe[0]);
-	// 		}
-	// 		else
-	// 		{
-	// 			close(ps->pipe[0]);
-	// 		}
-	// 	}
-	// 	i++;
-	// 	if (command)
-	// 	{
-	// 		command = command->next;
-	// 	}
-	// 	if (ps)
-	// 	{
-	// 		prev_pipe = ps;
-	// 		ps = ps->next;
-	// 	}
-	// }
-	// j = 0;
-	// waitpid(pid, &child_status, 0);
-	// // printf("Node %i exit status is: %i\n", j, child_status % 128);
+	curr_command = tools->command;
+	while (i < size)
+	{
+		if (i != size - 1)
+			pipe(ps->pipe);
+		pid = fork();
+		if (pid == 0)
+		{
+			if (i != size - 1)
+			{
+				dup2(ps->pipe[1], STDOUT_FILENO);
+				close(ps->pipe[0]);
+				close(ps->pipe[1]);
+			}
+			if (i != 0)
+			{
+				dup2(prev_pipe->pipe[0], STDIN_FILENO);
+				close(prev_pipe->pipe[0]);
+			}
+			execve(curr_command->args[0], curr_command->args, tools->envp);
+			printf("???? errno = %i\n", errno);
+			return;
+		}
+		else
+		{
+			if (i != size - 1)
+			{
+				close(ps->pipe[1]);
+				if (prev_pipe)
+					close(prev_pipe->pipe[0]);
+			}
+			else
+			{
+				close(ps->pipe[0]);
+			}
+		}
+		i++;
+		if (curr_command)
+		{
+			curr_command = curr_command->next;
+		}
+		if (ps)
+		{
+			prev_pipe = ps;
+			ps = ps->next;
+		}
+	}
+	waitpid(pid, &child_status, 0);
+	printf("Node exit status is: %i\n", child_status % 128);
 }
