@@ -221,9 +221,11 @@ int minishell_loop(t_tools *tools);
 void change_path(t_tools *tools);
 int check_valid_identifier(char c);
 
+/*
+ * Executor
+ */
 
-
-
+void executor(t_tools *tools);
 
 
 #endif

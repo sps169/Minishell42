@@ -54,7 +54,7 @@ t_pipe *create_pipe_list(int size)
 			current = malloc(sizeof(t_pipe));
 			if (!current)
 			{
-				cleanse_pipe_list(first);
+				cleanse_pipe_list(&first);
 				return (NULL);
 			}
 			current->pipe[0] = 0;
@@ -68,37 +68,78 @@ t_pipe *create_pipe_list(int size)
 	return (first);
 }
 
-int open_files(char *input, char *output, int heredoc, int append)
+char *get_commands_from_env(t_tools *tools)
 {
-	int iflags;
-	int oflags;
-	int ifd;
-	int ofd;
+	t_command	*current_command;
+	char		*curr_path;
+	int			found;
+	int			i;
+	char *tmp;
+	char *fail;
 
-	iflags = 0;
-	oflags = 0;
-	iflags = O_RDONLY;
-	oflags = O_RDWR | O_CREAT | S_IRUSR | S_IRGRP | S_IWUSR | S_IWGRP | S_IROTH;
-	if (append)
-		oflags = oflags | O_APPEND;
-	if (input)
+	current_command = tools->command;
+	while (current_command)
 	{
-		ifd = open(input, iflags);
-		if (ifd == -1)
-			return (0);
-		dup2(ifd, STDIN_FILENO);
-		close(ifd);
+		i = 0;
+		found = 0;
+		while (tools->paths[i] && !found)
+		{
+			curr_path = tools->paths[i];
+			if (access(ft_strjoin(curr_path, current_command->args[0]), R_OK | X_OK) != -1)
+			{
+				found = 1;
+				tmp = current_command->args[0];
+				current_command->args[0] = ft_strjoin(curr_path, current_command->args[0]);
+				free(tmp);
+				tmp = current_command->cmd_sep;
+				current_command->cmd_sep = ft_strjoin(curr_path, current_command->cmd_sep);
+				free(tmp);
+			}
+			i++;
+		}
+		if (found == 0)
+		{
+			fail = malloc(ft_strlen(current_command->args[0]) * sizeof(char) + 1);
+			ft_strlcpy(fail, current_command->args[0], ft_strlen(current_command->args[0]) + 1);
+			return (fail);
+		}
+		current_command = current_command->next;
 	}
-	if (output)
-	{
-		ofd = open(output, oflags);
-		if (ofd == -1)
-			return (0);
-		dup2(ofd, STDOUT_FILENO);
-		close(ofd);
-	}
-	return (1);
+	return (NULL);
 }
+
+// int open_files(t_tools *tools)
+// {
+// 	int iflags;
+// 	int oflags;
+// 	int ifd;
+// 	int ofd;
+
+// 	iflags = 0;
+// 	oflags = 0;
+// 	iflags = O_RDONLY;
+// 	oflags = O_RDWR | O_CREAT | S_IRUSR | S_IRGRP | S_IWUSR | S_IWGRP | S_IROTH;
+// 	if (tools->command
+// 			->redir.)
+// 		oflags = oflags | O_APPEND;
+// 	if (input)
+// 	{
+// 		ifd = open(input, iflags);
+// 		if (ifd == -1)
+// 			return (0);
+// 		dup2(ifd, STDIN_FILENO);
+// 		close(ifd);
+// 	}
+// 	if (output)
+// 	{
+// 		ofd = open(output, oflags);
+// 		if (ofd == -1)
+// 			return (0);
+// 		dup2(ofd, STDOUT_FILENO);
+// 		close(ofd);
+// 	}
+// 	return (1);
+// }
 
 static int get_command_list_size(t_command *list)
 {
@@ -108,79 +149,84 @@ static int get_command_list_size(t_command *list)
 	while (list)
 	{
 		list = list->next;
+		i++;
 	}
 	return (i);
 }
 
 void executor(t_tools *tools)
 {
-	unsigned int i, j;
-	int status;
-	int child_status;
-	int pid;
-	t_pipe *ps;
-	t_pipe *prev_pipe;
 	int size;
+	t_pipe *ps;
+	char *comm_not_found;
+	// unsigned int i, j;
+	// int status;
+	// int child_status;
+	// int pid;
+	// t_pipe *prev_pipe;
 
-	i = 0;
-	status = 0;
-	prev_pipe = NULL;
+	// i = 0;
+	// status = 0;
+	// prev_pipe = NULL;
 	size = get_command_list_size(tools->command);
 	if (size < 1)
 		return;
 	ps = create_pipe_list(size);
-	if (!ps)
+	if (size > 1 && !ps)
 		return;
-	if (!open_files(tools->command->redir->type, command->next->next->output, command->heredoc, command->next->next->append))
-		return;
-	while (i < size)
-	{
-		if (i != size - 1)
-			pipe(ps->pipe);
-		pid = fork();
-		if (pid == 0)
-		{
-			// printf("Access to file: %i\n", access(ft_strjoin("/bin/", ft_split(command->command, ' ')[0]), F_OK | X_OK));
-			if (i != size - 1)
-			{
-				dup2(ps->pipe[1], STDOUT_FILENO);
-				close(ps->pipe[0]);
-				close(ps->pipe[1]);
-			}
-			if (i != 0)
-			{
-				dup2(prev_pipe->pipe[0], STDIN_FILENO);
-				close(prev_pipe->pipe[0]);
-			}
-			execve(ft_strjoin("/bin/", ft_split(command->command, ' ')[0]), ft_split(command->command, ' '), env);
-			printf("???? errno = %i\n", errno);
-			return;
-		}
-		else
-		{
-			if (i != size - 1)
-			{
-				close(ps->pipe[1]);
-				if (prev_pipe)
-					close(prev_pipe->pipe[0]);
-			}
-			else
-			{
-				close(ps->pipe[0]);
-			}
-		}
-		i++;
-		if (command)
-		{
-			command = command->next;
-		}
-		if (ps)
-		{
-			prev_pipe = ps;
-			ps = ps->next;
-		}
-	}
-	j = 0;
-	waitpid(pid, &child_status, 0);
-	// printf("Node %i exit status is: %i\n", j, child_status % 128);
+	comm_not_found = get_commands_from_env(tools);
+	if (comm_not_found != NULL)
+		printf("Command not found: %s\n", comm_not_found);
+	// if (!open_files(tools->command->redir->type, command->next->next->output, command->heredoc, command->next->next->append))
+	// 	return;
+	// while (i < size)
+	// {
+	// 	if (i != size - 1)
+	// 		pipe(ps->pipe);
+	// 	pid = fork();
+	// 	if (pid == 0)
+	// 	{
+	// 		// printf("Access to file: %i\n", access(ft_strjoin("/bin/", ft_split(command->command, ' ')[0]), F_OK | X_OK));
+	// 		if (i != size - 1)
+	// 		{
+	// 			dup2(ps->pipe[1], STDOUT_FILENO);
+	// 			close(ps->pipe[0]);
+	// 			close(ps->pipe[1]);
+	// 		}
+	// 		if (i != 0)
+	// 		{
+	// 			dup2(prev_pipe->pipe[0], STDIN_FILENO);
+	// 			close(prev_pipe->pipe[0]);
+	// 		}
+	// 		execve(ft_strjoin("/bin/", ft_split(command->command, ' ')[0]), ft_split(command->command, ' '), env);
+	// 		printf("???? errno = %i\n", errno);
+	// 		return;
+	// 	}
+	// 	else
+	// 	{
+	// 		if (i != size - 1)
+	// 		{
+	// 			close(ps->pipe[1]);
+	// 			if (prev_pipe)
+	// 				close(prev_pipe->pipe[0]);
+	// 		}
+	// 		else
+	// 		{
+	// 			close(ps->pipe[0]);
+	// 		}
+	// 	}
+	// 	i++;
+	// 	if (command)
+	// 	{
+	// 		command = command->next;
+	// 	}
+	// 	if (ps)
+	// 	{
+	// 		prev_pipe = ps;
+	// 		ps = ps->next;
+	// 	}
+	// }
+	// j = 0;
+	// waitpid(pid, &child_status, 0);
+	// // printf("Node %i exit status is: %i\n", j, child_status % 128);
 }

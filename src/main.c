@@ -66,7 +66,7 @@ int minishell_loop(t_tools *tools)
 {
 	char *aux;
 
-	tools->arg_str = readline("MINISHEL$");
+	tools->arg_str = readline("MINISHELL$ ");
 	aux = ft_strtrim(tools->arg_str, " ");
 	free(tools->arg_str);
 	tools->arg_str = aux;
@@ -82,9 +82,9 @@ int minishell_loop(t_tools *tools)
 	//	return (ft_error()); // HACER FUNCION
 	expansor(tools);
 	tools->command = parser(tools->arg_str);
-	env(tools);
+	// env(tools);
+	executor(tools);
 	print_list(tools->command);
-	// executor(tools);
 	reset_tools(tools);
 	return (1);
 
