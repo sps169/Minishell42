@@ -6,7 +6,7 @@
 /*   By: sps169 <sps169@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 13:25:07 by sperez-s          #+#    #+#             */
-/*   Updated: 2024/07/11 20:59:24 by sps169           ###   ########.fr       */
+/*   Updated: 2024/07/11 21:04:38 by sps169           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,5 +232,4 @@ void executor(t_tools *tools)
 		}
 	}
 	waitpid(pid, &child_status, 0);
-	printf("Node exit status is: %i\n", child_status % 128);
 }
