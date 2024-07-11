@@ -33,6 +33,7 @@ typedef struct s_redir
 {
 	char			*file;
 	int				type; //0 in 1 out 2 heredoc 3 append
+	int				fd;
 	struct s_redir	*next;
 }	t_redir;
 
@@ -69,7 +70,7 @@ typedef struct s_tools
  */
 
 t_command		*create_cell(char *cmd_sep);
-t_command		*add_cell(t_command *t_list, char *cmd_sep, int pos);
+t_command		*add_cell(t_command *list, char *cmd_sep);
 void			print_list(t_command *list);
 t_redir			*create_redir_list(char *redir, int *status);
 

@@ -22,7 +22,7 @@ t_command *parser(char *s)
 
 	while (aux[i])
 	{
-		sep = add_cell(sep, aux[i], i);
+		sep = add_cell(sep, aux[i]);
 		i++;
 	}
 	return (sep);

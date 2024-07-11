@@ -82,7 +82,7 @@ int minishell_loop(t_tools *tools)
 	//	return (ft_error()); // HACER FUNCION
 	expansor(tools);
 	tools->command = parser(tools->arg_str);
-	// env(tools);
+		// env(tools);
 	executor(tools);
 	print_list(tools->command);
 	reset_tools(tools);

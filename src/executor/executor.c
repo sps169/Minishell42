@@ -68,14 +68,14 @@ t_pipe *create_pipe_list(int size)
 	return (first);
 }
 
-char *get_commands_from_env(t_tools *tools)
+int	get_commands_from_env(t_tools *tools)
 {
 	t_command	*current_command;
 	char		*curr_path;
 	int			found;
 	int			i;
-	char *tmp;
-	char *fail;
+	char	*tmp;
+	int		fail;
 
 	current_command = tools->command;
 	while (current_command)
@@ -99,47 +99,46 @@ char *get_commands_from_env(t_tools *tools)
 		}
 		if (found == 0)
 		{
-			fail = malloc(ft_strlen(current_command->args[0]) * sizeof(char) + 1);
-			ft_strlcpy(fail, current_command->args[0], ft_strlen(current_command->args[0]) + 1);
-			return (fail);
+			printf("%s: command not found\n", current_command->args[0]);
+			return (-1);
 		}
 		current_command = current_command->next;
 	}
 	return (NULL);
 }
 
-// int open_files(t_tools *tools)
-// {
-// 	int iflags;
-// 	int oflags;
-// 	int ifd;
-// 	int ofd;
+int open_files(t_tools *tools)
+{
+	int iflags;
+	int oflags;
+	int ifd;
+	int ofd;
 
-// 	iflags = 0;
-// 	oflags = 0;
-// 	iflags = O_RDONLY;
-// 	oflags = O_RDWR | O_CREAT | S_IRUSR | S_IRGRP | S_IWUSR | S_IWGRP | S_IROTH;
-// 	if (tools->command
-// 			->redir.)
-// 		oflags = oflags | O_APPEND;
-// 	if (input)
-// 	{
-// 		ifd = open(input, iflags);
-// 		if (ifd == -1)
-// 			return (0);
-// 		dup2(ifd, STDIN_FILENO);
-// 		close(ifd);
-// 	}
-// 	if (output)
-// 	{
-// 		ofd = open(output, oflags);
-// 		if (ofd == -1)
-// 			return (0);
-// 		dup2(ofd, STDOUT_FILENO);
-// 		close(ofd);
-// 	}
-// 	return (1);
-// }
+	iflags = 0;
+	oflags = 0;
+	iflags = O_RDONLY;
+	oflags = O_RDWR | O_CREAT | S_IRUSR | S_IRGRP | S_IWUSR | S_IWGRP | S_IROTH;
+	if (tools->command
+			->redir.)
+		oflags = oflags | O_APPEND;
+	if (input)
+	{
+		ifd = open(input, iflags);
+		if (ifd == -1)
+			return (0);
+		dup2(ifd, STDIN_FILENO);
+		close(ifd);
+	}
+	if (output)
+	{
+		ofd = open(output, oflags);
+		if (ofd == -1)
+			return (0);
+		dup2(ofd, STDOUT_FILENO);
+		close(ofd);
+	}
+	return (1);
+}
 
 static int get_command_list_size(t_command *list)
 {
@@ -174,11 +173,10 @@ void executor(t_tools *tools)
 	ps = create_pipe_list(size);
 	if (size > 1 && !ps)
 		return;
-	comm_not_found = get_commands_from_env(tools);
-	if (comm_not_found != NULL)
-		printf("Command not found: %s\n", comm_not_found);
-	// if (!open_files(tools->command->redir->type, command->next->next->output, command->heredoc, command->next->next->append))
-	// 	return;
+	if (get_commands_from_env(tools) != 0)
+		return;
+	if (!open_files(tools))
+		return;
 	// while (i < size)
 	// {
 	// 	if (i != size - 1)

@@ -133,6 +133,7 @@ t_redir	*create_redir_node(char *file, int type, int *status)
 		return (NULL);
 	}
 	node->file = NULL;
+	node->fd = -1;
 	node->type = -1;
 	node->next = NULL;
 	node->file = file;
@@ -221,23 +222,18 @@ t_command	*create_cell(char *cmd_sep)
 	return (cell);
 }
 
-t_command	*add_cell(t_command *list, char *cmd_sep, int pos)
+t_command	*add_cell(t_command *list, char *cmd_sep)
 {
 	t_command	*cur;
 	t_command	*cell;
-	int		i;
 
 	cur = list;
-	i = 0;
 	cell = create_cell(cmd_sep);
 	if (list == NULL)
 		return (cell);
-	while (i < pos)
-	{
-		i++;
+	while (cur->next)
 		cur = cur->next;
-	}
-	cell->next = cur;
+	cur->next = cell;
 	return (list);
 }
 
