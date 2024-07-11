@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperez-s <sperez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sps169 <sps169@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 10:42:59 by migonzal          #+#    #+#             */
-/*   Updated: 2023/12/19 20:35:56 by sperez-s         ###   ########.fr       */
+/*   Updated: 2024/07/10 21:25:45 by sps169           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int minishell_loop(t_tools *tools)
 	tools->command = parser(tools->arg_str);
 	env(tools);
 	print_list(tools->command);
-	executor(tools);
+	// executor(tools);
 	reset_tools(tools);
 	return (1);
 
@@ -106,7 +106,7 @@ int	main(int argc, char **argv, char **envp)
 	{
 		printf("Este programa no acepta argumentos inútil\n");
 		exit(0);
-    }
+	}
 	tools.envp = arrdup(envp);
 	find_pwd(&tools);
 	init_tools(&tools);

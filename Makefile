@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: migonzal <migonzal@student.42.fr>          +#+  +:+       +#+         #
+#    By: sps169 <sps169@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/13 09:43:48 by migonzal          #+#    #+#              #
-#    Updated: 2023/12/19 19:59:31 by migonzal         ###   ########.fr        #
+#    Updated: 2024/07/10 21:27:33 by sps169           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,7 @@ SRC_DIR_BUILT = ./src/builtins/
 INCLUDE	=	-Iinclude
 
 CC	=	gcc 
-CFLAGS	=  -g -Wall -Wextra -Werror   -fsanitize=address -g3
+CFLAGS	=  -g -Wall -Wextra -Werror #-fsanitize=address -g3
 
 SRCS	=	$(SRC_DIR)main.c				\
 			$(SRC_DIR_PAR)parser.c			\
@@ -75,17 +75,17 @@ $(NAME)		:	libft.a $(OBJS)
 			@echo $(GREEN) ": All ready to work my pana"
 
 libft.a	:
-				make -C ./Libft
+				make -C ./libft
 				mv $(LIBFT) .
 
 clean		:
 				@rm -f $(OBJS)
 				@rm -f libft.a
-				@make clean -C ./Libft
+				@make clean -C ./libft
 
 fclean		:	clean
 				@rm $(NAME)
-				@make fclean -C ./Libft
+				@make fclean -C ./libft
 				@echo $(RED) "Files deleted my pana"
 
 re		:	fclean all
