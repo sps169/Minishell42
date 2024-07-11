@@ -109,15 +109,27 @@ int	get_commands_from_env(t_tools *tools)
 
 int open_files(t_tools *tools)
 {
+	t_redir *curr_redir;
 	int iflags;
 	int oflags;
 	int ifd;
 	int ofd;
 
-	iflags = 0;
-	oflags = 0;
+	curr_redir = tools->command->redir;
 	iflags = O_RDONLY;
 	oflags = O_RDWR | O_CREAT | S_IRUSR | S_IRGRP | S_IWUSR | S_IWGRP | S_IROTH;
+	
+	while (curr_redir)
+	{
+		if (curr_redir->type == 0)
+		{
+			curr_redir->fd = open(curr_redir->file, iflags);
+			if (curr_redir->fd == -1)
+				return (-1);
+		}
+
+		curr_redir = curr_redir->next;
+	}
 	if (tools->command
 			->redir.)
 		oflags = oflags | O_APPEND;
