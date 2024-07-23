@@ -95,10 +95,3 @@ int if_ass_str(char **table)
     }
     return (1);
 }
-
-
-
-
-
-
-

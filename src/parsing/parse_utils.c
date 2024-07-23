@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperez-s <sperez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: migonzal <migonzal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 11:39:33 by migonzal          #+#    #+#             */
-/*   Updated: 2023/12/19 12:43:10 by sperez-s         ###   ########.fr       */
+/*   Updated: 2024/07/23 12:11:28 by migonzal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,7 +204,6 @@ char **parse_args(char *s)
 		if (aux[i][0] != '<' && aux[i][0] != '>'  && aux[i-1][0] != '<' && aux[i-1][0] != '>')
 		{
 			res[j] = ft_strdup(aux[i]);
-			//printf("Dentro de res[j] %s\n", res[j]);
 			j++;
 			
 		}

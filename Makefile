@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sps169 <sps169@student.42.fr>              +#+  +:+       +#+         #
+#    By: migonzal <migonzal@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/13 09:43:48 by migonzal          #+#    #+#              #
-#    Updated: 2024/07/10 21:27:33 by sps169           ###   ########.fr        #
+#    Updated: 2024/07/23 12:02:18 by migonzal         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,9 +22,8 @@ WHITE	=	'\033[37m'
 NONE	=	'\033[0m'
 
 
-NAME	=	minishell
 
-LIBFT	=	libft/libft.a
+### ------ VARIABLES ------ ###
 
 SRC_DIR	=	./src/
 
@@ -35,11 +34,6 @@ SRC_DIR_EXP =	./src/expansor/
 SRC_DIR_EXEC = ./src/executor/
 
 SRC_DIR_BUILT = ./src/builtins/
-
-INCLUDE	=	-Iinclude
-
-CC	=	gcc 
-CFLAGS	=  -g -Wall -Wextra -Werror #-fsanitize=address -g3
 
 SRCS	=	$(SRC_DIR)main.c				\
 			$(SRC_DIR_PAR)parser.c			\
@@ -65,27 +59,58 @@ SRCS	=	$(SRC_DIR)main.c				\
 
 OBJS		=	$(SRCS:.c=.o)
 
+NAME	=	minishell
+
+LDFLAGS = $(LIBFTNAME)
+
+
+
+
+LIBFT	=	libft/
+
+LIBFTNAME = $(LIBFT)libft.a
+
+INCLUDE	=	-Iinclude
+
+
+
+
+
+
+CC	=	gcc 
+RM = rm -f
+
+CFLAGS	=  -g -Wall -Wextra -Werror #-fsanitize=address -g3
+
+### ------ REGLAS ------ ###
+
+all: $(NAME)
+
+
 .c.o:
 	@$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
 
-all			:	$(NAME)
+$(LIBFTNAME):
+	$(MAKE) -C $(LIBFT)
 
-$(NAME)		:	libft.a $(OBJS)
-			@$(CC) $(CFLAGS) $(INCLUDE) $(OBJS) -L. -lreadline -lft -o $(NAME)
+
+
+
+
+
+
+
+$(NAME)		:$(OBJS) $(LDFLAGS)
+			@$(CC) $(CFLAGS) $(INCLUDE) $(OBJS) $(LDFLAGS) -L. -lreadline -o $(NAME)
 			@echo $(GREEN) ": All ready to work my pana"
 
-libft.a	:
-				make -C ./libft
-				mv $(LIBFT) .
 
 clean		:
-				@rm -f $(OBJS)
-				@rm -f libft.a
-				@make clean -C ./libft
+				@$(RM) $(OBJS)
+				@$(MAKE) -C $(LIBFT) fclean
 
 fclean		:	clean
-				@rm $(NAME)
-				@make fclean -C ./libft
+				$(RM) $(NAME)
 				@echo $(RED) "Files deleted my pana"
 
 re		:	fclean all

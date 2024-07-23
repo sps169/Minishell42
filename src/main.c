@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sps169 <sps169@student.42.fr>              +#+  +:+       +#+        */
+/*   By: migonzal <migonzal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 10:42:59 by migonzal          #+#    #+#             */
-/*   Updated: 2024/07/11 20:48:03 by sps169           ###   ########.fr       */
+/*   Updated: 2024/07/23 12:50:12 by migonzal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,17 +90,9 @@ int minishell_loop(t_tools *tools)
 
 }
 
-
-
-
-
-
-
 int	main(int argc, char **argv, char **envp)
 {
 	t_tools tools;
-
-
 
 	if (argc != 1 || argv[1])
 	{
@@ -112,19 +104,6 @@ int	main(int argc, char **argv, char **envp)
 	init_tools(&tools);
 	printf("AQUI EMPIEZA LA MINISHELL\n");
 	minishell_loop(&tools);
-	
-
-	// printf("Actual PWD: %s\n", tools->pwd);
-	// printf("Old PWD: %s\n", tools->old_pwd);
-
-	
-
-	 //print_list(command);
-
-
-	
-
-
 	return (0);
 }
 //char *expansor(t_tools *tools, char *str)
