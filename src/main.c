@@ -41,12 +41,14 @@
 
 int reset_tools(t_tools *tools)
 {
-	//Limpiar t_command
+	free_command(tools->command);
 	free(tools->arg_str);
+	tools->arg_str = NULL;
 	ft_free_arr(tools->paths);
+	tools->paths = NULL;
 	init_tools(tools);
 	tools->reset = 1;
-	minishell_loop(tools);
+	//minishell_loop(tools);
 	return (1);
 
 
@@ -56,7 +58,7 @@ int init_tools(t_tools *tools)
 {
 	tools->arg_str = NULL;
 	tools->reset = 0;
-	//tools->command = NULL;
+	tools->command = init_command();
 	parse_envp(tools);
 	return (1);
 
@@ -66,26 +68,32 @@ int minishell_loop(t_tools *tools)
 {
 	char *aux;
 
-	tools->arg_str = readline("MINISHELL$ ");
-	aux = ft_strtrim(tools->arg_str, " ");
-	free(tools->arg_str);
-	tools->arg_str = aux;
-	if (!tools->arg_str)
+	while(1)
 	{
-		ft_putendl_fd("exit", STDOUT_FILENO);
-		exit(EXIT_SUCCESS);
-	}
-	if (tools->arg_str[0] == '\0')
-	 	return (reset_tools(tools)); //HACER FUNCION
-	add_history(tools->arg_str);
-	// if (!count_quotes(tools->arg_str))
-	//	return (ft_error()); // HACER FUNCION
-	expansor(tools);
-	tools->command = parser(tools->arg_str);
+		tools->arg_str = readline("MINISHELL$ ");
+		aux = ft_strtrim(tools->arg_str, " ");
+		free(tools->arg_str);
+		tools->arg_str = aux;
+		if (!tools->arg_str)
+		{
+			ft_putendl_fd("exit", STDOUT_FILENO);
+			exit(EXIT_SUCCESS);
+		}
+		if (tools->arg_str[0] == '\0')
+		{
+			reset_tools(tools);
+			continue;
+		}
+		add_history(tools->arg_str);
+		// if (!count_quotes(tools->arg_str))
+		//	return (ft_error()); // HACER FUNCION
+		expansor(tools);
+		tools->command = parser(tools->arg_str);
 		// env(tools);
-	executor(tools);
-	// print_list(tools->command);
-	reset_tools(tools);
+		executor(tools);
+		// print_list(tools->command);
+		reset_tools(tools);
+		}
 	return (1);
 
 }

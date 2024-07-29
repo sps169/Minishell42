@@ -237,22 +237,22 @@ t_command	*add_cell(t_command *list, char *cmd_sep)
 	return (list);
 }
 
-void free_command(t_command **list)
-{
-	t_command *tmp;
+// void free_command(t_command **list)
+// {
+// 	t_command *tmp;
 
-	if (!list)
-		return ;
-	while (*list)
-	{
-		tmp = (*list)->next;
-		if ((*list)->args)
-			ft_free_arr((*list)->args);
-		free(*list);
-		*list = tmp;
+// 	if (!list)
+// 		return ;
+// 	while (*list)
+// 	{
+// 		tmp = (*list)->next;
+// 		if ((*list)->args)
+// 			ft_free_arr((*list)->args);
+// 		free(*list);
+// 		*list = tmp;
 		
-	}
-}
+// 	}
+// }
 
 void	print_list(t_command *list)
 {

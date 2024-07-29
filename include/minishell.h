@@ -93,6 +93,15 @@ int	ft_strlen_first_word(char *str);
 char *arg_quote(char *str);
 
 /*
+ * init.c
+ */
+
+ t_command *init_command();
+ void free_command(t_command *command);
+
+
+
+/*
  * split minishell
  */
 
