@@ -6,7 +6,7 @@
 /*   By: migonzal <migonzal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 10:42:59 by migonzal          #+#    #+#             */
-/*   Updated: 2024/07/23 12:50:12 by migonzal         ###   ########.fr       */
+/*   Updated: 2024/08/05 10:51:32 by migonzal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,15 +70,22 @@ int minishell_loop(t_tools *tools)
 
 	while(1)
 	{
+		printf("Waiting for command...\n");
 		tools->arg_str = readline("MINISHELL$ ");
-		aux = ft_strtrim(tools->arg_str, " ");
-		free(tools->arg_str);
-		tools->arg_str = aux;
 		if (!tools->arg_str)
 		{
 			ft_putendl_fd("exit", STDOUT_FILENO);
 			exit(EXIT_SUCCESS);
 		}
+		printf("Command read: %s\n", tools->arg_str);
+		aux = ft_strtrim(tools->arg_str, " ");
+		if (aux == NULL)
+        {
+            free(tools->arg_str);
+            continue;
+        }
+		free(tools->arg_str);
+		tools->arg_str = aux;
 		if (tools->arg_str[0] == '\0')
 		{
 			reset_tools(tools);
@@ -89,9 +96,9 @@ int minishell_loop(t_tools *tools)
 		//	return (ft_error()); // HACER FUNCION
 		expansor(tools);
 		tools->command = parser(tools->arg_str);
-		// env(tools);
+		//env(tools);
 		executor(tools);
-		// print_list(tools->command);
+		print_list(tools->command);
 		reset_tools(tools);
 		}
 	return (1);

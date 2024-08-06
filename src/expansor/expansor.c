@@ -6,19 +6,22 @@
 char *expansor(t_tools *tools)
 {
 	char *aux;
+	//size_t dollar_pos;
 
-	//aux = NULL;
+	aux = NULL;
+	//dollar_pos = dollar_after(tools->arg_str) -1;
+	
 	
 
-	//if (tools->arg_str[dollar_after(tools->arg_str) -2] != '\'' && dollar_after(tools->arg_str) != 0
-	//	&& tools->arg_str[dollar_after(tools->arg_str)] != '\0')
-		//{
+	if (tools->arg_str[dollar_after(tools->arg_str) -2] != '\'' && dollar_after(tools->arg_str) != 0
+		&& tools->arg_str[dollar_after(tools->arg_str)] != '\0')
+		{
 			aux = detect_dollar(tools);
 			free(tools->arg_str);
 			tools->arg_str = aux;
-		//}
-	//	tools->arg_str = delete_quotes(tools->arg_str, '\"');
-	//	tools->arg_str = delete_quotes(tools->arg_str, '\'');
+		}
+		tools->arg_str = delete_quotes(tools->arg_str, '\"');
+		tools->arg_str = delete_quotes(tools->arg_str, '\'');
 
 		return (tools->arg_str);
 }
@@ -66,9 +69,11 @@ int loop_dollar(t_tools *tools, char **aux, int j)
   int res;
   char *aux2;
   char *aux3;
+  int var_length;
 
   i = 0;
   res = 0;
+  var_length = 0;
   while (tools-> envp[i])
   {
     if (ft_strncmp(tools->arg_str + j+ 1, tools->envp[i],
@@ -85,7 +90,16 @@ int loop_dollar(t_tools *tools, char **aux, int j)
 	i++;
   }
   if (res == 0)
-	res = after_dollar_lenght(tools->arg_str, j) -j;
+  {
+	// res = after_dollar_lenght(tools->arg_str, j) -j;
+	var_length = after_dollar_lenght(tools->arg_str, j) -j;
+	aux2 = strndup(tools->arg_str + j, var_length);
+	aux3 = ft_strjoin(*aux, aux2);
+	free(*aux);
+	*aux = aux3;
+	free(aux2);
+	res = var_length;
+  }
 return (res);
 }
 
