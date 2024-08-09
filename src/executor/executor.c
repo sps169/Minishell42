@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: migonzal <migonzal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sperez-s <sperez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 13:25:07 by sperez-s          #+#    #+#             */
-/*   Updated: 2024/07/23 12:44:36 by migonzal         ###   ########.fr       */
+/*   Updated: 2024/08/09 20:09:51 by sperez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,6 @@ t_pipe *create_pipe_list(int size)
 		first = malloc(sizeof(t_pipe));
 		if (!first)
 			return (NULL);
-		// first->pipe[0] = 0;
-		// first->pipe[1] = 0;
 		first->next = NULL;
 		current = first;
 		while (i < size - 1)
@@ -57,8 +55,6 @@ t_pipe *create_pipe_list(int size)
 				cleanse_pipe_list(&first);
 				return (NULL);
 			}
-			// current->pipe[0] = 0;
-			// current->pipe[1] = 0;
 			current->next = NULL;
 			prev->next = current;
 			prev = current;
