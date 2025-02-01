@@ -235,7 +235,7 @@ int check_valid_identifier(char c);
  * Executor
  */
 
-void executor(t_tools *tools);
+int executor(t_tools *tools);
 
 
 #endif

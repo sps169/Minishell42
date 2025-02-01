@@ -64,88 +64,35 @@ t_pipe *create_pipe_list(int size)
 	return (first);
 }
 
-int	get_commands_from_env(t_tools *tools)
+int	fill_command_from_env(t_command *command, t_tools *tools)
 {
-	t_command	*current_command;
-	char		*curr_path;
-	int			found;
-	int			i;
-	char	*tmp;
+	int		found;
+	int		i;
+	char	*joined;
 
-	current_command = tools->command;
-	while (current_command)
+	found = 0;
+	i = 0;
+	while (tools->paths[i] && !found)
 	{
-		i = 0;
-		found = 0;
-		while (tools->paths[i] && !found)
+		joined = ft_strjoin(tools->paths[i], command->args[0]);
+		if (access(joined, R_OK | X_OK) != -1)
 		{
-			curr_path = tools->paths[i];
-			if (access(ft_strjoin(curr_path, current_command->args[0]), R_OK | X_OK) != -1)
-			{
-				found = 1;
-				tmp = current_command->args[0];
-				current_command->args[0] = ft_strjoin(curr_path, current_command->args[0]);
-				free(tmp);
-				tmp = current_command->cmd_sep;
-				current_command->cmd_sep = ft_strjoin(curr_path, current_command->cmd_sep);
-				free(tmp);
-			}
-			i++;
+			free(command->args[0]);
+			command->args[0] = joined;
+			found = 1;
 		}
-		if (found == 0)
-		{
-			printf("%s: command not found\n", current_command->args[0]);
-			return (-1);
-		}
-		current_command = current_command->next;
+		else 
+			free(joined);
+		i++;
 	}
+	if (found == 0)
+	{
+		printf("%s: command not found\n", command->args[0]);
+		return (-1);
+	}
+	errno = 0;
 	return (0);
 }
-
-// int open_files(t_tools *tools)
-// {
-// 	t_redir *curr_redir;
-// 	int iflags;
-// 	int oflags;
-// 	int ifd;
-// 	int ofd;
-
-// 	curr_redir = tools->command->redir;
-// 	iflags = O_RDONLY;
-// 	oflags = O_RDWR | O_CREAT | S_IRUSR | S_IRGRP | S_IWUSR | S_IWGRP | S_IROTH;
-	
-// 	while (curr_redir)
-// 	{
-// 		if (curr_redir->type == 0)
-// 		{
-// 			curr_redir->fd = open(curr_redir->file, iflags);
-// 			if (curr_redir->fd == -1)
-// 				return (-1);
-// 		}
-
-// 		curr_redir = curr_redir->next;
-// 	}
-// 	if (tools->command
-// 			->redir.)
-// 		oflags = oflags | O_APPEND;
-// 	if (input)
-// 	{
-// 		ifd = open(input, iflags);
-// 		if (ifd == -1)
-// 			return (0);
-// 		dup2(ifd, STDIN_FILENO);
-// 		close(ifd);
-// 	}
-// 	if (output)
-// 	{
-// 		ofd = open(output, oflags);
-// 		if (ofd == -1)
-// 			return (0);
-// 		dup2(ofd, STDOUT_FILENO);
-// 		close(ofd);
-// 	}
-// 	return (1);
-// }
 
 static int get_command_list_size(t_command *list)
 {
@@ -160,7 +107,102 @@ static int get_command_list_size(t_command *list)
 	return (i);
 }
 
-void executor(t_tools *tools)
+static int file_open(t_redir *redir) {
+	
+	int	mode;
+ 
+	if ((redir-> type == 3 && redir-> fd != 0) || access(redir->file, F_OK) != -1)
+	{
+		//printf("DEBUG: %s exists\n", redir->file);
+		if (redir->type == 0 || redir->type == 2)
+			mode = R_OK;
+		else
+			mode = R_OK | W_OK;
+		if (access(redir->file, mode) != -1)
+		{
+			if (redir->type == 3)
+				mode = O_RDWR | O_APPEND;
+			redir->fd = open(redir->file, mode);
+		}
+		return (1);
+	}
+	else if (redir->type == 1 || redir->type == 3) {
+		mode = O_CREAT | O_RDWR;
+		if (redir->type == 3)
+			mode = mode | O_APPEND;
+		redir->fd = open(redir->file, mode, S_IRGRP | S_IWUSR | S_IRUSR | S_IROTH);
+		//printf("DEBUG: %s: file open at fd %i\n", redir->file, redir->fd);
+	} else {
+		printf("Minishell: %s: File or directory does not exist\n", redir->file);
+		return (0);
+	}
+	return (1);
+}
+
+static void fd_redir(t_redir *redir) {
+
+	if (redir->type == 0 || redir->type == 2)
+		dup2(redir->fd, STDIN_FILENO);
+	else 
+		dup2(redir->fd, STDOUT_FILENO);
+	close(redir->fd);
+	//printf("DEBUG: redir of type %i applied to fd %i\n", redir->type, redir->fd);
+}
+
+static int redir_setup(t_command *command) {
+	
+	t_redir *curr_redir;
+	t_redir	*first_redir;
+	
+	curr_redir = command->redir;
+	first_redir = command->redir;
+	while (curr_redir)
+	{
+		if (file_open(curr_redir) != 1)
+			return -1;
+		curr_redir = curr_redir->next;
+	}
+	curr_redir = first_redir;
+	while(curr_redir) 
+	{
+		fd_redir(curr_redir);
+		curr_redir = curr_redir->next;
+	}
+	return (0);
+}
+
+static void run_command(t_command *command, t_tools *tools) {
+	if (redir_setup(command) == 0)
+		execve(command->args[0], command->args, tools->envp);
+}
+
+static int exec_single_command(t_command *command, t_tools *tools) {
+	
+	int	pid;
+	int	status;
+
+	if (fill_command_from_env(command, tools) == -1)
+		return -1;
+	//printf("DEBUG: filled command %s\n", command->args[0]);
+	pid = fork();
+	if (pid == 0)
+	{
+		run_command(command, tools);
+		return (-1);
+	}
+	else if(pid > 0) {
+		//printf("DEBUG: Parent starts waiting\n");
+		waitpid(pid, &status, 0);
+		//printf("DEBUG: Parent finish wait, child status -> %i\n", status);
+	} else {
+		printf("ERROR: fork failed with errno: %d\n", errno);	
+		return -1;
+	}
+	return status;
+	
+ }
+
+int executor(t_tools *tools)
 {
 	unsigned int size;
 	t_pipe *ps;
@@ -170,53 +212,62 @@ void executor(t_tools *tools)
 	t_pipe *prev_pipe;
 	t_command *curr_command;
 
+
 	i = 0;
 	prev_pipe = NULL;
 	size = get_command_list_size(tools->command);
 	if (size < 1)
-		return;
+	{
+		printf("ERROR: empty command list\n");
+		return (0);
+	}
+	if (size == 1)
+	{
+		//printf("DEBUG: single command exec\n");
+		return (exec_single_command(tools->command, tools));
+	}
+	//printf("DEBUG: multi command exec\n");
 	ps = create_pipe_list(size);
-	if (size > 1 && !ps)
-		return;
-	if (get_commands_from_env(tools) != 0)
-		return;
+	if (!ps)
+	{
+		write(2, "ERROR: Could't create pipe list\n", 33);
+		return (-1);
+	}
 	curr_command = tools->command;
 	while (i < size)
 	{
-		if (i != size - 1)
-			pipe(ps->pipe);
-		pid = fork();
-		if (pid == 0)
-		{
-			if (i != size - 1)
+		if (fill_command_from_env(curr_command, tools) != -1) {
+
+			if (i != size - 1) //dont make new pipe at last command
+				pipe(ps->pipe);
+			pid = fork();
+			if (pid == 0)
 			{
-				dup2(ps->pipe[1], STDOUT_FILENO);
-				close(ps->pipe[0]);
-				close(ps->pipe[1]);
-			}
-			if (i != 0)
-			{
-				dup2(prev_pipe->pipe[0], STDIN_FILENO);
-				close(prev_pipe->pipe[0]);
-			}
-			execve(curr_command->args[0], curr_command->args, tools->envp);
-			printf("???? errno = %i\n", errno);
-			return;
-		}
-		else
-		{
-			if (i != size - 1)
-			{
-				close(ps->pipe[1]);
-				if (prev_pipe)
+				if (i != size - 1)//not last
+				{
+					dup2(ps->pipe[1], STDOUT_FILENO);
+					close(ps->pipe[0]);
+					close(ps->pipe[1]);
+				}
+				if (i != 0)//not first
+				{
+					dup2(prev_pipe->pipe[0], STDIN_FILENO);
 					close(prev_pipe->pipe[0]);
+				}
+				run_command(curr_command, tools);
+				return (-1);
 			}
 			else
 			{
-				close(ps->pipe[0]);
+				if (i != size - 1) //not last
+				{
+					close(ps->pipe[1]);
+				}
+				if (prev_pipe)
+					close(prev_pipe->pipe[0]);
+				waitpid(pid, &child_status, 0);
 			}
 		}
-		i++;
 		if (curr_command)
 		{
 			curr_command = curr_command->next;
@@ -226,6 +277,7 @@ void executor(t_tools *tools)
 			prev_pipe = ps;
 			ps = ps->next;
 		}
+		i++;
 	}
-	waitpid(pid, &child_status, 0);
+	return (0);
 }
