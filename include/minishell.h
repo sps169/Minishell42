@@ -29,6 +29,22 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
+//VARIABLE GLOBAR
+extern int g_signal;
+
+
+typedef enum e_signal
+{
+	S_BASE, // señal base
+	S_HEREDOC, //entra en el heredox
+	S_HEREDOC_END, // finalización del heredox
+	S_SIGINT, // Ctrl + C
+	S_SIGINT_CMD, // Ctrl + C en medio de un comando
+	S_CMD, // Se ejecuta un comando
+	S_CANCEL_EXEC, // Ctrl + D en heredoc
+	S_SIZE
+}	t_signal;
+
 typedef struct s_redir
 {
 	char			*file;

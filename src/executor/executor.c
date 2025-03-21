@@ -12,6 +12,43 @@
 
 #include "minishell.h"
 
+
+static int handle_heredoc(t_redir *redir) {
+    char *line;
+    int pipe_fd[2];
+
+    // Crear una tubería para capturar la entrada
+    if (pipe(pipe_fd) == -1) {
+        perror("pipe");
+        return -1;
+    }
+
+    // Prompt para que el usuario introduzca líneas hasta que se encuentra el delimitador
+    while (1) {
+        line = readline("> ");
+        if (line == NULL) {
+            // Fin de la entrada (Ctrl+D)
+            break;
+        }
+
+        // Comprobar si la línea coincide con el delimitador
+        if (strcmp(line, redir->file) == 0) {
+            free(line);
+            break;
+        }
+
+        // Escribir la línea en la tubería
+        write(pipe_fd[1], line, strlen(line));
+        write(pipe_fd[1], "\n", 1);
+        free(line);
+    }
+    close(pipe_fd[1]);
+
+    // Redirigir el extremo de lectura de la tubería a stdin
+    redir->fd = pipe_fd[0];
+    return 1;
+}
+
 void cleanse_pipe_list(t_pipe **first)
 {
 	t_pipe *current;
@@ -132,6 +169,9 @@ static int file_open(t_redir *redir) {
 			mode = mode | O_APPEND;
 		redir->fd = open(redir->file, mode, S_IRGRP | S_IWUSR | S_IRUSR | S_IROTH);
 		//printf("DEBUG: %s: file open at fd %i\n", redir->file, redir->fd);
+	} else if  (redir->type == 2) {
+		return (handle_heredoc(redir));
+	
 	} else {
 		printf("Minishell: %s: File or directory does not exist\n", redir->file);
 		return (0);
