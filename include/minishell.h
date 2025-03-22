@@ -6,7 +6,7 @@
 /*   By: migonzal <migonzal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 09:45:35 by migonzal          #+#    #+#             */
-/*   Updated: 2024/07/31 10:21:39 by migonzal         ###   ########.fr       */
+/*   Updated: 2025/03/22 15:01:57 by migonzal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,11 +203,11 @@ void add_path_to_env(t_tools *tools);
 int cd(t_tools *tools);
 //echo
 void print_lines(int i, char **str, int out);
-int echo(t_tools *tools);
+int ft_echo(t_tools *tools);
 //env
 int env(t_tools *tools);
 //pwd
-int pwd(t_tools *tools);
+int ft_pwd(t_tools *tools);
 //export
 int	variable_exist(t_tools *tools, char *str);
 int export_error(char *str);
@@ -227,7 +227,9 @@ void code_exit(char **str);
 int ft_exit(t_tools *tools);
 
 //BUILTING_DISTRIBUTOR
-int (*builting_arr(char *str))(t_tools *tools);
+int built_comprobation(t_tools *tools);
+void ft_builtin(t_tools *tools);
+
 
 /*
  * MINISHELL_LOOP

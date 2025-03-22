@@ -1,3 +1,5 @@
+
+
 #include "minishell.h"
 
 
@@ -27,11 +29,11 @@ int built_comprobation(t_tools *tools)
 void ft_builtin(t_tools *tools)
 {
 	if (!ft_strncmp(tools->command->args[0], "echo", 4))
-		//ft_echo(tools);
+		ft_echo(tools);
 	if (!ft_strncmp(tools->command->args[0], "cd", 2))
 		//ft_cd(tools);
 	if (!ft_strncmp(tools->command->args[0], "pwd", 3))
-		//ft_pwd(tools);
+		ft_pwd(tools);
 	if (!ft_strncmp(tools->command->args[0], "export", 6))
 		//ft_export(tools);
 	if (!ft_strncmp(tools->command->args[0], "unset", 4))
@@ -39,7 +41,7 @@ void ft_builtin(t_tools *tools)
 	if (!ft_strncmp(tools->command->args[0], "env", 3))
 		//ft_env(tools);
 	if (!ft_strncmp(tools->command->args[0], "exit", 4))
-		//ft_exit(tools);
+		ft_exit(tools);
 }
 
 

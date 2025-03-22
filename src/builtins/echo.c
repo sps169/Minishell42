@@ -11,7 +11,7 @@ void print_lines(int i, char **str, int out)
 }
 
 
-int echo (t_tools *tools)
+int ft_echo (t_tools *tools)
  {
  	int i;
 	int j;

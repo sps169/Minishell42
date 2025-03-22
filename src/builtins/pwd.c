@@ -1,7 +1,7 @@
 #include "minishell.h"
 
 
-int pwd(t_tools *tools)
+int ft_pwd(t_tools *tools)
 {
     (void) tools;
     char * pwd;

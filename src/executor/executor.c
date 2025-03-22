@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sperez-s <sperez-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: migonzal <migonzal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 13:25:07 by sperez-s          #+#    #+#             */
-/*   Updated: 2024/08/09 20:09:51 by sperez-s         ###   ########.fr       */
+/*   Updated: 2025/03/22 15:19:30 by migonzal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,18 +211,45 @@ static int redir_setup(t_command *command) {
 	return (0);
 }
 
-static void run_command(t_command *command, t_tools *tools) {
+
+static int is_builtin(t_tools *tools)
+{
+	return (built_comprobation(tools));
+}
+static void run_command(t_command *command, t_tools *tools) 
+{
+	int aux = is_builtin(tools);
+	printf("Valor de aux: %d\n", aux);
+
 	if (redir_setup(command) == 0)
-		execve(command->args[0], command->args, tools->envp);
+	{
+		if (is_builtin(tools))
+		{
+			write(1, "HOLA\n", 5);
+			ft_builtin(tools);
+		}
+		else
+		{
+			write(1, "HOLO\n", 5);
+			execve(command->args[0], command->args, tools->envp);
+		}
+	}
 }
 
 static int exec_single_command(t_command *command, t_tools *tools) {
 	
 	int	pid;
 	int	status;
+	printf("Valor de arg[0]: %s\n", tools->command->args[0]);
 
 	if (fill_command_from_env(command, tools) == -1)
 		return -1;
+	if (is_builtin(tools))
+	{
+		write(1, "HOLI\n", 5);
+		ft_builtin(tools);
+		return (0);
+	}
 	//printf("DEBUG: filled command %s\n", command->args[0]);
 	pid = fork();
 	if (pid == 0)
