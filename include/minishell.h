@@ -253,5 +253,10 @@ int check_valid_identifier(char c);
 
 int executor(t_tools *tools);
 
+/*
+ * Signal
+ */
+ void signal_init(void);
+
 
 #endif

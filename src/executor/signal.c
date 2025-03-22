@@ -10,7 +10,7 @@ static void sigint_handler(int sig);
 static void sigint_handler_aux(void);
 
 
-void (signal_init)(void)
+void signal_init(void)
 {
     g_signal = S_BASE;
     signal(SIGINT, sigint_handler);
@@ -30,7 +30,7 @@ static void sigint_handler(int sig)
         rl_on_new_line();
         rl_redisplay();
     }
-    else if (s_signal == S_CMD)
+    else if (g_signal == S_CMD)
     {
         g_signal = S_SIGINT_CMD;
         ft_putstr_fd("\n", 1);

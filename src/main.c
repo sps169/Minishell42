@@ -117,6 +117,7 @@ int	main(int argc, char **argv, char **envp)
 	tools.envp = arrdup(envp);
 	find_pwd(&tools);
 	init_tools(&tools);
+	signal_init();
 	printf("AQUI EMPIEZA LA MINISHELL\n");
 	minishell_loop(&tools);
 	return (0);

@@ -48,6 +48,7 @@ SRCS	=	$(SRC_DIR)main.c				\
 			$(SRC_DIR_EXP)expansor.c		\
 			$(SRC_DIR_EXP)expansor_utils.c	\
 			$(SRC_DIR_EXEC)executor.c		\
+			$(SRC_DIR_EXEC)signal.c		\
 			$(SRC_DIR_BUILT)export.c		\
 			$(SRC_DIR_BUILT)builtins_utils.c	\
 			$(SRC_DIR_BUILT)unset.c				\
