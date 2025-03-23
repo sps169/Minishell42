@@ -63,27 +63,21 @@ int init_tools(t_tools *tools)
 	return (1);
 
 }
-
 int minishell_loop(t_tools *tools)
 {
 	char *aux;
+	int in_dquote = 0;
+	int in_squote = 0;
 
 	while(1)
 	{
-		//printf("Waiting for command...\n");
 		tools->arg_str = readline("minishell? ");
 		if (!tools->arg_str)
 		{
 			ft_putendl_fd("No line read, exit minishell", STDOUT_FILENO);
 			exit(EXIT_SUCCESS);
 		}
-		//printf("Command read: %s\n", tools->arg_str);
 		aux = ft_strtrim(tools->arg_str, " ");
-		if (aux == NULL)
-        {
-            free(tools->arg_str);
-            continue;
-        }
 		free(tools->arg_str);
 		tools->arg_str = aux;
 		if (tools->arg_str[0] == '\0')
@@ -91,19 +85,91 @@ int minishell_loop(t_tools *tools)
 			reset_tools(tools);
 			continue;
 		}
+
+		// Handling unclosed quotes
+		for (int i = 0; tools->arg_str[i]; i++)
+		{
+			if (tools->arg_str[i] == '"' && !in_squote)
+				in_dquote = !in_dquote;
+			else if (tools->arg_str[i] == '\'' && !in_dquote)
+				in_squote = !in_squote;
+		}
+
+		while (in_dquote || in_squote)
+		{
+			char *next_line = readline(in_dquote ? "dquote> " : "quote> ");
+			if (!next_line)
+			{
+				ft_putendl_fd("No line read, exit minishell", STDOUT_FILENO);
+				exit(EXIT_SUCCESS);
+			}
+			aux = ft_strjoin(tools->arg_str, "\n");
+			free(tools->arg_str);
+			tools->arg_str = ft_strjoin(aux, next_line);
+			free(aux);
+			free(next_line);
+
+			in_dquote = 0;
+			in_squote = 0;
+			for (int i = 0; tools->arg_str[i]; i++)
+			{
+				if (tools->arg_str[i] == '"' && !in_squote)
+					in_dquote = !in_dquote;
+				else if (tools->arg_str[i] == '\'' && !in_dquote)
+					in_squote = !in_squote;
+			}
+		}
+
 		add_history(tools->arg_str);
-		// if (!count_quotes(tools->arg_str))
-		//	return (ft_error()); // HACER FUNCION
 		expansor(tools);
 		tools->command = parser(tools->arg_str);
-		//env(tools);
 		executor(tools);
-		//print_list(tools->command);
 		reset_tools(tools);
-		}
+	}
 	return (1);
-
 }
+
+
+// int minishell_loop(t_tools *tools)
+// {
+// 	char *aux;
+
+// 	while(1)
+// 	{
+// 		//printf("Waiting for command...\n");
+// 		tools->arg_str = readline("minishell? ");
+// 		if (!tools->arg_str)
+// 		{
+// 			ft_putendl_fd("No line read, exit minishell", STDOUT_FILENO);
+// 			exit(EXIT_SUCCESS);
+// 		}
+// 		//printf("Command read: %s\n", tools->arg_str);
+// 		aux = ft_strtrim(tools->arg_str, " ");
+// 		if (aux == NULL)
+//         {
+//             free(tools->arg_str);
+//             continue;
+//         }
+// 		free(tools->arg_str);
+// 		tools->arg_str = aux;
+// 		if (tools->arg_str[0] == '\0')
+// 		{
+// 			reset_tools(tools);
+// 			continue;
+// 		}
+// 		add_history(tools->arg_str);
+// 		// if (!count_quotes(tools->arg_str))
+// 		//	return (ft_error()); // HACER FUNCION
+// 		expansor(tools);
+// 		tools->command = parser(tools->arg_str);
+// 		//env(tools);
+// 		executor(tools);
+// 		//print_list(tools->command);
+// 		reset_tools(tools);
+// 		}
+// 	return (1);
+
+// }
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -114,10 +180,10 @@ int	main(int argc, char **argv, char **envp)
 		printf("Este programa no acepta argumentos inútil\n");
 		exit(0);
 	}
+	signal_init();
 	tools.envp = arrdup(envp);
 	find_pwd(&tools);
 	init_tools(&tools);
-	signal_init();
 	printf("AQUI EMPIEZA LA MINISHELL\n");
 	minishell_loop(&tools);
 	return (0);

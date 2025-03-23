@@ -77,6 +77,7 @@ typedef struct s_tools
 	char	**envp;
 	char	*pwd;
 	char	*old_pwd;
+	int		exit_status;
 	int		reset;
 	struct	s_command *command;
 }					t_tools;
@@ -205,7 +206,7 @@ int cd(t_tools *tools);
 void print_lines(int i, char **str, int out);
 int ft_echo(t_tools *tools);
 //env
-int env(t_tools *tools);
+int ft_env(t_tools *tools);
 //pwd
 int ft_pwd(t_tools *tools);
 //export

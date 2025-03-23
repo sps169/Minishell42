@@ -13,6 +13,11 @@
 #include "minishell.h"
 
 
+static int is_builtin(t_tools *tools)
+{
+	return (built_comprobation(tools));
+}
+
 static int handle_heredoc(t_redir *redir) {
     char *line;
     int pipe_fd[2];
@@ -106,6 +111,9 @@ int	fill_command_from_env(t_command *command, t_tools *tools)
 	int		found;
 	int		i;
 	char	*joined;
+
+	if (is_builtin(tools))
+		return (0);
 
 	found = 0;
 	i = 0;
@@ -212,27 +220,18 @@ static int redir_setup(t_command *command) {
 }
 
 
-static int is_builtin(t_tools *tools)
-{
-	return (built_comprobation(tools));
-}
+// static int is_builtin(t_tools *tools)
+// {
+// 	return (built_comprobation(tools));
+// }
 static void run_command(t_command *command, t_tools *tools) 
 {
-	int aux = is_builtin(tools);
-	printf("Valor de aux: %d\n", aux);
-
 	if (redir_setup(command) == 0)
 	{
-		if (is_builtin(tools))
-		{
-			write(1, "HOLA\n", 5);
+		if (is_builtin(tools) == 1)
 			ft_builtin(tools);
-		}
 		else
-		{
-			write(1, "HOLO\n", 5);
 			execve(command->args[0], command->args, tools->envp);
-		}
 	}
 }
 
@@ -244,12 +243,12 @@ static int exec_single_command(t_command *command, t_tools *tools) {
 
 	if (fill_command_from_env(command, tools) == -1)
 		return -1;
-	if (is_builtin(tools))
-	{
-		write(1, "HOLI\n", 5);
-		ft_builtin(tools);
-		return (0);
-	}
+	// if (is_builtin(tools))
+	// {
+	// 	write(1, "HOLI\n", 5);
+	// 	ft_builtin(tools);
+	// 	return (0);
+	// }
 	//printf("DEBUG: filled command %s\n", command->args[0]);
 	pid = fork();
 	if (pid == 0)
