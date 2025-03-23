@@ -239,7 +239,6 @@ static int exec_single_command(t_command *command, t_tools *tools) {
 	
 	int	pid;
 	int	status;
-	printf("Valor de arg[0]: %s\n", tools->command->args[0]);
 
 	if (fill_command_from_env(command, tools) == -1)
 		return -1;

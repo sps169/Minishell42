@@ -110,7 +110,7 @@ int export(t_tools *tools)
 
 	i = 1;
 	if (!tools->command->args[1] || tools->command->args[1][0] == '\0')
-		env(tools);
+		ft_env(tools);
 	else 
 	{
 		while (tools->command->args[i])
