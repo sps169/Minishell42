@@ -36,10 +36,10 @@ void ft_builtin(t_tools *tools)
 		ft_echo(tools);
 	if (!ft_strncmp(tools->command->args[0], "exit", 4))
 		ft_exit(tools);
+	if (!ft_strncmp(tools->command->args[0], "export", 6))
+		ft_export(tools);
 	// if (!ft_strncmp(tools->command->args[0], "cd", 2))
 	// 	//ft_cd(tools);
-	// if (!ft_strncmp(tools->command->args[0], "export", 6))
-	// 	//ft_export(tools);
 	// if (!ft_strncmp(tools->command->args[0], "unset", 4))
 	// 	//ft_unset(tools);
 }

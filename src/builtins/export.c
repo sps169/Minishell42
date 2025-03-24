@@ -1,132 +1,118 @@
 #include "minishell.h"
 
 
-int	variable_exist(t_tools *tools, char *str)
+static void		ft_export_without_arg(t_tools *tools);
+static t_env	*sort_list(t_env *lst);
+static t_env	*copy_list(t_env *lst);
+static int		check_export(char *arg);
+
+void	ft_export(t_tools *tools)
 {
-	int i;
+	int	i;
 
-	i = 0;
-	if (str[equal_after(str)] == '\"')
-		delete_quotes(str, '\"');
-	if (str[equal_after(str)] == '\'')
-		delete_quotes(str, '\'');
-	while (tools->envp[i])
+	tools->exit_status = 0;
+	if (tools->command->args[1] == NULL)
+		ft_export_without_arg(tools);
+	else
 	{
-		if (ft_strncmp(tools->envp[i],
-		 str, equal_after(tools->envp[i])) == 0)
-		 {
-			free(tools->envp[i]);
-			tools->envp[i] = ft_strdup(str);
-			return (i);
-		 }
-		 i++;
-	}
-	return (0);
-}
-
-int export_error(char *str)
-{
-	ft_putstr_fd("minishell: export: ", STDERR_FILENO);
-	if (str)
-	{
-		ft_putchar_fd('\'', STDERR_FILENO);
-		ft_putstr_fd(str, STDERR_FILENO);
-		ft_putstr_fd("\': is ", STDERR_FILENO);
-	}
-	ft_putendl_fd("not a valid identifier", STDERR_FILENO);
-	return (EXIT_FAILURE);
-}
-
-int check_parameter(char *str)
-{
-	int i;
-
-	i = 0;
-	if (ft_isdigit(str[0]))
-		return (export_error(str)); 
-	if (equal_after(str) == 0)
-		return (EXIT_FAILURE);
-	if (str[0] == '=')
-		return (export_error(str)); 
-	while (str[i] != '=')
-	{
-		if (check_valid_identifier(str[i]))
-			return (export_error(str)); 
-		i++;
-	}
-	return (EXIT_SUCCESS);
-}
-
-
-char **loop_add_var(char **arr, char **aux, char *str)
-{
-	int i;
-
-	i = 0;
-	while(arr[i] != NULL)
-	{
-		if (arr[i + 1] == NULL)
+		i = 0;
+		while (tools->command->args[++i])
 		{
-			aux[i] = ft_strdup(str);
-			aux[i +1] = ft_strdup(arr[i]);
+			if (check_export(tools->command->args[i]))
+				add_arg_to_env(tools->command->args[i], tools);
+			else
+				tools->exit_status = 1;
+		}
+	}
+}
+
+static void	ft_export_without_arg(t_tools *tools)
+{
+	t_env	*tmp;
+	t_env	*lst_cpy;
+
+	lst_cpy = copy_list(tools->env);
+	tmp = sort_list(lst_cpy);
+	while (tmp)
+	{
+		if (!ft_strncmp(tmp->var_name, "_\0", 2))
+			printf(" \r");
+		else if (tmp->value_var[0])
+			printf("declare -x %s=\"%s\"\n", tmp->var_name, tmp->value_var);
+		else
+			printf("declare -x %s\n", tmp->var_name);
+		tmp = tmp->next;
+	}
+	ft_free_list(&lst_cpy);
+}
+
+static t_env	*sort_list(t_env *lst)
+{
+	t_env	*tmp;
+	t_env	*swap;
+
+	tmp = lst;
+	swap = ft_lstnew_env("", "", 0);
+	while (lst->next != NULL)
+	{
+		if (lst->next && ft_strcmp(lst->var_name, lst->next->var_name) > 0)
+		{
+			swap->var_name = lst->var_name;
+			swap->value_var = lst->value_var;
+			lst->var_name = lst->next->var_name;
+			lst->value_var = lst->next->value_var;
+			lst->next->var_name = swap->var_name;
+			lst->next->value_var = swap->value_var;
+			lst = tmp;
 		}
 		else
-			aux[i] =ft_strdup(arr[i]);
-		if (aux[i] == NULL)
-		{
-			ft_free_arr(aux);
-			return (aux);
-		}
-		i++;
+			lst = lst->next;
 	}
-	return (aux);
+	lst = tmp;
+	ft_memfree(swap);
+	return (lst);
 }
 
-char **add_var(char **arr, char *str)
+static t_env	*copy_list(t_env *lst)
 {
-	char **aux;
-	size_t i;
+	t_env	*cpy;
+	t_env	*tmp;
 
-	i = 0;
-	if (str[equal_after(str)] == '\'')
-		delete_quotes(str, '\'');
-	if (str[equal_after(str)] == '\"')
-		delete_quotes(str, '\"');
-	while (arr[i] != NULL)
-		i++;
-	aux =ft_calloc(sizeof(char *), i +2);
-	if (!aux)
-		return (NULL);
-	i = 0;
-	loop_add_var(arr, aux, str);
-	return (aux);
-}
-
-
-int export(t_tools *tools)
-{
-	char **aux;
-	int i;
-
-	i = 1;
-	if (!tools->command->args[1] || tools->command->args[1][0] == '\0')
-		ft_env(tools);
-	else 
+	tmp = lst;
+	cpy = NULL;
+	while (tmp)
 	{
-		while (tools->command->args[i])
-		{
-			if (check_parameter(tools->command->args[i]) == 0
-				&& variable_exist(tools, tools->command->args[i]) == 0)
-			{
-				if (tools->command->args[i])
-				{
-					aux = add_var(tools->envp, tools->command->args[i]);
-					ft_free_arr(tools->envp);
-					tools->envp = aux;
-				}
-			}
+		if (!cpy)
+			cpy = ft_lstnew_env(tmp->var_name, tmp->value_var, 1);
+		else
+			ft_lstadd_back_env(&cpy, ft_lstnew_env(tmp->var_name,
+						tmp->value_var, 1));
+		tmp = tmp->next;
+	}
+	return (cpy);
+}
+
+static int	check_export(char *arg)
+{
+	int		i;
+	char	*name;
+
+	i = 0;
+	name = get_env_name(arg);
+	if (ft_isdigit(name[i]))
+	{
+		printf("export: %s: not a valid identifier\n", arg); //OJO
+		return (ft_memfree(name), 0);
+	}
+	while (name[i])
+	{
+		if (ft_isalnum(name[i]) || name[i] == '_')
 			i++;
+		else
+		{
+			printf("export: %s: not a valid identifier\n", arg); //OJO
+			return (ft_memfree(name), 0);
 		}
 	}
-	return (EXIT_SUCCESS);
+	return (ft_memfree(name), 1);
 }

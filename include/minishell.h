@@ -218,12 +218,7 @@ int ft_env(t_tools *tools);
 //pwd
 int ft_pwd(t_tools *tools);
 //export
-int	variable_exist(t_tools *tools, char *str);
-int export_error(char *str);
-int check_parameter(char *str);
-char **loop_add_var(char **arr, char **aux, char *str);
-char **add_var(char **arr, char *str);
-int export(t_tools *tools);
+void	ft_export(t_tools *tools);
 //unset
 char **loop_delete_var(char **arr, char **aux, char *str);
 char **delete_var(char **arr, char *str);
@@ -266,7 +261,7 @@ int minishell_loop(t_tools *tools);
 /*
  * BUILTINS_UTILS
  */
-
+void ft_free_list(t_env **list);
 void change_path(t_tools *tools);
 int check_valid_identifier(char c);
 
