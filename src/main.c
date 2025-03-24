@@ -71,6 +71,8 @@ int minishell_loop(t_tools *tools)
 
 	while(1)
 	{
+		if (g_signal == S_SIGINT)
+			tools->exit_status = 1;
 		tools->arg_str = readline("minishell? ");
 		if (!tools->arg_str)
 		{

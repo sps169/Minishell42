@@ -212,7 +212,7 @@ void	ft_cd(t_tools *tools);
 void print_lines(int i, char **str, int out);
 int ft_echo(t_tools *tools);
 //env
-int ft_env(t_tools *tools);
+void ft_env(t_tools *tools);
 //pwd
 int ft_pwd(t_tools *tools);
 //export

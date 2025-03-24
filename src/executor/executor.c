@@ -253,6 +253,7 @@ static int exec_single_command(t_command *command, t_tools *tools) {
 	pid = fork();
 	if (pid == 0)
 	{
+		signal(SIGINT, SIG_DFL);
 		run_command(command, tools);
 		return (-1);
 	}
@@ -310,6 +311,7 @@ int executor(t_tools *tools)
 			pid = fork();
 			if (pid == 0)
 			{
+				signal(SIGINT, SIG_DFL);
 				if (i != size - 1)//not last
 				{
 					dup2(ps->pipe[1], STDOUT_FILENO);

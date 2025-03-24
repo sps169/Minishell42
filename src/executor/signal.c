@@ -36,8 +36,8 @@ static void sigint_handler(int sig)
     }
     else if (g_signal == S_HEREDOC)
     {
-        ft_putstr_fd("\n", 1);
-        g_signal = S_SIGINT;
+         ft_putstr_fd("\n", 1);
+         g_signal = S_SIGINT;
     }
     sigint_handler_aux();
 }
