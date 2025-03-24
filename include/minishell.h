@@ -220,10 +220,7 @@ int ft_pwd(t_tools *tools);
 //export
 void	ft_export(t_tools *tools);
 //unset
-char **loop_delete_var(char **arr, char **aux, char *str);
-char **delete_var(char **arr, char *str);
-int unset_error(t_tools *tools);
-int unset(t_tools *tools);
+void	ft_unset(t_tools *tools);
 //exit
 
 int	ft_exit(t_tools *tools);
