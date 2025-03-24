@@ -79,8 +79,16 @@ typedef struct s_tools
 	char	*old_pwd;
 	int		exit_status;
 	int		reset;
+	struct	s_env 	*env;
 	struct	s_command *command;
 }					t_tools;
+
+typedef struct s_env
+{
+	char *var_name;
+	char *value_var;
+	struct s_env *next;
+}					t_env;
 
 /*
  * Parser_cells
@@ -222,10 +230,22 @@ char **delete_var(char **arr, char *str);
 int unset_error(t_tools *tools);
 int unset(t_tools *tools);
 //exit
-void	free_tools(t_tools *tools);
-int is_str_digit(char *str);
-void code_exit(char **str);
-int ft_exit(t_tools *tools);
+
+int	ft_exit(t_tools *tools);
+
+// env_utils
+char	*get_env_name(char *fullenv);
+char	*get_env_value(char *fullenv);
+void	ft_lstadd_back_env(t_env **lst, t_env *new);
+t_env	*ft_lstnew_env(char *name, char *value, int alloc);
+void	ft_lst_env_init(t_env **env, char **envp);
+
+//Export_utils
+int ft_strcmp(const char *s1, const char *s2);
+int ft_arraylen(char **array);
+void ft_memfree(void *ptr);
+void	add_arg_to_env(char *var, t_tools *tools);
+
 
 //BUILTING_DISTRIBUTOR
 int built_comprobation(t_tools *tools);

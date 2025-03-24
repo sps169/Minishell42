@@ -69,7 +69,11 @@ int	ft_exit(t_tools *tools)
 	tools->exit_status = check_exit_args(tools);
 	if (tools->exit_status != 1)
 	{
-		exit(tools->exit_status);
+		write(STDERR_FILENO, "Calling _exit with status: ", 27);
+		char status_str[12];
+		sprintf(status_str, "%d\n", tools->exit_status);
+		write(STDERR_FILENO, status_str, strlen(status_str));
+		_exit(tools->exit_status);
 	}
 	ft_putendl_fd("exit: too many arguments", STDERR_FILENO);
 	return (EXIT_FAILURE);

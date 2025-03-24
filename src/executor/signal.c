@@ -9,7 +9,6 @@ int g_signal;
 static void sigint_handler(int sig);
 static void sigint_handler_aux(void);
 
-
 void signal_init(void)
 {
     g_signal = S_BASE;
@@ -17,10 +16,9 @@ void signal_init(void)
     signal(SIGQUIT, SIG_IGN);
 }
 
-
 static void sigint_handler(int sig)
 {
-    (void) sig;
+    (void)sig;
     if (g_signal == S_BASE || g_signal == S_SIGINT)
     {
         rl_on_new_line();
@@ -36,10 +34,13 @@ static void sigint_handler(int sig)
         ft_putstr_fd("\n", 1);
         rl_on_new_line();
     }
-   // else if (g_signal == S_HEREDOC)
-   sigint_handler_aux();
+    else if (g_signal == S_HEREDOC)
+    {
+        ft_putstr_fd("\n", 1);
+        g_signal = S_SIGINT;
+    }
+    sigint_handler_aux();
 }
-
 
 static void sigint_handler_aux(void)
 {

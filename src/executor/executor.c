@@ -219,11 +219,18 @@ static int redir_setup(t_command *command) {
 	return (0);
 }
 
+static void handle_status(int status, t_tools *tools)
+{
+	if (WIFEXITED(status))
+		tools->exit_status = WEXITSTATUS(status);
+	if (tools && tools->exit_status == 127)
+		printf("%s: command not found\n", tools->command->args[0]);
+	if (g_signal == S_SIGINT_CMD)
+		tools->exit_status = 130;
+	g_signal = S_BASE;
+}
 
-// static int is_builtin(t_tools *tools)
-// {
-// 	return (built_comprobation(tools));
-// }
+
 static void run_command(t_command *command, t_tools *tools) 
 {
 	if (redir_setup(command) == 0)
@@ -242,13 +249,7 @@ static int exec_single_command(t_command *command, t_tools *tools) {
 
 	if (fill_command_from_env(command, tools) == -1)
 		return -1;
-	// if (is_builtin(tools))
-	// {
-	// 	write(1, "HOLI\n", 5);
-	// 	ft_builtin(tools);
-	// 	return (0);
-	// }
-	//printf("DEBUG: filled command %s\n", command->args[0]);
+	g_signal = S_CMD;
 	pid = fork();
 	if (pid == 0)
 	{
@@ -258,6 +259,7 @@ static int exec_single_command(t_command *command, t_tools *tools) {
 	else if(pid > 0) {
 		//printf("DEBUG: Parent starts waiting\n");
 		waitpid(pid, &status, 0);
+		handle_status(status, tools);
 		//printf("DEBUG: Parent finish wait, child status -> %i\n", status);
 	} else {
 		printf("ERROR: fork failed with errno: %d\n", errno);	
@@ -331,6 +333,7 @@ int executor(t_tools *tools)
 				if (prev_pipe)
 					close(prev_pipe->pipe[0]);
 				waitpid(pid, &child_status, 0);
+				handle_status(child_status, tools);
 			}
 		}
 		if (curr_command)
