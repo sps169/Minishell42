@@ -42,7 +42,7 @@ void ft_builtin(t_tools *tools)
 		ft_unset(tools);
 	// if (!ft_strncmp(tools->command->args[0], "cd", 2))
 	// 	//ft_cd(tools);
-
+}
 
 
 // int (*builting_arr(char *str))(t_tools *tools)
