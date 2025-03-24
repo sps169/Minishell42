@@ -206,10 +206,8 @@ int after_dollar_lenght(char *str, int j);
  */
 
 //cd
-char *find_path_ret(char *str, t_tools *tools);
-int specific_path(t_tools *tools, char *str);
-void add_path_to_env(t_tools *tools);
-int cd(t_tools *tools);
+void	ft_cd(t_tools *tools);
+
 //echo
 void print_lines(int i, char **str, int out);
 int ft_echo(t_tools *tools);
@@ -218,6 +216,7 @@ int ft_env(t_tools *tools);
 //pwd
 int ft_pwd(t_tools *tools);
 //export
+void	add_or_update_env(t_tools *tools, char *var);
 void	ft_export(t_tools *tools);
 //unset
 void	ft_unset(t_tools *tools);

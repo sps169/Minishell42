@@ -130,7 +130,7 @@ static void	print_env(t_tools *tools)
 }
 
 
-static void	add_or_update_env(t_tools *tools, char *var)
+void	add_or_update_env(t_tools *tools, char *var)
 {
 	char *name = get_env_name(var);
 	char *value = get_env_value(var);
