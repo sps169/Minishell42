@@ -144,18 +144,37 @@ size_t count_string(char *s, char z);
 /*
  * parse_utils
  */
-char	*word_dup(char *str, int start, int finish);
-char *word_dup_after(char *s, char c, int i);
-char *word_dup_before(char *s, char c);
+
+
+
 int	count_words(const char *str, char c);
 char **list_dup_after(char* s, char c);
-int dup_after_pos(char *s, char c, int num);
 char **parse_args(char *s);
 void ft_free_arr(char **arr);
 char **arrdup(char **arr);
 size_t pos_after_char(char *str, char c);
 int find_match_quote(char *line, int i, int *num_del, int del);
 int count_quotes(char *line);
+
+
+/*
+ * parse_utils_1
+ */
+char	*word_dup(char *str, int start, int finish);
+char *word_dup_after(char *s, char c, int i);
+int dup_after_pos(char *s, char c, int num);
+char *word_dup_before(char *s, char c);
+
+
+/*
+ * parse_utils_2
+ */
+ void ft_free_arr(char **arr);
+ char **arrdup(char **arr);
+ size_t pos_after_char(char *str, char c);
+ int find_match_quote(char *line, int i, int *num_del, int del);
+ int	count_quotes(char *line);
+ 
 
 
 t_command *parser(char *s);
@@ -187,10 +206,12 @@ int 	if_ass_str(char **table);
 /*
  *	expansor.c
  */
- char *ft_strstr(const char *haystack, const char *needle);
-char *expansor(t_tools *tools);
+
+
 char *detect_dollar(t_tools *tools);
 int loop_dollar(t_tools *tools, char **aux, int j);
+char *expansor(t_tools *tools);
+
 
 
 /*
@@ -201,6 +222,14 @@ size_t equal_after(char *str);
 char *char_to_str(char c);
 int digit_after_dollar(int j, char *str);
 int after_dollar_lenght(char *str, int j);
+
+/*
+ *	expansor_utils_2.c
+ */
+char *ft_strstr(const char *haystack, const char *needle);
+char *expand_exit_status(char *str, int exit_status);
+
+
 
 
 /*

@@ -57,8 +57,6 @@ int parse_envp(t_tools *tools)
 		i++;
 	}
 	return (1);
-
-
 }
 
 

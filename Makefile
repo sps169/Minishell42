@@ -44,9 +44,12 @@ SRCS	=	$(SRC_DIR)main.c				\
 			$(SRC_DIR_PAR)init.c			\
 			$(SRC_DIR_PAR)split_minishell.c	\
 			$(SRC_DIR_PAR)parse_utils.c		\
+			$(SRC_DIR_PAR)parse_utils_1.c		\
+			$(SRC_DIR_PAR)parse_utils_2.c		\
 			$(SRC_DIR_PAR)quotes_aux.c		\
 			$(SRC_DIR_EXP)expansor.c		\
 			$(SRC_DIR_EXP)expansor_utils.c	\
+			$(SRC_DIR_EXP)expansor_utils_2.c	\
 			$(SRC_DIR_EXEC)executor.c		\
 			$(SRC_DIR_EXEC)ft_aux.c		\
 			$(SRC_DIR_EXEC)ft_aux_2.c		\
