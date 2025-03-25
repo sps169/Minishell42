@@ -87,18 +87,18 @@ static void	unset_variable(t_tools *tools, char *name)
 	tools->envp = new_envp;
 }
 
-void	ft_unset(t_tools *tools)
+void	ft_unset(t_command *command, t_tools *tools)
 {
 	int i = 1; // Iniciar en 1 para omitir el nombre del comando
 
-	if (!tools->command->args[i])
+	if (!command->args[i])
 		return;
 
 	tools->exit_status = 0;
 
-	while (tools->command->args[i])
+	while (command->args[i])
 	{
-		unset_variable(tools, tools->command->args[i]);
+		unset_variable(tools, command->args[i]);
 		i++;
 	}
 }

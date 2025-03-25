@@ -13,9 +13,9 @@
 #include "minishell.h"
 
 
-static int is_builtin(t_tools *tools)
+static int is_builtin(t_command *command)
 {
-	return (built_comprobation(tools));
+	return (built_comprobation(command));
 }
 
 static int handle_heredoc(t_redir *redir) {
@@ -112,7 +112,7 @@ int	fill_command_from_env(t_command *command, t_tools *tools)
 	int		i;
 	char	*joined;
 
-	if (is_builtin(tools))
+	if (is_builtin(command))
 		return (0);
 
 	found = 0;
@@ -235,98 +235,48 @@ static void run_command(t_command *command, t_tools *tools)
 {
 	if (redir_setup(command) == 0)
 	{
-		if (is_builtin(tools) == 1)
-			ft_builtin(tools);
+		if (is_builtin(command) && ft_strcmp(command->args[0],"exit") != 0)
+		{
+			ft_builtin(command, tools);
+		}
 		else
+		{
 			execve(command->args[0], command->args, tools->envp);
+		}
 	}
 }
 
-// static int exec_single_command(t_command *command, t_tools *tools) {
-	
-// 	int	pid;
-// 	int	status;
-
-// 	if (fill_command_from_env(command, tools) == -1)
-// 		return -1;
-// 	g_signal = S_CMD;
-// 	pid = fork();
-// 	if (pid == 0)
-// 	{
-// 		signal(SIGINT, SIG_DFL);
-// 		run_command(command, tools);
-// 		return (-1);
-// 	}
-// 	else if(pid > 0) {
-// 		//printf("DEBUG: Parent starts waiting\n");
-// 		waitpid(pid, &status, 0);
-// 		handle_status(status, tools);
-// 		//printf("DEBUG: Parent finish wait, child status -> %i\n", status);
-// 	} else {
-// 		printf("ERROR: fork failed with errno: %d\n", errno);	
-// 		return -1;
-// 	}
-// 	return status;
-	
-//  }
-
-// static int exec_single_command(t_command *command, t_tools *tools) {
-//     int pid;
-//     int status;
-
-//     if (fill_command_from_env(command, tools) == -1)
-//         return -1;
-//     g_signal = S_CMD;
-//     pid = fork();
-//     if (pid == 0) {
-//         if (is_builtin(tools) == 1) {
-//             ft_builtin(tools);
-//             if (ft_strcmp(command->args[0], "exit") == 0) {
-//                 exit(tools->exit_status);
-//             }
-//         } else {
-//             run_command(command, tools);
-//         }
-//         return (-1);
-//     } else if(pid > 0) {
-//         waitpid(pid, &status, 0);
-//         handle_status(status, tools);
-//         tools->exit_status = WEXITSTATUS(status); // Actualizar el código de salida aquí
-//     } else {
-//         printf("ERROR: fork failed with errno: %d\n", errno);    
-//         return -1;
-//     }
-//     return status;
-// }
 
 static int exec_single_command(t_command *command, t_tools *tools) {
 	
 	int	pid;
 	int	status;
 
+	// Verifica si es un builtin y ejecuta en el proceso padre
 	if (fill_command_from_env(command, tools) == -1)
 		return -1;
-	// Verifica si es un builtin y ejecuta en el proceso padre
-	if (is_builtin(tools))
-	{
-		ft_builtin(tools);
-		return 0;
-	}
 	g_signal = S_CMD;
 	pid = fork();
 	if (pid == 0)
 	{
 		signal(SIGINT, SIG_DFL);
 		run_command(command, tools);
+		if (is_builtin(command))
+		{
+			exit(0);
+		}
 		return (-1);
 	}
 	else if(pid > 0) {
 		//printf("DEBUG: Parent starts waiting\n");
 		waitpid(pid, &status, 0);
 		handle_status(status, tools);
+		if (is_builtin(command) && ft_strcmp(command->args[0],"exit") == 0)
+		{
+			ft_builtin(command, tools);
+		}
 		//printf("DEBUG: Parent finish wait, child status -> %i\n", status);
 	} else {
-		printf("ERROR: fork failed with errno: %d\n", errno);	
 		return -1;
 	}
 	return status;
@@ -386,7 +336,18 @@ int executor(t_tools *tools)
 					dup2(prev_pipe->pipe[0], STDIN_FILENO);
 					close(prev_pipe->pipe[0]);
 				}
+				if (is_builtin(curr_command) && ft_strcmp(curr_command->cmd_sep,"exit") == 0)
+				{
+					close(STDIN_FILENO);
+					close(STDOUT_FILENO);
+					return (0);
+				}
 				run_command(curr_command, tools);
+				if (is_builtin(curr_command))
+				{
+					close(STDOUT_FILENO);
+					exit(0);
+				}
 				return (-1);
 			}
 			else
@@ -397,7 +358,7 @@ int executor(t_tools *tools)
 				}
 				if (prev_pipe)
 					close(prev_pipe->pipe[0]);
-				waitpid(pid, &child_status, 0);
+				waitpid(pid, &child_status, 0);		
 				handle_status(child_status, tools);
 			}
 		}

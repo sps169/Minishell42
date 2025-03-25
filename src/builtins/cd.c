@@ -91,20 +91,20 @@ static void	ft_change_oldpwd_env(t_tools *tools);
 static void	ft_change_pwd_env(t_tools *tools);
 
 
-void	ft_cd(t_tools *tools)
+void	ft_cd(t_command *command, t_tools *tools)
 {
 	char	*path;
 
 	path = NULL;
-	if (tools->command->args[1] && tools->command->args[2])
+	if (command->args[1] && command->args[2])
 	{
 		printf("cd: too many arguments\n");
 		tools->exit_status = 1;
 		return;
 	}
 	ft_change_oldpwd_env(tools);
-	if (tools->command->args[1])
-		path = ft_strdup(tools->command->args[1]);
+	if (command->args[1])
+		path = ft_strdup(command->args[1]);
 	else if (!path)
 		path = ft_strdup(getenv("HOME"));
 	if (chdir(path))

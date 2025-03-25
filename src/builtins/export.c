@@ -158,22 +158,22 @@ void	add_or_update_env(t_tools *tools, char *var)
 	free(value);
 }
 
-void	ft_export(t_tools *tools)
+void	ft_export(t_command *command, t_tools *tools)
 {
 	int	i;
 
 	tools->exit_status = 0;
 
-	if (tools->command->args[1] == NULL)
+	if (command->args[1] == NULL)
 	{
 		print_env(tools);
 	}
 	else
 	{
 		i = 1; // Iniciar en 1 para omitir el nombre del comando
-		while (tools->command->args[i])
+		while (command->args[i])
 		{
-			add_or_update_env(tools, tools->command->args[i]);
+			add_or_update_env(tools, command->args[i]);
 			i++;
 		}
 	}

@@ -208,20 +208,20 @@ int after_dollar_lenght(char *str, int j);
  */
 
 //cd
-void	ft_cd(t_tools *tools);
+void	ft_cd(t_command *command, t_tools *tools);
 
 //echo
 void print_lines(int i, char **str, int out);
-int ft_echo(t_tools *tools);
+int ft_echo(t_command *command);
 //env
-void ft_env(t_tools *tools);
+void ft_env(t_command *command, t_tools *tools);
 //pwd
 void ft_pwd(t_tools *tools);
 //export
 void	add_or_update_env(t_tools *tools, char *var);
-void	ft_export(t_tools *tools);
+void	ft_export(t_command *command, t_tools *tools);
 //unset
-void	ft_unset(t_tools *tools);
+void	ft_unset(t_command *command, t_tools *tools);
 //exit
 
 int	ft_exit(t_tools *tools);
@@ -241,8 +241,8 @@ void	add_arg_to_env(char *var, t_tools *tools);
 
 
 //BUILTING_DISTRIBUTOR
-int built_comprobation(t_tools *tools);
-void ft_builtin(t_tools *tools);
+int built_comprobation(t_command *command);
+void ft_builtin(t_command *command, t_tools *tools);
 
 
 /*
