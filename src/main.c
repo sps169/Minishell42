@@ -74,6 +74,8 @@ int minishell_loop(t_tools *tools)
 		if (g_signal == S_SIGINT)
 			tools->exit_status = 1;
 		tools->arg_str = readline("minishell? ");
+
+		
 		if (!tools->arg_str)
 		{
 			ft_putendl_fd("No line read, exit minishell", STDOUT_FILENO);
@@ -83,6 +85,11 @@ int minishell_loop(t_tools *tools)
 		free(tools->arg_str);
 		tools->arg_str = aux;
 		if (tools->arg_str[0] == '\0')
+		{
+			reset_tools(tools);
+			continue;
+		}
+		if (!validate_pipes(tools->arg_str))
 		{
 			reset_tools(tools);
 			continue;

@@ -12,6 +12,22 @@
 
 #include "minishell.h"
 
+int validate_pipes(char *str)
+{
+    int i = 0;
+    while (str[i] != '\0')
+    {
+        if (str[i] == '|' && str[i + 1] == ' ' && str[i + 2] == '|')
+        {
+            fprintf(stderr, "Error: Invalid syntax `| |`\n");
+            return 0; // Retorna 0 si se encuentra el error
+        }
+        i++;
+    }
+    return 1; // Retorna 1 si no se encuentra el error
+}
+
+
 int	ft_strlen_first_word(char *str)
 {
 	int	i;

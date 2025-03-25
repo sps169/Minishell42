@@ -113,6 +113,7 @@ void		parse_pip(t_command *list);
  * cmd.c
  */
 
+int validate_pipes(char *str);
 char *first_command(char *str);
 int	ft_strlen_first_word(char *str);
 char *arg_quote(char *str);
