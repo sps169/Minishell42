@@ -1,6 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_exit.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: migonzal <migonzal@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/25 15:43:29 by migonzal          #+#    #+#             */
+/*   Updated: 2025/03/25 18:04:48 by migonzal         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
-
-
 
 static void	free_tools(t_tools *tools)
 {
@@ -10,7 +20,6 @@ static void	free_tools(t_tools *tools)
 	free(tools->pwd);
 	free(tools->old_pwd);
 }
-
 
 static int	check_exit_args(t_tools *tools)
 {
@@ -36,7 +45,6 @@ static int	check_exit_args(t_tools *tools)
 	}
 	return (0);
 }
-
 
 int	ft_exit(t_tools *tools)
 {

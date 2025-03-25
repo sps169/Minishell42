@@ -6,7 +6,7 @@
 /*   By: migonzal <migonzal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 09:45:35 by migonzal          #+#    #+#             */
-/*   Updated: 2025/03/22 15:01:57 by migonzal         ###   ########.fr       */
+/*   Updated: 2025/03/25 18:18:21 by migonzal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@
 
 //VARIABLE GLOBAR
 extern int g_signal;
-
 
 typedef enum e_signal
 {
@@ -72,32 +71,43 @@ typedef struct s_pip
 
 typedef struct s_tools
 {
-	char 	*arg_str;
-	char	**paths;
-	char	**envp;
-	char	*pwd;
-	char	*old_pwd;
-	int		exit_status;
-	int		reset;
-	struct	s_env 	*env;
-	struct	s_command *command;
+	char				*arg_str;
+	char				**paths;
+	char				**envp;
+	char				*pwd;
+	char				*old_pwd;
+	int					exit_status;
+	int					reset;
+	struct s_env		*env;
+	struct s_command	*command;
 }					t_tools;
 
 typedef struct s_env
 {
-	char *var_name;
-	char *value_var;
-	struct s_env *next;
+	char			*var_name;
+	char			*value_var;
+	struct s_env	*next;
 }					t_env;
 
 /*
  * Parser_cells
  */
+char		*locate_redir_file(char *redir, int *i, int *status);
+t_redir		*create_redir_list(char *redir, int *status);
 
-t_command		*create_cell(char *cmd_sep);
-t_command		*add_cell(t_command *list, char *cmd_sep);
-void			print_list(t_command *list);
-t_redir			*create_redir_list(char *redir, int *status);
+/*
+ * Parser_cells_utils
+ */
+t_redir		*create_redir_node(char *file, int type, int *status);
+void		cleanse_redir_list(t_redir *redir);
+t_command	*create_cell(char *cmd_sep);
+t_command	*add_cell(t_command *list, char *cmd_sep);
+
+/*
+ * Parser_cells_redir
+ */
+t_redir		*create_redir_list(char *redir, int *status);
+int			locate_redir(char *redir, int *i);
 
 /*
  * Parser_pip
@@ -113,231 +123,217 @@ void		parse_pip(t_command *list);
  * cmd.c
  */
 
-int validate_pipes(char *str);
-char *first_command(char *str);
-int	ft_strlen_first_word(char *str);
-char *arg_quote(char *str);
+int			validate_pipes(char *str);
+char		*first_command(char *str);
+int			ft_strlen_first_word(char *str);
+char		*arg_quote(char *str);
 
 /*
  * init.c
  */
 
- t_command *init_command();
- void free_command(t_command *command);
-
-
+t_command	*init_command(void);
+void		free_command(t_command *command);
 
 /*
  * split minishell
  */
 
-void	*ft_free_matrix(char **mtx);
-char **split_minishell(char *s, char z);
-size_t count_tokens(char *s, char z);
-char *cross_string(char *s, size_t *i, char z);
-char *get_end_str(char *s, char c, size_t *len, int count, char z);
-size_t count_string(char *s, char z);
-
-
-
+void		*ft_free_matrix(char **mtx);
+char		**split_minishell(char *s, char z);
+size_t		count_tokens(char *s, char z);
+char		*cross_string(char *s, size_t *i, char z);
+char		*get_end_str(char *s, char c, size_t *len, int count, char z);
+size_t		count_string(char *s, char z);
 
 /*
  * parse_utils
  */
 
-
-
-int	count_words(const char *str, char c);
-char **list_dup_after(char* s, char c);
-char **parse_args(char *s);
-void ft_free_arr(char **arr);
-char **arrdup(char **arr);
-size_t pos_after_char(char *str, char c);
-int find_match_quote(char *line, int i, int *num_del, int del);
-int count_quotes(char *line);
-
+int			count_words(const char *str, char c);
+char		**list_dup_after(char *s, char c);
+char		**parse_args(char *s);
 
 /*
  * parse_utils_1
  */
-char	*word_dup(char *str, int start, int finish);
-char *word_dup_after(char *s, char c, int i);
-int dup_after_pos(char *s, char c, int num);
-char *word_dup_before(char *s, char c);
-
+char		*word_dup(char *str, int start, int finish);
+char		*word_dup_after(char *s, char c, int i);
+int			dup_after_pos(char *s, char c, int num);
+char		*word_dup_before(char *s, char c);
 
 /*
  * parse_utils_2
  */
- void ft_free_arr(char **arr);
- char **arrdup(char **arr);
- size_t pos_after_char(char *str, char c);
- int find_match_quote(char *line, int i, int *num_del, int del);
- int	count_quotes(char *line);
- 
+void		ft_free_arr(char **arr);
+char		**arrdup(char **arr);
+size_t		pos_after_char(char *str, char c);
+int			find_match_quote(char *line, int i, int *num_del, int del);
+int			count_quotes(char *line);
 
+/*
+ * Parser
+ */
 
-t_command *parser(char *s);
+t_command	*parser(char *s);
 
 /*
  * parse_envp
  */
- int     find_pwd(t_tools *tools);
- char *find_path(char **envp);
- int parse_envp(t_tools *t_tools);
+int			find_pwd(t_tools *tools);
+char		*find_path(char **envp);
+int			parse_envp(t_tools *t_tools);
 
- /*
-  *  parser_var
-  */
-int     get_char_pos(char *s, char c);
-char	*get_left_str(char *str);
-char	*get_right_str(char *str);
-int 	if_var(char *str);
-int 	if_ass_str(char **table);
+/*
+*  parser_var
+ */
+
+int			get_char_pos(char *s, char c);
+char		*get_left_str(char *str);
+char		*get_right_str(char *str);
+int			if_var(char *str);
+int			f_ass_str(char **table);
 
 /*
  * quotes_aux.c
  */
 
- size_t quotes_lenght(char *str);
- char    *delete_quotes(char *str, char c);
-
+size_t		quotes_lenght(char *str);
+char		*delete_quotes(char *str, char c);
 
 /*
  *	expansor.c
  */
 
-
-char *detect_dollar(t_tools *tools);
-int loop_dollar(t_tools *tools, char **aux, int j);
-char *expansor(t_tools *tools);
-
-
+char		*detect_dollar(t_tools *tools);
+int			loop_dollar(t_tools *tools, char **aux, int j);
+char		*expansor(t_tools *tools);
 
 /*
  *	expansor_utils.c
  */
-size_t dollar_after(char *str);
-size_t equal_after(char *str);
-char *char_to_str(char c);
-int digit_after_dollar(int j, char *str);
-int after_dollar_lenght(char *str, int j);
+size_t		dollar_after(char *str);
+size_t		equal_after(char *str);
+char		*char_to_str(char c);
+int			digit_after_dollar(int j, char *str);
+int			after_dollar_lenght(char *str, int j);
 
 /*
  *	expansor_utils_2.c
  */
-char *ft_strstr(const char *haystack, const char *needle);
-char *expand_exit_status(char *str, int exit_status);
-
-
-
+char		*ft_strstr(const char *haystack, const char *needle);
+char		*expand_exit_status(char *str, int exit_status);
 
 /*
  * BUILTINS
  */
 
 //cd
-void	ft_cd(t_tools *tools);
+void		ft_cd(t_tools *tools);
 
 //echo
-void print_lines(int i, char **str, int out);
-int ft_echo(t_tools *tools);
+void		print_lines(int i, char **str, int out);
+int			ft_echo(t_tools *tools);
 //env
-void ft_env(t_tools *tools);
+
+void		ft_env(t_tools *tools);
 //pwd
-void ft_pwd(t_tools *tools);
+void		ft_pwd(t_tools *tools);
 //export
-void	add_or_update_env(t_tools *tools, char *var);
-void	ft_export(t_tools *tools);
+
+void		add_or_update_env(t_tools *tools, char *var);
+void		ft_export(t_tools *tools);
 //unset
-void	ft_unset(t_tools *tools);
+void		ft_unset(t_tools *tools);
 //exit
 
-int	ft_exit(t_tools *tools);
+int			ft_exit(t_tools *tools);
 
 // env_utils
-char	*get_env_name(char *fullenv);
-char	*get_env_value(char *fullenv);
-void	ft_lstadd_back_env(t_env **lst, t_env *new);
-t_env	*ft_lstnew_env(char *name, char *value, int alloc);
-void	ft_lst_env_init(t_env **env, char **envp);
+char		*get_env_name(char *fullenv);
+char		*get_env_value(char *fullenv);
+void		ft_lstadd_back_env(t_env **lst, t_env *new);
+t_env		*ft_lstnew_env(char *name, char *value, int alloc);
+void		ft_lst_env_init(t_env **env, char **envp);
 
 //Export_utils
-int ft_strcmp(const char *s1, const char *s2);
-int ft_arraylen(char **array);
-void ft_memfree(void *ptr);
-void	add_arg_to_env(char *var, t_tools *tools);
-
+int			ft_strcmp(const char *s1, const char *s2);
+int			ft_arraylen(char **array);
+void		ft_memfree(void *ptr);
+void		add_arg_to_env(char *var, t_tools *tools);
 
 //BUILTING_DISTRIBUTOR
-int built_comprobation(t_tools *tools);
-void ft_builtin(t_tools *tools);
+int			built_comprobation(t_tools *tools);
+void		ft_builtin(t_tools *tools);
 
-
-/*
- * MINISHELL_LOOP
- */
-int reset_tools(t_tools *tools);
-int init_tools(t_tools *tools);
-int minishell_loop(t_tools *tools);
-
-
-
-
+// /*
+//  * MINISHELL_LOOP
+//  */
+// int			reset_tools(t_tools *tools);
+// int			init_tools(t_tools *tools);
+// int			minishell_loop(t_tools *tools);
 
 /*
  * BUILTINS_UTILS
  */
-void ft_free_list(t_env **list);
-void change_path(t_tools *tools);
-int check_valid_identifier(char c);
-
+void		ft_free_list(t_env **list);
+void		change_path(t_tools *tools);
+int			check_valid_identifier(char c);
 
 /*
  * Handle_ heredoc
  */
-int handle_heredoc(t_redir *redir);
+int			handle_heredoc(t_redir *redir);
 
 /*
  * executor_utils_pipe
  */
-t_pipe *create_pipe_list(int size);
-int	fill_command_from_env(t_command *command, t_tools *tools);
+t_pipe		*create_pipe_list(int size);
+int			fill_command_from_env(t_command *command, t_tools *tools);
 
 /*
  * executor_utils_open
  */
 
- int file_open(t_redir *redir);
- int exec_single_command(t_command *command, t_tools *tools);
+int			file_open(t_redir *redir);
+int			exec_single_command(t_command *command, t_tools *tools);
 
 /*
  * ft_aux
  */
-int is_builtin(t_tools *tools);
-void cleanse_pipe_list(t_pipe **first);
-int get_command_list_size(t_command *list);
-void fd_redir(t_redir *redir);
-int redir_setup(t_command *command);
+int			is_builtin(t_tools *tools);
+void		cleanse_pipe_list(t_pipe **first);
+int			get_command_list_size(t_command *list);
+void		fd_redir(t_redir *redir);
+int			redir_setup(t_command *command);
 
 /*
  * ft_aux_2
  */
- void handle_status(int status, t_tools *tools);
- void run_command(t_command *command, t_tools *tools);
-
-
+void		handle_status(int status, t_tools *tools);
+void		run_command(t_command *command, t_tools *tools);
 
 /*
  * Executor
  */
 
-int executor(t_tools *tools);
+int			executor(t_tools *tools);
 
 /*
  * Signal
  */
- void signal_init(void);
+void		signal_init(void);
+
+/*
+ * Minishel_loop
+ */
+int			minishell_loop(t_tools *tools);
+
+/*
+ * Main 
+ */
+int	init_tools(t_tools *tools);
+int	reset_tools(t_tools *tools);
 
 
 #endif

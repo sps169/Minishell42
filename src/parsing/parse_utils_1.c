@@ -15,10 +15,14 @@ char	*word_dup(char *str, int start, int finish)
 }
 
 
-char *word_dup_after(char *s, char c, int i)
+char	*word_dup_after(char *s, char c, int i)
 {
-	int start = 0;
-	int finish = 0;
+	int		start;
+	int		finish;
+	char	*res;
+
+	start = 0;
+	finish = 0;
 
 
 	while (s[i])
@@ -27,23 +31,25 @@ char *word_dup_after(char *s, char c, int i)
 		{
 			i++;
 			start = i;
-			while(s[i] == ' ')
+			while (s[i] == ' ')
 				i++;
 			while (s[i] != ' ' && s[i])
 				i++;
-		finish = i;
-		break;
+			finish = i;
+			break ;
 		}
 		i++;
 	}
-	char * res = word_dup(s, start, finish);
+	res = word_dup(s, start, finish);
 	return (res);
 
 }
 
-int dup_after_pos(char *s, char c, int num)
+int	dup_after_pos(char *s, char c, int num)
 {
-	int i = num;
+	int	i;
+
+	i = num;
 
 
 	while (s[i])
@@ -51,7 +57,7 @@ int dup_after_pos(char *s, char c, int num)
 		if (s[i] == c)
 		{
 			i++;
-			break;
+			break ;
 		}
 		i++;
 	}
@@ -59,12 +65,15 @@ int dup_after_pos(char *s, char c, int num)
 
 }
 
-char *word_dup_before(char *s, char c)
+char	*word_dup_before(char *s, char c)
 {
-	int i;
-	int start = 0;
-	int finish = 0;
+	int		i;
+	int		start;
+	int		finish;
+	char	*res;
 
+	start = 0;
+	finish = 0;
 	i = 0;
 	while (s[i])
 	{
@@ -72,16 +81,16 @@ char *word_dup_before(char *s, char c)
 		{
 			i--;
 			finish = i;
-			while(s[i] == ' ')
+			while (s[i] == ' ')
 				i--;
 			while (s[i] != ' ' && s[i])
 				i--;
-		start = i;
-		break ;
+			start = i;
+			break ;
 		}
 		i++;
 	}
-	char * res = word_dup(s, start, finish);
+	res = word_dup(s, start, finish);
 	return (res);
 }
 

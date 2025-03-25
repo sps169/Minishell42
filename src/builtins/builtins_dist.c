@@ -1,11 +1,18 @@
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtins_dist.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: migonzal <migonzal@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/25 15:38:01 by migonzal          #+#    #+#             */
+/*   Updated: 2025/03/25 18:03:28 by migonzal         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
-
-
-
-int built_comprobation(t_tools *tools)
+int	built_comprobation(t_tools *tools)
 {
 	if (!ft_strcmp(tools->command->args[0], "echo"))
 		return (1);
@@ -21,12 +28,11 @@ int built_comprobation(t_tools *tools)
 		return (1);
 	if (!ft_strcmp(tools->command->args[0], "exit"))
 		return (1);
-	else 
+	else
 		return (0);
 }
 
-
-void ft_builtin(t_tools *tools)
+void	ft_builtin(t_tools *tools)
 {
 	if (!ft_strcmp(tools->command->args[0], "env"))
 		ft_env(tools);
@@ -40,33 +46,6 @@ void ft_builtin(t_tools *tools)
 		ft_export(tools);
 	if (!ft_strcmp(tools->command->args[0], "unset"))
 		ft_unset(tools);
-	 if (!ft_strcmp(tools->command->args[0], "cd"))
-	 	ft_cd(tools);
+	if (!ft_strcmp(tools->command->args[0], "cd"))
+		ft_cd(tools);
 }
-
-
-// int (*builting_arr(char *str))(t_tools *tools)
-// {
-// 	static void *builtins[7][2] =  {
-// 	{"echo", echo},
-// 	{"cd", cd},
-// 	{"pwd", pwd},
-// 	{"export", export},
-// 	{"unset", unset},
-// 	{"env", env},
-// 	{"exit", ft_exit},
-// 	};
-// 	int	i;
-
-// 	i = 0;
-// 	while (i<7)
-// 	{
-// 		if (str)
-// 		{
-// 			if(!ft_strncmp(builtins[i][0], str, ft_strlen(builtins[i][0])))
-// 				return (builtins[i][1]);
-// 		}
-// 		i++;
-// 	}
-// 	return (NULL);
-// }

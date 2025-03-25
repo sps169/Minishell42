@@ -6,7 +6,7 @@
 #    By: migonzal <migonzal@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/13 09:43:48 by migonzal          #+#    #+#              #
-#    Updated: 2024/07/23 12:02:18 by migonzal         ###   ########.fr        #
+#    Updated: 2025/03/25 17:51:32 by migonzal         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,6 +39,8 @@ SRCS	=	$(SRC_DIR)main.c				\
 			$(SRC_DIR_PAR)parser.c			\
 			$(SRC_DIR_PAR)parse_env.c		\
 			$(SRC_DIR_PAR)parser_cells.c	\
+			$(SRC_DIR_PAR)parser_cells_utils.c	\
+			$(SRC_DIR_PAR)parser_cells_utils_redir.c	\
 			$(SRC_DIR_PAR)parser_var.c		\
 			$(SRC_DIR_PAR)cmd.c				\
 			$(SRC_DIR_PAR)init.c			\
@@ -51,6 +53,7 @@ SRCS	=	$(SRC_DIR)main.c				\
 			$(SRC_DIR_EXP)expansor_utils.c	\
 			$(SRC_DIR_EXP)expansor_utils_2.c	\
 			$(SRC_DIR_EXEC)executor.c		\
+			$(SRC_DIR_EXEC)minishell_loop.c		\
 			$(SRC_DIR_EXEC)ft_aux.c		\
 			$(SRC_DIR_EXEC)ft_aux_2.c		\
 			$(SRC_DIR_EXEC)executor_utils_open.c		\

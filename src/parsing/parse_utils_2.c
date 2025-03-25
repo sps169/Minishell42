@@ -1,13 +1,26 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_utils_2.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: migonzal <migonzal@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/25 16:03:41 by migonzal          #+#    #+#             */
+/*   Updated: 2025/03/25 16:05:00 by migonzal         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+
 
 #include "minishell.h"
 
 
-void ft_free_arr(char **arr)
+void	ft_free_arr(char **arr)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while(arr[i])
+	while (arr[i])
 	{
 		free(arr[i]);
 		i++;
@@ -15,37 +28,37 @@ void ft_free_arr(char **arr)
 	free(arr);
 }
 
-char **arrdup(char **arr)
+char	**arrdup(char **arr)
 {
-	char **aux;
-	size_t i;
+	char	**aux;
+	size_t	i;
 
 	i = 0;
-	while(arr[i] != NULL)
+	while (arr[i] != NULL)
 		i++;
-	aux = ft_calloc(sizeof(char*), i +1);
-	if(!aux)
+	aux = ft_calloc(sizeof(char*), i + 1);
+	if (!aux)
 		return (NULL);
 	i = 0;
-	while(arr[i] != NULL)
+	while (arr[i] != NULL)
 	{
 		aux[i] = ft_strdup(arr[i]);
-		if(aux[i] == NULL)
+		if (aux[i] == NULL)
 		{
 			ft_free_arr(aux);
-			return(aux);
+			return (aux);
 		}
 		i++;
 	}
 	return (aux);
 }
 
-size_t pos_after_char(char *str, char c)
+size_t	pos_after_char(char *str, char c)
 {
-	size_t i;
+	size_t	i;
 
 	i = 0;
-	while(str[i])
+	while (str[i])
 	{
 		if (str[i] == c)
 			return (i + 1);
@@ -54,7 +67,7 @@ size_t pos_after_char(char *str, char c)
 	return (0);
 }
 
-int find_match_quote(char *line, int i, int *num_del, int del)
+int	find_match_quote(char *line, int i, int *num_del, int del)
 {
 	int	j;
 

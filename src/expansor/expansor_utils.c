@@ -1,8 +1,21 @@
-# include "minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expansor_utils.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: migonzal <migonzal@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/25 15:21:39 by migonzal          #+#    #+#             */
+/*   Updated: 2025/03/25 18:09:13 by migonzal         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-size_t dollar_after(char *str)
+#include "minishell.h"
+
+size_t	dollar_after(char *str)
 {
-	size_t i;
+	size_t	i;
+
 	i = 0;
 	while (str[i])
 	{
@@ -13,9 +26,10 @@ size_t dollar_after(char *str)
 	return (0);
 }
 
-size_t equal_after(char *str)
+size_t	equal_after(char *str)
 {
-	size_t i;
+	size_t	i;
+
 	i = 0;
 	while (str[i])
 	{
@@ -26,39 +40,36 @@ size_t equal_after(char *str)
 	return (0);
 }
 
-
-
-char *char_to_str(char c)
+char	*char_to_str(char c)
 {
-	char *str;
+	char	*str;
+
 	str = ft_calloc(sizeof(char), 2);
 	str[0] = c;
 	return (str);
 }
 
-int digit_after_dollar(int j, char *str)
+int	digit_after_dollar(int j, char *str)
 {
 	int	i;
 
 	i = j;
 	if (str[j] == '$')
 	{
-		if(ft_isdigit(str[j + 1]) == 1)
+		if (ft_isdigit(str[j + 1]) == 1)
 			j += 2;
 	}
 	return (j - i);
 }
 
-int after_dollar_lenght(char *str, int j)
+int	after_dollar_lenght(char *str, int j)
 {
-  int i;
+	int	i;
 
-  i = j + 1;
-  while (str[i] != '\0' && str[i] != '$' && str[i] != ' ' &&
-          str[i] != '\"' && str[i] != '\'' && str[i] != '=' &&
-          str[i] != '-' && str[i] != ':')
-    i++;
-  return (i);
+	i = j + 1;
+	while (str[i] != '\0' && str[i] != '$' && str[i]
+		!= ' ' && str[i] != '\"' && str[i] != '\'' && str[i]
+		!= '=' && str[i] != '-' && str[i] != ':')
+		i++;
+	return (i);
 }
-
-

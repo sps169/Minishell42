@@ -1,8 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_aux_2.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: migonzal <migonzal@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/25 14:04:11 by migonzal          #+#    #+#             */
+/*   Updated: 2025/03/25 15:23:58 by migonzal         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+
 
 #include "minishell.h"
 
 
-void handle_status(int status, t_tools *tools)
+void	handle_status(int status, t_tools *tools)
 {
 	if (WIFEXITED(status))
 		tools->exit_status = WEXITSTATUS(status);
@@ -13,7 +26,7 @@ void handle_status(int status, t_tools *tools)
 	g_signal = S_BASE;
 }
 
-void run_command(t_command *command, t_tools *tools) 
+void	run_command(t_command *command, t_tools *tools)
 {
 	if (redir_setup(command) == 0)
 	{

@@ -1,10 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser_var.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: migonzal <migonzal@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/25 17:14:44 by migonzal          #+#    #+#             */
+/*   Updated: 2025/03/25 19:04:24 by migonzal         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+
 #include "minishell.h"
 
-
-
-char *get_right_str(char *str)
+char	*get_right_str(char *str)
 {
-    char *res;
+	char	*res;
     int i = 0;
     int pos = get_char_pos(str, '=');
     int lon_str = ft_strlen(str);
@@ -25,73 +36,69 @@ char *get_right_str(char *str)
 
 char *get_left_str(char *str)
 {
-    char *res;
-    int i;
-    int pos;
+	char	*res;
+	int		i;
+	int		pos;
 
-    pos = get_char_pos(str, '=');
-    res = ft_calloc(pos, sizeof(char));
-    i = 0;
+	pos = get_char_pos(str, '=');
+	res = ft_calloc(pos, sizeof(char));
+	i = 0;
 
-    while(i < pos)
-    {
-        res[i] = str[i];
-        i++;
-    }
-    res[i] = '\0';
-    return (res);
+	while (i < pos)
+	{
+		res[i] = str[i];
+		i++;
+	}
+	res[i] = '\0';
+	return (res);
 
 }
 
 
-int get_char_pos(char *s, char c)
+int	get_char_pos(char *s, char c)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    while (s[i])
-    {
-        if (s[i] == c)
-            return (i);
-
-        i++;
-    }   
-    return (0);
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] == c)
+			return (i);
+		i++;
+	}
+	return (0);
 }
 
 
-int if_var(char *str)
+int	if_var(char *str)
 {
-    char *aux;
-    int len;
+	char	*aux;
+	int		len;
 
-    len = ft_strlen(str);
+	len = ft_strlen(str);
+	aux = ft_strchr(str, '=');
 
-    aux = ft_strchr(str, '=');
-
-    if (aux != NULL && (aux == str || str[0] != '\"' || str[len-1] != '\"'))
-    {
-        return (1);
-    }
-    else
-    {
-        return (0);
-    }
+	if (aux != NULL && (aux == str || str[0] != '\"' || str[len-1] != '\"'))
+	{
+		return (1);
+	}
+	else
+	{
+		return (0);
+	}
 }
 
-int if_ass_str(char **table)
+int	if_ass_str(char **table)
 {
-    int i;
+	int	i;
 
-
-    i = 0;
-
-    while(table[i])
-    {
-        if (if_var(table[i]))
-            i++;
-        else
-            return(0);
-    }
-    return (1);
+	i = 0;
+	while (table[i])
+	{
+		if (if_var(table[i]))
+			i++;
+		else
+			return (0);
+	}
+	return (1);
 }
