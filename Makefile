@@ -48,6 +48,11 @@ SRCS	=	$(SRC_DIR)main.c				\
 			$(SRC_DIR_EXP)expansor.c		\
 			$(SRC_DIR_EXP)expansor_utils.c	\
 			$(SRC_DIR_EXEC)executor.c		\
+			$(SRC_DIR_EXEC)ft_aux.c		\
+			$(SRC_DIR_EXEC)ft_aux_2.c		\
+			$(SRC_DIR_EXEC)executor_utils_open.c		\
+			$(SRC_DIR_EXEC)executor_utils_pipe.c		\
+			$(SRC_DIR_EXEC)handle_heredoc.c		\
 			$(SRC_DIR_EXEC)signal.c		\
 			$(SRC_DIR_BUILT)env_utils.c	\
 			$(SRC_DIR_BUILT)export_utils.c	\

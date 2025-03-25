@@ -263,6 +263,42 @@ void ft_free_list(t_env **list);
 void change_path(t_tools *tools);
 int check_valid_identifier(char c);
 
+
+/*
+ * Handle_ heredoc
+ */
+int handle_heredoc(t_redir *redir);
+
+/*
+ * executor_utils_pipe
+ */
+t_pipe *create_pipe_list(int size);
+int	fill_command_from_env(t_command *command, t_tools *tools);
+
+/*
+ * executor_utils_open
+ */
+
+ int file_open(t_redir *redir);
+ int exec_single_command(t_command *command, t_tools *tools);
+
+/*
+ * ft_aux
+ */
+int is_builtin(t_tools *tools);
+void cleanse_pipe_list(t_pipe **first);
+int get_command_list_size(t_command *list);
+void fd_redir(t_redir *redir);
+int redir_setup(t_command *command);
+
+/*
+ * ft_aux_2
+ */
+ void handle_status(int status, t_tools *tools);
+ void run_command(t_command *command, t_tools *tools);
+
+
+
 /*
  * Executor
  */
