@@ -119,16 +119,21 @@ int	fill_command_from_env(t_command *command, t_tools *tools)
 	i = 0;
 	while (tools->paths[i] && !found)
 	{
-		joined = ft_strjoin(tools->paths[i], command->args[0]);
-		if (access(joined, R_OK | X_OK) != -1)
-		{
-			free(command->args[0]);
-			command->args[0] = joined;
+		if (access(command->args[0], R_OK | X_OK) != -1)
 			found = 1;
+		else
+		{
+			joined = ft_strjoin(tools->paths[i], command->args[0]);
+			if (!found && access(joined, R_OK | X_OK) != -1)
+			{
+				free(command->args[0]);
+				command->args[0] = joined;
+				found = 1;
+			}
+			else 
+				free(joined);
+			i++;
 		}
-		else 
-			free(joined);
-		i++;
 	}
 	if (found == 0)
 	{
@@ -235,7 +240,7 @@ static void run_command(t_command *command, t_tools *tools)
 {
 	if (redir_setup(command) == 0)
 	{
-		if (is_builtin(command) && ft_strcmp(command->args[0],"exit") != 0)
+		if (is_builtin(command))
 		{
 			ft_builtin(command, tools);
 		}
@@ -251,8 +256,21 @@ static int exec_single_command(t_command *command, t_tools *tools) {
 	
 	int	pid;
 	int	status;
+	int stdin_fd;
+	int stdout_fd;
 
 	// Verifica si es un builtin y ejecuta en el proceso padre
+	if (is_builtin(command))
+	{
+		stdin_fd = dup(STDIN_FILENO);
+		stdout_fd = dup(STDOUT_FILENO);
+		run_command(command, tools);
+		dup2(stdin_fd, STDIN_FILENO);
+		dup2(stdout_fd, STDOUT_FILENO);
+		close(stdin_fd);
+		close(stdout_fd);
+		return (0);
+	}
 	if (fill_command_from_env(command, tools) == -1)
 		return -1;
 	g_signal = S_CMD;
@@ -261,27 +279,19 @@ static int exec_single_command(t_command *command, t_tools *tools) {
 	{
 		signal(SIGINT, SIG_DFL);
 		run_command(command, tools);
-		if (is_builtin(command))
-		{
-			exit(0);
-		}
 		return (-1);
 	}
 	else if(pid > 0) {
 		//printf("DEBUG: Parent starts waiting\n");
 		waitpid(pid, &status, 0);
 		handle_status(status, tools);
-		if (is_builtin(command) && ft_strcmp(command->args[0],"exit") == 0)
-		{
-			ft_builtin(command, tools);
-		}
 		//printf("DEBUG: Parent finish wait, child status -> %i\n", status);
 	} else {
 		return -1;
 	}
 	return status;
 	
- }
+}
 
 int executor(t_tools *tools)
 {
