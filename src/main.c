@@ -182,8 +182,8 @@ int	main(int argc, char **argv, char **envp)
 		printf("Este programa no acepta argumentos inútil\n");
 		exit(0);
 	}
-	signal_init();
 	tools.envp = arrdup(envp);
+	signal_init();
 	find_pwd(&tools);
 	init_tools(&tools);
 	printf("AQUI EMPIEZA LA MINISHELL\n");

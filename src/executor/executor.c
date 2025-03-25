@@ -242,6 +242,63 @@ static void run_command(t_command *command, t_tools *tools)
 	}
 }
 
+// static int exec_single_command(t_command *command, t_tools *tools) {
+	
+// 	int	pid;
+// 	int	status;
+
+// 	if (fill_command_from_env(command, tools) == -1)
+// 		return -1;
+// 	g_signal = S_CMD;
+// 	pid = fork();
+// 	if (pid == 0)
+// 	{
+// 		signal(SIGINT, SIG_DFL);
+// 		run_command(command, tools);
+// 		return (-1);
+// 	}
+// 	else if(pid > 0) {
+// 		//printf("DEBUG: Parent starts waiting\n");
+// 		waitpid(pid, &status, 0);
+// 		handle_status(status, tools);
+// 		//printf("DEBUG: Parent finish wait, child status -> %i\n", status);
+// 	} else {
+// 		printf("ERROR: fork failed with errno: %d\n", errno);	
+// 		return -1;
+// 	}
+// 	return status;
+	
+//  }
+
+// static int exec_single_command(t_command *command, t_tools *tools) {
+//     int pid;
+//     int status;
+
+//     if (fill_command_from_env(command, tools) == -1)
+//         return -1;
+//     g_signal = S_CMD;
+//     pid = fork();
+//     if (pid == 0) {
+//         if (is_builtin(tools) == 1) {
+//             ft_builtin(tools);
+//             if (ft_strcmp(command->args[0], "exit") == 0) {
+//                 exit(tools->exit_status);
+//             }
+//         } else {
+//             run_command(command, tools);
+//         }
+//         return (-1);
+//     } else if(pid > 0) {
+//         waitpid(pid, &status, 0);
+//         handle_status(status, tools);
+//         tools->exit_status = WEXITSTATUS(status); // Actualizar el código de salida aquí
+//     } else {
+//         printf("ERROR: fork failed with errno: %d\n", errno);    
+//         return -1;
+//     }
+//     return status;
+// }
+
 static int exec_single_command(t_command *command, t_tools *tools) {
 	
 	int	pid;
@@ -249,6 +306,12 @@ static int exec_single_command(t_command *command, t_tools *tools) {
 
 	if (fill_command_from_env(command, tools) == -1)
 		return -1;
+	// Verifica si es un builtin y ejecuta en el proceso padre
+	if (is_builtin(tools))
+	{
+		ft_builtin(tools);
+		return 0;
+	}
 	g_signal = S_CMD;
 	pid = fork();
 	if (pid == 0)

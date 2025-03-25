@@ -186,6 +186,7 @@ int 	if_ass_str(char **table);
 /*
  *	expansor.c
  */
+ char *ft_strstr(const char *haystack, const char *needle);
 char *expansor(t_tools *tools);
 char *detect_dollar(t_tools *tools);
 int loop_dollar(t_tools *tools, char **aux, int j);
@@ -214,7 +215,7 @@ int ft_echo(t_tools *tools);
 //env
 void ft_env(t_tools *tools);
 //pwd
-int ft_pwd(t_tools *tools);
+void ft_pwd(t_tools *tools);
 //export
 void	add_or_update_env(t_tools *tools, char *var);
 void	ft_export(t_tools *tools);
