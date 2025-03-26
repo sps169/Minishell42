@@ -5,7 +5,7 @@
 
 
 
-int built_comprobation(t_command *command)
+int is_builtin(t_command *command)
 {
 	if (!ft_strcmp(command->args[0], "echo"))
 		return (1);

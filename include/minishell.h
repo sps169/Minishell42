@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: migonzal <migonzal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sperez-s <sperez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 09:45:35 by migonzal          #+#    #+#             */
-/*   Updated: 2025/03/22 15:01:57 by migonzal         ###   ########.fr       */
+/*   Updated: 2025/03/26 12:06:01 by sperez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -241,7 +241,7 @@ void	add_arg_to_env(char *var, t_tools *tools);
 
 
 //BUILTING_DISTRIBUTOR
-int built_comprobation(t_command *command);
+int is_builtin(t_command *command);
 void ft_builtin(t_command *command, t_tools *tools);
 
 
@@ -268,6 +268,9 @@ int check_valid_identifier(char c);
  */
 
 int executor(t_tools *tools);
+t_pipe *create_pipe_list(int size);
+void cleanse_pipe_list(t_pipe **first);
+int redir_setup(t_command *command);
 
 /*
  * Signal
