@@ -6,7 +6,7 @@
 #    By: sperez-s <sperez-s@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/13 09:43:48 by migonzal          #+#    #+#              #
-#    Updated: 2025/03/26 12:05:58 by sperez-s         ###   ########.fr        #
+#    Updated: 2025/03/26 21:07:56 by sperez-s         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,8 +48,12 @@ SRCS	=	$(SRC_DIR)main.c				\
 			$(SRC_DIR_EXP)expansor.c		\
 			$(SRC_DIR_EXP)expansor_utils.c	\
 			$(SRC_DIR_EXEC)executor.c		\
+			$(SRC_DIR_EXEC)executor_single_command.c		\
+			$(SRC_DIR_EXEC)executor_complex_command.c		\
+			$(SRC_DIR_EXEC)executor_utils.c		\
 			$(SRC_DIR_EXEC)pipe_utils.c		\
 			$(SRC_DIR_EXEC)redir.c		\
+			$(SRC_DIR_EXEC)file_open.c		\
 			$(SRC_DIR_EXEC)signal.c		\
 			$(SRC_DIR_BUILT)env_utils.c	\
 			$(SRC_DIR_BUILT)export_utils.c	\

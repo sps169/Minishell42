@@ -6,7 +6,7 @@
 /*   By: sperez-s <sperez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 09:45:35 by migonzal          #+#    #+#             */
-/*   Updated: 2025/03/26 12:06:01 by sperez-s         ###   ########.fr       */
+/*   Updated: 2025/03/26 21:08:07 by sperez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -268,9 +268,24 @@ int check_valid_identifier(char c);
  */
 
 int executor(t_tools *tools);
+void	run_command(t_command *command, t_tools *tools);
+
+int file_open(t_redir *redir);
+
 t_pipe *create_pipe_list(int size);
 void cleanse_pipe_list(t_pipe **first);
 int redir_setup(t_command *command);
+
+int	get_command_list_size(t_command *list);
+int	fill_command_from_env(t_command *command, t_tools *tools);
+int	find_command_in_route(t_command *command, char *path);
+void	handle_status(int status, t_tools *tools);
+t_pipe	*obtain_related_pipe_from_list(t_pipe *ps,
+		unsigned int pos, int is_prev);
+
+int	exec_compound_command(t_tools *tools, unsigned int size);
+
+int	exec_single_command(t_command *command, t_tools *tools);
 
 /*
  * Signal
