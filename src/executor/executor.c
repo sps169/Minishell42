@@ -30,6 +30,11 @@ static int handle_heredoc(t_redir *redir) {
 
     // Prompt para que el usuario introduzca líneas hasta que se encuentra el delimitador
     while (1) {
+		if (g_signal == S_SIGINT)
+		{
+			g_signal = S_HEREDOC_END;
+			break;
+		}
         line = readline("> ");
         if (line == NULL) {
             // Fin de la entrada (Ctrl+D)

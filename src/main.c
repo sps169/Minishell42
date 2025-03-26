@@ -78,7 +78,7 @@ int minishell_loop(t_tools *tools)
 		
 		if (!tools->arg_str)
 		{
-			ft_putendl_fd("No line read, exit minishell", STDOUT_FILENO);
+			ft_putendl_fd("exit", STDOUT_FILENO);
 			exit(EXIT_SUCCESS);
 		}
 		aux = ft_strtrim(tools->arg_str, " ");

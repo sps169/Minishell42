@@ -18,21 +18,63 @@ char *ft_strstr(const char *haystack, const char *needle) {
 }
 
 // Función para reemplazar $? por el código de salida del último comando
-char *expand_exit_status(char *str, int exit_status) {
-    char *result;
-    char *exit_status_str;
-    char *pos;
+// char *expand_exit_status(char *str, int exit_status) {
+//     char *result;
+//     char *exit_status_str;
+//     char *pos;
 
-    pos = ft_strstr(str, "$?");
-    if (!pos)
-        return str;
+//     pos = ft_strstr(str, "$?");
+//     if (!pos)
+//         return str;
+
+//     exit_status_str = ft_itoa(exit_status);
+//     if (!exit_status_str)
+//         return str;
+
+//     result = ft_strjoin(ft_substr(str, 0, pos - str), exit_status_str);
+//     result = ft_strjoin(result, pos + 2);
+
+//     free(exit_status_str);
+//     free(str);
+
+//     return result;
+// }
+
+char *expand_exit_status(char *str, int exit_status) {
+    char *result = NULL;
+    char *exit_status_str;
+    char *pos, *prev_pos;
 
     exit_status_str = ft_itoa(exit_status);
     if (!exit_status_str)
         return str;
 
-    result = ft_strjoin(ft_substr(str, 0, pos - str), exit_status_str);
-    result = ft_strjoin(result, pos + 2);
+    prev_pos = str;
+    while ((pos = ft_strstr(prev_pos, "$?")) != NULL) {
+        // Concatenar la parte anterior a $?
+        if (!result) {
+            result = ft_substr(str, 0, pos - str);
+        } else {
+            char *temp = ft_strjoin(result, ft_substr(prev_pos, 0, pos - prev_pos));
+            free(result);
+            result = temp;
+        }
+
+        // Concatenar el valor de exit_status
+        char *temp = ft_strjoin(result, exit_status_str);
+        free(result);
+        result = temp;
+
+        // Mover el puntero prev_pos después de $?
+        prev_pos = pos + 2;
+    }
+
+    // Concatenar la parte restante de la cadena
+    if (*prev_pos != '\0') {
+        char *temp = ft_strjoin(result, prev_pos);
+        free(result);
+        result = temp;
+    }
 
     free(exit_status_str);
     free(str);
