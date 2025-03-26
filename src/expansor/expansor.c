@@ -43,7 +43,7 @@ char *expand_exit_status(char *str, int exit_status) {
 char *expansor(t_tools *tools)
 {
 	char *aux;
-	//size_t dollar_pos;
+//	size_t dollar_pos;
 
 	aux = NULL;
 	//dollar_pos = dollar_after(tools->arg_str) -1;
@@ -57,8 +57,8 @@ char *expansor(t_tools *tools)
 			free(tools->arg_str);
 			tools->arg_str = aux;
 		}
-		tools->arg_str = delete_quotes(tools->arg_str, '\"');
-		tools->arg_str = delete_quotes(tools->arg_str, '\'');
+	//	tools->arg_str = delete_quotes(tools->arg_str, '\"');
+	//	tools->arg_str = delete_quotes(tools->arg_str, '\'');
 
 		return (tools->arg_str);
 }

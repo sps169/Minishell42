@@ -209,6 +209,14 @@ char **parse_args(char *s)
 		}
 		i++;
 	}
+
+	i = 0;
+	while (res[i])
+	{
+		delete_quotes(res[i], '\"');
+		delete_quotes(res[i], '\'');
+		i++;
+	}
 	return (res);
 
 }

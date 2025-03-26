@@ -95,7 +95,7 @@ int minishell_loop(t_tools *tools)
 			continue;
 		}
 
-		// Handling unclosed quotes
+	//	Handling unclosed quotes
 		for (int i = 0; tools->arg_str[i]; i++)
 		{
 			if (tools->arg_str[i] == '"' && !in_squote)
