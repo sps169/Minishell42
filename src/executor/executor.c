@@ -6,7 +6,7 @@
 /*   By: sperez-s <sperez-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 13:25:07 by sperez-s          #+#    #+#             */
-/*   Updated: 2025/03/26 15:52:35 by sperez-s         ###   ########.fr       */
+/*   Updated: 2025/03/26 17:40:32 by sperez-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,50 +140,75 @@ static int exec_single_command(t_command *command, t_tools *tools)
 	return status;
 }
 
-static int exec_piped_command(t_pipe *ps, t_pipe *prev_pipe, t_tools *tools, t_command *curr_command, unsigned int i)
+static t_pipe *obtain_related_pipe_from_list(t_pipe *ps, unsigned int pos, int is_prev)
+{
+	t_pipe			*curr_pipe;
+	unsigned int	i;
+
+	curr_pipe = ps;
+	i = 1;
+	if (!is_prev)
+		i = 0;
+	while (i < pos && curr_pipe) {
+		curr_pipe = curr_pipe->next;
+		i++;
+	}
+	if (pos == 0 && is_prev)
+		return NULL;
+	return curr_pipe;
+
+}
+
+static int piped_command_child (t_command *curr_command, t_pipes_command pipes, t_tools *tools, unsigned int i)
+{
+	signal(SIGINT, SIG_DFL);
+	if (curr_command->next)//not last
+	{
+		dup2(pipes.curr->pipe[1], STDOUT_FILENO);
+		close(pipes.curr->pipe[0]);
+		close(pipes.curr->pipe[1]);
+	}
+	if (i != 0)//not first
+	{
+		dup2(pipes.prev->pipe[0], STDIN_FILENO);
+		close(pipes.prev->pipe[0]);
+	}
+	if (is_builtin(curr_command) && ft_strcmp(curr_command->args[0],"exit") == 0)
+	{
+		close(STDIN_FILENO);
+		close(STDOUT_FILENO);
+		close(STDERR_FILENO);
+	}
+	run_command(curr_command, tools);
+	if (is_builtin(curr_command))
+	{
+		close(STDOUT_FILENO);
+		exit(0);
+	}
+	return (-1);
+}
+
+static int exec_piped_command(t_pipe *ps, t_tools *tools, t_command *curr_command, unsigned int i)
 {
 	int	pid;
 	int child_status;
+	t_pipes_command pipes;
 
+	pipes.prev = obtain_related_pipe_from_list(ps, i, 1);
+	pipes.curr = obtain_related_pipe_from_list(ps, i, 0);
 	if (fill_command_from_env(curr_command, tools) != -1) {
 
 			if (curr_command->next != NULL) //dont make new pipe at last command
-				pipe(ps->pipe);
+				pipe(pipes.curr->pipe);
 			pid = fork();
 			if (pid == 0)
-			{
-				signal(SIGINT, SIG_DFL);
-				if (curr_command->next)//not last
-				{
-					dup2(ps->pipe[1], STDOUT_FILENO);
-					close(ps->pipe[0]);
-					close(ps->pipe[1]);
-				}
-				if (i != 0)//not first
-				{
-					dup2(prev_pipe->pipe[0], STDIN_FILENO);
-					close(prev_pipe->pipe[0]);
-				}
-				if (is_builtin(curr_command) && ft_strcmp(curr_command->args[0],"exit") == 0)
-				{
-					close(STDIN_FILENO);
-					close(STDOUT_FILENO);
-					close(STDERR_FILENO);
-				}
-				run_command(curr_command, tools);
-				if (is_builtin(curr_command))
-				{
-					close(STDOUT_FILENO);
-					exit(0);
-				}
-				return (-1);
-			}
+				return (piped_command_child(curr_command, pipes, tools, i));
 			else
 			{
 				if (curr_command->next != NULL) //not last
-					close(ps->pipe[1]);
-				if (prev_pipe)
-					close(prev_pipe->pipe[0]);
+					close(pipes.curr->pipe[1]);
+				if (pipes.prev)
+					close(pipes.prev->pipe[0]);
 				waitpid(pid, &child_status, 0);		
 				handle_status(child_status, tools);
 			}
@@ -191,14 +216,13 @@ static int exec_piped_command(t_pipe *ps, t_pipe *prev_pipe, t_tools *tools, t_c
 		return (0);
 }
 
-static int exec_compound_command(t_tools *tools, unsigned int size) {
+static int exec_compound_command(t_tools *tools, unsigned int size)
+{
 	t_pipe *ps;
 	unsigned int i;
-	t_pipe *prev_pipe;
 	t_command *curr_command;
 
 	i = 0;
-	prev_pipe = NULL;
 	ps = create_pipe_list(size);
 	if (!ps)
 	{
@@ -208,17 +232,13 @@ static int exec_compound_command(t_tools *tools, unsigned int size) {
 	curr_command = tools->command;
 	while (i < size)
 	{
-		if (exec_piped_command(ps, prev_pipe, tools, curr_command, i) != 0)
+		if (exec_piped_command(ps, tools, curr_command, i) != 0)
 			return (1);
 		if (curr_command)
 			curr_command = curr_command->next;
-		if (ps)
-		{
-			prev_pipe = ps;
-			ps = ps->next;
-		}
 		i++;
 	}
+	cleanse_pipe_list(&ps);
 	return (0);
 }
 
