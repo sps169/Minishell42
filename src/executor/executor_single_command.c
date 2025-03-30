@@ -37,7 +37,8 @@ static int	fork_single_command(t_command *command, t_tools *tools)
 	pid = fork();
 	if (pid == 0)
 	{
-		signal(SIGINT, SIG_DFL);
+		signal(SIGINT, sigint_handler);
+		signal(SIGQUIT, sigquit_handler);
 		run_command(command, tools);
 		return (-1);
 	}
@@ -48,6 +49,8 @@ static int	fork_single_command(t_command *command, t_tools *tools)
 	}
 	else
 		return (-1);
+	g_signal = S_BASE;
+	signal(SIGQUIT, SIG_IGN);
 	return (status);
 }
 

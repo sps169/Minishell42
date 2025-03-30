@@ -24,6 +24,7 @@
 # include <sys/wait.h>
 # include <sys/stat.h>
 # include <sys/types.h>
+# include <sys/ioctl.h>
 # include <errno.h>
 # include <fcntl.h>
 # include <readline/readline.h>
@@ -38,6 +39,7 @@ typedef enum e_signal
 	S_BASE, // señal base
 	S_HEREDOC, //entra en el heredox
 	S_HEREDOC_END, // finalización del heredox
+	S_HEREDOC_INTERRUPTED, // 
 	S_SIGINT, // Ctrl + C
 	S_SIGINT_CMD, // Ctrl + C en medio de un comando
 	S_CMD, // Se ejecuta un comando
@@ -291,6 +293,8 @@ int	exec_single_command(t_command *command, t_tools *tools);
  * Signal
  */
  void signal_init(void);
+ void sigint_handler(int sig);
+ void sigquit_handler(int sig);
 
 
 #endif

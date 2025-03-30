@@ -22,6 +22,7 @@ static int	handle_heredoc(t_redir *redir)
 		perror("pipe");
 		return (-1);
 	}
+	g_signal = S_HEREDOC;
 	while (1)
 	{
 		line = readline("> ");
@@ -36,6 +37,7 @@ static int	handle_heredoc(t_redir *redir)
 		write(pipe_fd[1], "\n", 1);
 		free(line);
 	}
+	g_signal = S_BASE;
 	close(pipe_fd[1]);
 	redir->fd = pipe_fd[0];
 	return (1);

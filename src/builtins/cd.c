@@ -90,7 +90,6 @@
 static void	ft_change_oldpwd_env(t_tools *tools);
 static void	ft_change_pwd_env(t_tools *tools);
 
-
 void	ft_cd(t_command *command, t_tools *tools)
 {
 	char	*path;
@@ -104,7 +103,12 @@ void	ft_cd(t_command *command, t_tools *tools)
 	}
 	ft_change_oldpwd_env(tools);
 	if (command->args[1])
-		path = ft_strdup(command->args[1]);
+	{
+		if (ft_strcmp(command->args[1], "~") == 0)
+			path = ft_strdup(getenv("HOME"));
+		else
+			path = ft_strdup(command->args[1]);
+	}
 	else if (!path)
 		path = ft_strdup(getenv("HOME"));
 	if (chdir(path))
@@ -143,5 +147,3 @@ static void	ft_change_pwd_env(t_tools *tools)
 	ft_memfree(to_send);
 	ft_memfree(path);
 }
-
-

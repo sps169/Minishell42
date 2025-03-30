@@ -3,8 +3,6 @@
 #include "minishell.h"
 
 
-
-
 int is_builtin(t_command *command)
 {
 	if (!ft_strcmp(command->args[0], "echo"))
@@ -25,7 +23,6 @@ int is_builtin(t_command *command)
 		return (0);
 }
 
-
 void ft_builtin(t_command *command, t_tools *tools)
 {
 	if (!ft_strcmp(command->args[0], "env"))
@@ -43,30 +40,3 @@ void ft_builtin(t_command *command, t_tools *tools)
 	 if (!ft_strcmp(command->args[0], "cd"))
 	 	ft_cd(command, tools);
 }
-
-
-// int (*builting_arr(char *str))(t_tools *tools)
-// {
-// 	static void *builtins[7][2] =  {
-// 	{"echo", echo},
-// 	{"cd", cd},
-// 	{"pwd", pwd},
-// 	{"export", export},
-// 	{"unset", unset},
-// 	{"env", env},
-// 	{"exit", ft_exit},
-// 	};
-// 	int	i;
-
-// 	i = 0;
-// 	while (i<7)
-// 	{
-// 		if (str)
-// 		{
-// 			if(!ft_strncmp(builtins[i][0], str, ft_strlen(builtins[i][0])))
-// 				return (builtins[i][1]);
-// 		}
-// 		i++;
-// 	}
-// 	return (NULL);
-// }

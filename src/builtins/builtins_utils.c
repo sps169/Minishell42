@@ -16,7 +16,6 @@ void ft_free_list(t_env **list)
 	*list = NULL;
 }
 
-
 void change_path(t_tools *tools)
 {
 	char *aux;
