@@ -2,7 +2,6 @@
 
 #include "minishell.h"
 
-
 int is_builtin(t_command *command)
 {
 	if (!ft_strcmp(command->args[0], "echo"))
@@ -19,7 +18,7 @@ int is_builtin(t_command *command)
 		return (1);
 	if (!ft_strcmp(command->args[0], "exit"))
 		return (1);
-	else 
+	else
 		return (0);
 }
 

@@ -26,8 +26,6 @@ size_t equal_after(char *str)
 	return (0);
 }
 
-
-
 char *char_to_str(char c)
 {
 	char *str;
@@ -51,14 +49,14 @@ int digit_after_dollar(int j, char *str)
 
 int after_dollar_lenght(char *str, int j)
 {
-  int i;
+	int i;
 
-  i = j + 1;
-  while (str[i] != '\0' && str[i] != '$' && str[i] != ' ' &&
-          str[i] != '\"' && str[i] != '\'' && str[i] != '=' &&
-          str[i] != '-' && str[i] != ':')
-    i++;
-  return (i);
+	i = j + 1;
+	while (str[i] != '\0' && str[i] != '$' && str[i] != ' ' &&
+		str[i] != '\"' && str[i] != '\'' && str[i] != '=' &&
+		str[i] != '-' && str[i] != ':')
+		i++;
+	return (i);
 }
 
 

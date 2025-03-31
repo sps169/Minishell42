@@ -12,11 +12,6 @@
 
 #include "minishell.h"
 
-size_t	count_tokens(char *s, char z);
-char		*cross_string(char *s, size_t *i, char z);
-char		*get_end_str(char *s, char c, size_t *len, int count, char z);
-size_t	count_string(char *s, char z);
-
 void	*ft_free_matrix(char **mtx)
 {
 	int	i;
@@ -32,7 +27,6 @@ void	*ft_free_matrix(char **mtx)
 	free(mtx);
 	return (NULL);
 }
-
 
 char **split_minishell(char *s, char z)
 {

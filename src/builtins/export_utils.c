@@ -4,8 +4,6 @@
 
 static int	check_variable(char *name, char *value, t_tools *tools);
 
-
-
 int ft_strcmp(const char *s1, const char *s2)
 {
 	while (*s1 == *s2)
@@ -17,7 +15,6 @@ int ft_strcmp(const char *s1, const char *s2)
 	}
 	return (*s1 - *s2);
 }
-
 
 int ft_arraylen(char **array)
 {
@@ -31,12 +28,11 @@ int ft_arraylen(char **array)
 
 void ft_memfree(void *ptr)
 {
-    if (!ptr)
-        return ;
-    free(ptr);
-    ptr = NULL;
+	if (!ptr)
+		return ;
+	free(ptr);
+	ptr = NULL;
 }
-
 
 void	add_arg_to_env(char *var, t_tools *tools)
 {
@@ -54,7 +50,6 @@ void	add_arg_to_env(char *var, t_tools *tools)
 		ft_lstadd_back_env(&tools->env, env);
 	}
 }
-
 
 static int	check_variable(char *name, char *value, t_tools *tools)
 {
@@ -77,5 +72,3 @@ static int	check_variable(char *name, char *value, t_tools *tools)
 	}
 	return (0);
 }
-
-	

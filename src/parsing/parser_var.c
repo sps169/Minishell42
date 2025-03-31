@@ -81,17 +81,16 @@ int if_var(char *str)
 
 int if_ass_str(char **table)
 {
-    int i;
+	int i;
 
+	i = 0;
 
-    i = 0;
-
-    while(table[i])
-    {
-        if (if_var(table[i]))
-            i++;
-        else
-            return(0);
-    }
-    return (1);
+	while(table[i])
+	{
+		if (if_var(table[i]))
+			i++;
+		else
+			return(0);
+	}
+	return (1);
 }

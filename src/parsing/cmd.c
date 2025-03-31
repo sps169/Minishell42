@@ -14,17 +14,17 @@
 
 int validate_pipes(char *str)
 {
-    int i = 0;
-    while (str[i] != '\0')
-    {
-        if (str[i] == '|' && str[i + 1] == ' ' && str[i + 2] == '|')
-        {
-            fprintf(stderr, "Error: Invalid syntax `| |`\n");
-            return 0; // Retorna 0 si se encuentra el error
-        }
-        i++;
-    }
-    return 1; // Retorna 1 si no se encuentra el error
+	int i = 0;
+	while (str[i] != '\0')
+	{
+		if (str[i] == '|' && str[i + 1] == ' ' && str[i + 2] == '|')
+		{
+			printf("Error: Invalid syntax `| |'\n");
+			return (0);
+		}
+		i++;
+	}
+	return (1);
 }
 
 
@@ -35,7 +35,6 @@ int	ft_strlen_first_word(char *str)
 
 	cont = 0;
 	i = 0;
-
 	while (str[i] == ' ')
 		i++;
 	while (str[i] != ' ')
@@ -55,7 +54,6 @@ char *first_command(char *str)
 	i = 0;
 	j = 0;
 	res = malloc(sizeof(char) * (ft_strlen_first_word(str) + 1));
-
 	if (!str)
 	{
 		printf("No hay comando");
@@ -75,7 +73,6 @@ char *first_command(char *str)
 	printf("%s\n", res);
 	printf("%d\n", i);
 	return (res);
-
 }
 
 

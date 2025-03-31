@@ -216,7 +216,6 @@ t_command	*create_cell(char *cmd_sep)
 	cell -> cmd_sep = cmd_sep;
 	if (status == -1)
 	{
-		//free things ()
 		return (NULL);
 	}
 	return (cell);
@@ -235,53 +234,4 @@ t_command	*add_cell(t_command *list, char *cmd_sep)
 		cur = cur->next;
 	cur->next = cell;
 	return (list);
-}
-
-// void free_command(t_command **list)
-// {
-// 	t_command *tmp;
-
-// 	if (!list)
-// 		return ;
-// 	while (*list)
-// 	{
-// 		tmp = (*list)->next;
-// 		if ((*list)->args)
-// 			ft_free_arr((*list)->args);
-// 		free(*list);
-// 		*list = tmp;
-		
-// 	}
-// }
-
-void	print_list(t_command *list)
-{
-	int	i;
-	t_redir *curr;
-
-	i = 0;
-	int j = 0;
-	curr = NULL;
-	while (list)
-	{
-		printf("-----------------------------------\n");
-		printf("| i = %d                            \n", i);
-		printf("| list->cmd_sep : %s            \n", list->cmd_sep);
-		j = 0;
-		while(list->args[j])
-		{
-			printf("| list->args : %s            \n", list->args[j]);
-			j++;
-		}
-		curr = list->redir;
-		while(curr)
-		{
-			printf("| list->redir->file : \"%s\"          \n", curr->file);
-			printf("| list->redir->type : %i          \n", curr->type);
-			curr = curr->next;
-		}
-		printf("-----------------------------------\n");
-		list = list->next;
-		i++;
-	}
 }

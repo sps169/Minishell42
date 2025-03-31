@@ -1,20 +1,6 @@
 #include "minishell.h"
 
 
-// int env(t_tools *tools)
-// {
-//     int i;
-
-//     i = 0;
-//     while (tools->envp[i])
-//     {
-//         ft_putendl_fd(tools->envp[i], STDOUT_FILENO);
-//         i++;
-//     }
-//     return (0);
-// }
-
-
 void	ft_env(t_command *command, t_tools *tools)
 {
 	int i = 0;
@@ -32,4 +18,3 @@ void	ft_env(t_command *command, t_tools *tools)
 	}
 	tools->exit_status = 0;
 }
-

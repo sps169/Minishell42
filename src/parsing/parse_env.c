@@ -1,51 +1,46 @@
 #include "minishell.h"
 
-
-
-int     find_pwd(t_tools *tools)
+int	find_pwd(t_tools *tools)
 {
-  int i;
+	int i;
 
-  i = 0;
-  while(tools->envp[i])
-  {
-    if (!ft_strncmp(tools->envp[i], "PWD=", 4))
-        tools->pwd = ft_substr(tools->envp[i], 4, ft_strlen(tools->envp[i]) - 4);
-    if (!ft_strncmp(tools->envp[i], "OLDPWD=", 7))
-        tools->old_pwd = ft_substr(tools->envp[i], 7, ft_strlen(tools->envp[i]) -7);
-    i++;
-  }
-  return (0);
+	i = 0;
+	while(tools->envp[i])
+	{
+	if (!ft_strncmp(tools->envp[i], "PWD=", 4))
+		tools->pwd = ft_substr(tools->envp[i], 4, ft_strlen(tools->envp[i]) - 4);
+	if (!ft_strncmp(tools->envp[i], "OLDPWD=", 7))
+		tools->old_pwd = ft_substr(tools->envp[i], 7, ft_strlen(tools->envp[i]) - 7);
+	i++;
+	}
+	return (0);
 }
-
 
 char *find_path(char **envp)
 {
-  int   i;
+	int	i;
 
-  i = 0;
-  while (envp[i])
-  {
-    if (!ft_strncmp(envp[i], "PATH=", 5))
-        return (ft_substr(envp[i], 5, ft_strlen(envp[i]) - 5));
-    i++;
-  }
-  return (ft_strdup("\0"));
+	i = 0;
+	while (envp[i])
+	{
+	if (!ft_strncmp(envp[i], "PATH=", 5))
+		return (ft_substr(envp[i], 5, ft_strlen(envp[i]) - 5));
+	i++;
+	}
+	return (ft_strdup("\0"));
 }
-
 
 int parse_envp(t_tools *tools)
 {
-  char *path_from_envp;
-  int   i;
-  char  *tmp;
+	char *path_from_envp;
+	int	i;
+	char	*tmp;
 
-  path_from_envp = find_path(tools->envp);
-  tools->paths = ft_split(path_from_envp, ':');
-  free(path_from_envp);
-  i = 0;
-
-  while (tools->paths[i])
+	path_from_envp = find_path(tools->envp);
+	tools->paths = ft_split(path_from_envp, ':');
+	free(path_from_envp);
+	i = 0;
+	while (tools->paths[i])
 	{
 		if (ft_strncmp(&tools->paths[i][ft_strlen(tools->paths[i]) - 1],
 			"/", 1) != 0)
@@ -57,9 +52,4 @@ int parse_envp(t_tools *tools)
 		i++;
 	}
 	return (1);
-
-
 }
-
-
-

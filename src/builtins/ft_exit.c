@@ -1,11 +1,5 @@
 #include "minishell.h"
 
-
-/**
- * @brief Libera los recursos utilizados por la estructura t_tools.
- *
- * @param tools Un puntero a la estructura t_tools.
- */
 static void	free_tools(t_tools *tools)
 {
 	ft_free_arr(tools->paths);
@@ -15,12 +9,6 @@ static void	free_tools(t_tools *tools)
 	free(tools->old_pwd);
 }
 
-/**
- * @brief Verifica los argumentos del comando exit.
- *
- * @param tools Un puntero a la estructura t_tools.
- * @return int El código de salida.
- */
 static int	check_exit_args(t_tools *tools)
 {
 	int	i;
@@ -46,12 +34,6 @@ static int	check_exit_args(t_tools *tools)
 	return (0);
 }
 
-/**
- * @brief Implementación del comando builtin exit.
- *
- * @param tools Un puntero a la estructura t_tools.
- * @return int El código de salida.
- */
 int	ft_exit(t_tools *tools)
 {
 	int	exit_code;
