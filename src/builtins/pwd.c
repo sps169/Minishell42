@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pwd.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: migonzal <migonzal@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/31 10:11:19 by migonzal          #+#    #+#             */
+/*   Updated: 2025/03/31 10:15:20 by migonzal         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-void ft_pwd(t_tools *tools) 
+void	ft_pwd(t_tools *tools)
 {
-	char *pwd;
+	char	*pwd;
 
 	tools->exit_status = 0;
 	pwd = getcwd(NULL, 0);

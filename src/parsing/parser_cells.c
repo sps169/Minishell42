@@ -6,7 +6,7 @@
 /*   By: migonzal <migonzal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/13 10:25:18 by migonzal          #+#    #+#             */
-/*   Updated: 2023/12/19 13:42:00 by migonzal         ###   ########.fr       */
+/*   Updated: 2025/03/31 10:58:06 by migonzal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ static int	locate_redir(char *redir, int *i)
 				}
 				else if (redir[*i] == '>')
 					type = 1;
-				else if (redir[*i] == '<' && redir[*i + 1] && redir[*i + 1] == '<')
+				else if (redir[*i] == '<'
+					&& redir[*i + 1] && redir[*i + 1] == '<')
 				{
 					*i = *i + 1;
 					type = 2;
@@ -64,9 +65,11 @@ static char	*locate_redir_file(char *redir, int *i, int *status)
 	word_start = NULL;
 	length = 0;
 	file = NULL;
-	while(redir[*i] && (redir[*i] == ' ' || redir[*i] == '\t' || redir[*i] == '\n'))
+	while (redir[*i] && (redir[*i] == ' '
+			|| redir[*i] == '\t' || redir[*i] == '\n'))
 		*i = *i + 1;
-	if (redir[*i] && (redir[*i] == '\\' || redir[*i] == '<' || redir[*i] == '>'))
+	if (redir[*i] && (redir[*i] == '\\'
+			|| redir[*i] == '<' || redir[*i] == '>'))
 	{
 		*status = -1;
 		return (NULL);
@@ -80,7 +83,7 @@ static char	*locate_redir_file(char *redir, int *i, int *status)
 			{
 				*i = *i + 1;
 				length++;
-				break;
+				break ;
 			}
 		}
 		else
@@ -93,8 +96,10 @@ static char	*locate_redir_file(char *redir, int *i, int *status)
 			}
 			else
 			{
-				if (redir[*i] == ' ' || redir[*i] == '\t' || redir[*i] == '\n' || redir[*i] == '<' || redir[*i] == '>')
-					break;
+				if (redir[*i] == ' ' || redir[*i] == '\t'
+					|| redir[*i] == '\n' || redir[*i] == '<'
+					|| redir[*i] == '>')
+					break ;
 			}
 		}
 		length++;
@@ -147,7 +152,8 @@ void	cleanse_redir_list(t_redir *redir)
 
 	if (!redir)
 		return ;
-	while (redir) {
+	while (redir)
+	{
 		next = redir;
 		free(next->file);
 		redir = next->next;
@@ -155,7 +161,7 @@ void	cleanse_redir_list(t_redir *redir)
 	}
 }
 
-t_redir *create_redir_list(char *redir, int *status)
+t_redir	*create_redir_list(char *redir, int *status)
 {
 	int		type;
 	int		i;

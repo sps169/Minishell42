@@ -1,39 +1,53 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_env.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: migonzal <migonzal@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/31 10:45:04 by migonzal          #+#    #+#             */
+/*   Updated: 2025/03/31 10:45:59 by migonzal         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	find_pwd(t_tools *tools)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while(tools->envp[i])
+	while (tools->envp[i])
 	{
-	if (!ft_strncmp(tools->envp[i], "PWD=", 4))
-		tools->pwd = ft_substr(tools->envp[i], 4, ft_strlen(tools->envp[i]) - 4);
-	if (!ft_strncmp(tools->envp[i], "OLDPWD=", 7))
-		tools->old_pwd = ft_substr(tools->envp[i], 7, ft_strlen(tools->envp[i]) - 7);
-	i++;
+		if (!ft_strncmp(tools->envp[i], "PWD=", 4))
+			tools->pwd = ft_substr(tools->envp[i], 4,
+					ft_strlen(tools->envp[i]) - 4);
+		if (!ft_strncmp(tools->envp[i], "OLDPWD=", 7))
+			tools->old_pwd = ft_substr(tools->envp[i], 7,
+					ft_strlen(tools->envp[i]) - 7);
+		i++;
 	}
 	return (0);
 }
 
-char *find_path(char **envp)
+char	*find_path(char **envp)
 {
 	int	i;
 
 	i = 0;
 	while (envp[i])
 	{
-	if (!ft_strncmp(envp[i], "PATH=", 5))
-		return (ft_substr(envp[i], 5, ft_strlen(envp[i]) - 5));
-	i++;
+		if (!ft_strncmp(envp[i], "PATH=", 5))
+			return (ft_substr(envp[i], 5, ft_strlen(envp[i]) - 5));
+		i++;
 	}
 	return (ft_strdup("\0"));
 }
 
-int parse_envp(t_tools *tools)
+int	parse_envp(t_tools *tools)
 {
-	char *path_from_envp;
-	int	i;
+	char	*path_from_envp;
+	int		i;
 	char	*tmp;
 
 	path_from_envp = find_path(tools->envp);

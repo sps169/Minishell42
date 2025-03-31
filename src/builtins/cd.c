@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cd.c                                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: migonzal <migonzal@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/31 10:07:53 by migonzal          #+#    #+#             */
+/*   Updated: 2025/03/31 10:08:07 by migonzal         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static void	ft_change_oldpwd_env(t_tools *tools);
@@ -12,7 +24,7 @@ void	ft_cd(t_command *command, t_tools *tools)
 	{
 		printf("cd: too many arguments\n");
 		tools->exit_status = 1;
-		return;
+		return ;
 	}
 	ft_change_oldpwd_env(tools);
 	if (command->args[1])

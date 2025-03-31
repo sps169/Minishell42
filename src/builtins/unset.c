@@ -1,22 +1,37 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   unset.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: migonzal <migonzal@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/31 10:11:30 by migonzal          #+#    #+#             */
+/*   Updated: 2025/03/31 10:15:35 by migonzal         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static void	unset_variable(t_tools *tools, char *name)
 {
-	int i = 0;
-	int j = 0;
-	int len = ft_strlen(name);
-	char **new_envp;
+	int		i;
+	int		j;
+	int		len;
+	char	**new_envp;
 
+	i = 0;
+	j = 0;
+	len = ft_strlen(name);
 	while (tools->envp[i])
 		i++;
 	new_envp = malloc(sizeof(char *) * i);
 	if (!new_envp)
-		return;
-
+		return ;
 	i = 0;
 	while (tools->envp[i])
 	{
-		if (!(ft_strncmp(tools->envp[i], name, len) == 0 && tools->envp[i][len] == '='))
+		if (!(ft_strncmp(tools->envp[i], name, len)
+				== 0 && tools->envp[i][len] == '='))
 		{
 			new_envp[j] = tools->envp[i];
 			j++;
@@ -34,7 +49,7 @@ static void	unset_variable(t_tools *tools, char *name)
 
 void	ft_unset(t_command *command, t_tools *tools)
 {
-	int i;
+	int	i;
 
 	i = 1;
 	if (!command->args[i])

@@ -6,15 +6,17 @@
 /*   By: migonzal <migonzal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 09:33:25 by migonzal          #+#    #+#             */
-/*   Updated: 2023/04/12 12:52:10 by migonzal         ###   ########.fr       */
+/*   Updated: 2025/03/31 10:29:16 by migonzal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int validate_pipes(char *str)
+int	validate_pipes(char *str)
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
 	while (str[i] != '\0')
 	{
 		if (str[i] == '|' && str[i + 1] == ' ' && str[i + 2] == '|')
@@ -26,7 +28,6 @@ int validate_pipes(char *str)
 	}
 	return (1);
 }
-
 
 int	ft_strlen_first_word(char *str)
 {
@@ -45,11 +46,11 @@ int	ft_strlen_first_word(char *str)
 	return (cont);
 }
 
-char *first_command(char *str)
+char	*first_command(char *str)
 {
-	int i;
-	int j;
-	char *res;
+	int		i;
+	int		j;
+	char	*res;
 
 	i = 0;
 	j = 0;
@@ -75,11 +76,13 @@ char *first_command(char *str)
 	return (res);
 }
 
-
-char *arg_quote(char *str)
+char	*arg_quote(char *str)
 {
-	int i = 0;
-	char **res = ft_split(str, '"');
+	int		i;
+	char	**res;
+
+	i = 0;
+	res = ft_split(str, '"');
 	while (res[i])
 	{
 		printf("%s\n", res[i]);

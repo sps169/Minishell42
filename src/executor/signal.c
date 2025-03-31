@@ -1,20 +1,29 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   signal.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: migonzal <migonzal@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/31 10:16:37 by migonzal          #+#    #+#             */
+/*   Updated: 2025/03/31 10:17:12 by migonzal         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
+#include "minishell.h"
 
-# include "minishell.h"
+int	g_signal;
 
+static void	sigint_handler_aux(void);
 
-int g_signal;
-
-static void sigint_handler_aux(void);
-
-void signal_init(void)
+void	signal_init(void)
 {
 	g_signal = S_BASE;
 	signal(SIGINT, sigint_handler);
 	signal(SIGQUIT, SIG_IGN);
 }
 
-void sigint_handler(int sig)
+void	sigint_handler(int sig)
 {
 	(void)sig;
 	if (g_signal == S_BASE || g_signal == S_SIGINT)
@@ -43,7 +52,7 @@ void sigint_handler(int sig)
 	sigint_handler_aux();
 }
 
-void sigquit_handler(int sig)
+void	sigquit_handler(int sig)
 {
 	(void)sig;
 	write (1, "HOLA\n", 5);
@@ -51,7 +60,7 @@ void sigquit_handler(int sig)
 	exit(131);
 }
 
-static void sigint_handler_aux(void)
+static void	sigint_handler_aux(void)
 {
 	if (g_signal == S_HEREDOC_END)
 	{

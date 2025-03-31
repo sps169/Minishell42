@@ -1,10 +1,20 @@
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   export_utils.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: migonzal <migonzal@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/31 10:09:11 by migonzal          #+#    #+#             */
+/*   Updated: 2025/03/31 10:09:30 by migonzal         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
 static int	check_variable(char *name, char *value, t_tools *tools);
 
-int ft_strcmp(const char *s1, const char *s2)
+int	ft_strcmp(const char *s1, const char *s2)
 {
 	while (*s1 == *s2)
 	{
@@ -16,17 +26,18 @@ int ft_strcmp(const char *s1, const char *s2)
 	return (*s1 - *s2);
 }
 
-int ft_arraylen(char **array)
+int	ft_arraylen(char **array)
 {
-	int i;
+	int	i;
+
 	if (!array)
 		return (0);
-	while(array[i])
+	while (array[i])
 		i++;
 	return (i);
 }
 
-void ft_memfree(void *ptr)
+void	ft_memfree(void *ptr)
 {
 	if (!ptr)
 		return ;

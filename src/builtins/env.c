@@ -1,10 +1,22 @@
-#include "minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: migonzal <migonzal@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/31 10:08:56 by migonzal          #+#    #+#             */
+/*   Updated: 2025/03/31 10:14:00 by migonzal         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
+#include "minishell.h"
 
 void	ft_env(t_command *command, t_tools *tools)
 {
-	int i = 0;
+	int	i;
 
+	i = 0;
 	if (command->args[1])
 	{
 		printf("env: %s: No such file or directory\n", command->args[1]);

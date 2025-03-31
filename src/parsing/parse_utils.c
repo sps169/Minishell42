@@ -6,7 +6,7 @@
 /*   By: migonzal <migonzal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 11:39:33 by migonzal          #+#    #+#             */
-/*   Updated: 2024/07/23 12:11:28 by migonzal         ###   ########.fr       */
+/*   Updated: 2025/03/31 11:20:35 by migonzal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,24 @@
 
 int	count_words(const char *str, char c)
 {
-	int i;
-	int trigger;
-	int j;
+	int	i;
+	int	trigger;
+	int	j;
 
 	i = 0;
 	j = 0;
 	trigger = 0;
 	while (str[j])
 	{
-		if (str[j]== '"')
+		if (str[j] == '"')
 		{
-			if(str[j-1] != ' ')
+			if (str[j - 1] != ' ')
 			{
 				i++;
 			}
 			i++;
 			j++;
-			while(str[j] != '"')
+			while (str[j] != '"')
 			{
 				j++;
 			}
@@ -61,84 +61,85 @@ char	*word_dup(char *str, int start, int finish)
 	return (word);
 }
 
-char *word_dup_after(char *s, char c, int i)
+char	*word_dup_after(char *s, char c, int i)
 {
-	int start = 0;
-	int finish = 0;
+	int		start;
+	int		finish;
+	char	*res;
 
-
+	start = 0;
+	finish = 0;
 	while (s[i])
 	{
 		if (s[i] == c)
 		{
 			i++;
 			start = i;
-			while(s[i] == ' ')
+			while (s[i] == ' ')
 				i++;
 			while (s[i] != ' ' && s[i])
 				i++;
-		finish = i;
-		break;
+			finish = i;
+			break ;
 		}
 		i++;
 	}
-	char * res = word_dup(s, start, finish);
+	res = word_dup(s, start, finish);
 	return (res);
-
 }
 
-int dup_after_pos(char *s, char c, int num)
+int	dup_after_pos(char *s, char c, int num)
 {
-	int i = num;
+	int	i;
 
-
+	i = num;
 	while (s[i])
 	{
 		if (s[i] == c)
 		{
 			i++;
-			break;
+			break ;
 		}
 		i++;
 	}
 	return (i);
-
 }
 
-char *word_dup_before(char *s, char c)
+char	*word_dup_before(char *s, char c)
 {
-	int i;
-	int start = 0;
-	int finish = 0;
+	int		i;
+	int		start;
+	int		finish;
+	char	*res;
 
 	i = 0;
+	start = 0;
+	finish = 0;
 	while (s[i])
 	{
 		if (s[i] == c)
 		{
 			i--;
 			finish = i;
-			while(s[i] == ' ')
+			while (s[i] == ' ')
 				i--;
 			while (s[i] != ' ' && s[i])
 				i--;
-		start = i;
-		break ;
+			start = i;
+			break ;
 		}
 		i++;
 	}
-	char * res = word_dup(s, start, finish);
+	res = word_dup(s, start, finish);
 	return (res);
 }
 
-char **list_dup_after(char* s, char c)
+char	**list_dup_after(char *s, char c)
 {
-	char **pp;
-	size_t len;
-	size_t j;
-	size_t aux;
-
-	
+	char	**pp;
+	size_t	len;
+	size_t	j;
+	size_t	aux;
 
 	j = 0;
 	if (!s)
@@ -161,18 +162,18 @@ char **list_dup_after(char* s, char c)
 	return (pp);
 }
 
-char **parse_args(char *s)
+char	**parse_args(char *s)
 {
-	int i;
-	int j;
-	int c;
-	char **aux = split_minishell(s, ' ');
-	char **res;
+	int		i;
+	int		j;
+	int		c;
+	char	**aux;
+	char	**res;
 
 	i = 0;
 	j = 0;
 	c = 0;
-
+	aux = split_minishell(s, ' ');
 	if (aux[0][0] != '<' && aux[0][0] != '>')
 	{
 		i++;
@@ -180,7 +181,8 @@ char **parse_args(char *s)
 	}
 	while (aux[i])
 	{
-		if (aux[i][0] != '<' && aux[i][0] != '>'  && aux[i-1][0] != '<' && aux[i-1][0] != '>')
+		if (aux[i][0] != '<' && aux[i][0] != '>'
+			&& aux[i - 1][0] != '<' && aux[i - 1][0] != '>')
 		{
 			c++;
 		}
@@ -190,19 +192,17 @@ char **parse_args(char *s)
 	res = ft_calloc(c +1, sizeof(s));
 	if (aux[0][0] != '<' && aux[0][0] != '>')
 	{
-		
 		res[0] = aux[0];
 		i++;
 		j++;
-		
 	}
 	while (aux[i])
 	{
-		if (aux[i][0] != '<' && aux[i][0] != '>'  && aux[i-1][0] != '<' && aux[i-1][0] != '>')
+		if (aux[i][0] != '<' && aux[i][0] != '>'
+			&& aux[i - 1][0] != '<' && aux[i - 1][0] != '>')
 		{
 			res[j] = ft_strdup(aux[i]);
 			j++;
-			
 		}
 		i++;
 	}
@@ -216,12 +216,12 @@ char **parse_args(char *s)
 	return (res);
 }
 
-void ft_free_arr(char **arr)
+void	ft_free_arr(char **arr)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while(arr[i])
+	while (arr[i])
 	{
 		free(arr[i]);
 		i++;
@@ -229,37 +229,37 @@ void ft_free_arr(char **arr)
 	free(arr);
 }
 
-char **arrdup(char **arr)
+char	**arrdup(char **arr)
 {
-	char **aux;
-	size_t i;
+	char	**aux;
+	size_t	i;
 
 	i = 0;
-	while(arr[i] != NULL)
+	while (arr[i] != NULL)
 		i++;
-	aux = ft_calloc(sizeof(char*), i +1);
-	if(!aux)
+	aux = ft_calloc(sizeof(char*), i + 1);
+	if (!aux)
 		return (NULL);
 	i = 0;
-	while(arr[i] != NULL)
+	while (arr[i] != NULL)
 	{
 		aux[i] = ft_strdup(arr[i]);
-		if(aux[i] == NULL)
+		if (aux[i] == NULL)
 		{
 			ft_free_arr(aux);
-			return(aux);
+			return (aux);
 		}
 		i++;
 	}
 	return (aux);
 }
 
-size_t pos_after_char(char *str, char c)
+size_t	pos_after_char(char *str, char c)
 {
-	size_t i;
+	size_t	i;
 
 	i = 0;
-	while(str[i])
+	while (str[i])
 	{
 		if (str[i] == c)
 			return (i + 1);
@@ -268,7 +268,7 @@ size_t pos_after_char(char *str, char c)
 	return (0);
 }
 
-int find_match_quote(char *line, int i, int *num_del, int del)
+int	find_match_quote(char *line, int i, int *num_del, int del)
 {
 	int	j;
 

@@ -6,7 +6,7 @@
 /*   By: migonzal <migonzal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 12:13:15 by migonzal          #+#    #+#             */
-/*   Updated: 2023/05/03 10:30:54 by migonzal         ###   ########.fr       */
+/*   Updated: 2025/03/31 11:04:41 by migonzal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,11 @@ void	*ft_free_matrix(char **mtx)
 	return (NULL);
 }
 
-char **split_minishell(char *s, char z)
+char	**split_minishell(char *s, char z)
 {
-	char **pp;
-	size_t len;
-	size_t i;
+	char	**pp;
+	size_t	len;
+	size_t	i;
 
 	if (!s)
 		return (NULL);
@@ -57,28 +57,27 @@ char **split_minishell(char *s, char z)
 	return (pp);
 }
 
-size_t count_tokens(char *s, char z)
+size_t	count_tokens(char *s, char z)
 {
-	size_t i;
+	size_t	i;
 
 	i = 0;
-	while(s && *s)
+	while (s && *s)
 	{
-		while(s && *s &&(*s == z || *s == '\t'))
+		while (s && *s && (*s == z || *s == '\t'))
 			s++;
-		if(*s)
+		if (*s)
 			i++;
 		s = cross_string(s, NULL, z);
 	}
 	return (i);
 }
 
-
-char *cross_string(char *s, size_t *i, char z)
+char	*cross_string(char *s, size_t *i, char z)
 {
-	char c;
-	size_t len;
-	int	count;
+	char	c;
+	size_t	len;
+	int		count;
 
 	c = 0;
 	len = 0;
@@ -97,7 +96,7 @@ char *cross_string(char *s, size_t *i, char z)
 	return (s);
 }
 
-char *get_end_str(char *s, char c, size_t *len, int count, char z)
+char	*get_end_str(char *s, char c, size_t *len, int count, char z)
 {
 	while (*s && ((*s != z && *s != '\t') || ((*s == z && count == 1)
 				|| (*s == '\t' && count == 1))))
@@ -118,9 +117,9 @@ char *get_end_str(char *s, char c, size_t *len, int count, char z)
 	return (s);
 }
 
-size_t count_string(char *s, char z)
+size_t	count_string(char *s, char z)
 {
-	size_t i;
+	size_t	i;
 
 	i = 0;
 	cross_string(s, &i, z);
